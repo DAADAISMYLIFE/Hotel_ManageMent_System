@@ -19,6 +19,9 @@ public class TeamProject {
     public static void main(String[] args) throws IOException{
         // TODO code application logic here
         IntegrateManager IM = new IntegrateManager();
+        //나도 해볼래
+        //나도
+        //나도
         IM.initIM();
         IM.runIM();
         
