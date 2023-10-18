@@ -19,7 +19,7 @@ public class TeamProject {
     public static void main(String[] args) throws IOException{
         // TODO code application logic here
         IntegrateManager IM = new IntegrateManager();
-        
+        System.out.print("ㄹㅇㅋㅋㅋ");
         IM.initIM();
         IM.runIM();
         
