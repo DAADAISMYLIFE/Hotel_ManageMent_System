@@ -25,7 +25,7 @@ public class LoginSystem {
        helper = new SystemHelper();
        //관리자 추가
        User temp = new User("admin","Admin","이승환",true);
-       System.out.println("깃허브");
+        System.out.println("asd");
        userDB.add(temp);
        
        //일반 직원 추가
