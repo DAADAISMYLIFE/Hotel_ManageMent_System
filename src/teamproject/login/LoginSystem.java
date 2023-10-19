@@ -14,7 +14,6 @@ import teamproject.SystemHelper;
  */
 public class LoginSystem {
     private User loginUser;
-    
     private SystemHelper helper;
     private ArrayList<User> userDB;     //유저(일반 직원, 관리자) 정보
     
@@ -25,7 +24,6 @@ public class LoginSystem {
        helper = new SystemHelper();
        //관리자 추가
        User temp = new User("admin","Admin","이승환",true);
-        System.out.println("asd");
        userDB.add(temp);
        
        //일반 직원 추가
