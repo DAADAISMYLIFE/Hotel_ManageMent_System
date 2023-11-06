@@ -51,11 +51,16 @@ public class FoodSystem {
         System.out.println("2. 음식 추가");
         System.out.println("==============================================");
         
-        int selectMenu = Integer.parseInt(helper.getUserInput());
-        if(selectMenu == 1){
+        String selectedMenuS;
+        do{
+                 selectedMenuS =  helper.getUserInput();
+         }while(!helper.CheckFormat(selectedMenuS,"[1-2]"));
+        int selectedMenu =Integer.parseInt(selectedMenuS);
+        
+        if(selectedMenu == 1){
             showFood();
         }
-        else if(selectMenu == 2){
+        else if(selectedMenu == 2){
             addFood();
         }
         

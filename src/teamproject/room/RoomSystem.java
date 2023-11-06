@@ -4,8 +4,9 @@
  */
 package teamproject.room;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import teamproject.SystemHelper;
 
 /**
  *
@@ -24,19 +25,20 @@ public class RoomSystem {
             }
         }
         
-        
-        public void runRoomSys(){
+        public void runRoomSys() throws IOException{
             boolean continueReservations = true;
             
             while (continueReservations) {
-                Scanner scanner = new Scanner(System.in);
+                SystemHelper helper = new SystemHelper();
                 System.out.println("1. show all rooms");
                 System.out.println("2. show avaliable rooms ");
                 System.out.println("3. Exit");
-
-                int choice = scanner.nextInt();
-
-                switch (choice) {
+                String choice;
+                do{
+                    choice = helper.getUserInput();
+                }while(!helper.CheckFormat(choice,"[1-3]"));
+                int choose = Integer.parseInt(choice);
+                switch (choose) {
                     case 1:
                         for(int i = 0; i < 100; i++){
                             Room temp = roomDB.get(i);
@@ -54,12 +56,7 @@ public class RoomSystem {
                     case 3:
                         continueReservations = false;
                         break;
-                    default:
-                        System.out.println("Invalid choice. Please select 1, 2, or 3.");
-                        break;
                 }
             }
         }
-        
-    
 }

@@ -16,6 +16,9 @@ public class Room {
         this.isReserved = false;
         //this.guestName = "";
         this.numberOfGuests = 0;
+        this.year = 0;
+        this.month = 0;
+        this.day = 0;
     }
 
     /*// 예약하기

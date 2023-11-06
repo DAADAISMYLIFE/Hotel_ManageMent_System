@@ -45,15 +45,21 @@ public class IntegrateManager {
     }
     
     public void showMainMenu() throws IOException{
+        String rex = "[1-2]";
         System.out.println("==============================================");
         System.out.println("1. 객실 및 예약 정보");
         System.out.println("2. 식품 주문 및 정보");
         if(loginUser.getManager() == true){
+            rex = "[1-3]";
             System.out.println("3. 시스템 정보 수정 및 보고서 작성");
         }
         System.out.println("==============================================");
         
-        int selectedMenu =Integer.parseInt(helper.getUserInput());
+        String selectedMenuS;
+        do{
+                 selectedMenuS =  helper.getUserInput();
+         }while(!helper.CheckFormat(selectedMenuS,rex));
+        int selectedMenu =Integer.parseInt(selectedMenuS);
         
         if(selectedMenu == 1){
             System.out.println("객실 현황 보기");

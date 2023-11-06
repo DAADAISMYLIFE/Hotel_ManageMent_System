@@ -24,8 +24,10 @@ public class SystemHelper {
     public boolean CheckFormat(String input, String rex){
         if(input.matches(rex))
             return true;
-        else
+        else{
+            System.out.println("올바른 값을 입력해 주세요");
             return false;
+        }
     }
   
 }
