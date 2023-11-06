@@ -9,6 +9,7 @@ import java.io.IOException;
 import teamproject.food.FoodSystem;
 import teamproject.login.LoginSystem;
 import teamproject.login.User;
+import teamproject.room.RoomSystem;
 
 /**
  *
@@ -18,6 +19,7 @@ public class IntegrateManager {
     SystemHelper helper;
     LoginSystem LogSys;
     FoodSystem FoodSys;
+    RoomSystem RoomSys;
     
     User loginUser;
     
@@ -29,10 +31,12 @@ public class IntegrateManager {
         LogSys = new LoginSystem();
         helper = new SystemHelper();
         FoodSys = new FoodSystem();
+        RoomSys = new RoomSystem();
     }
             
     public void runIM() throws IOException{
         initIM();
+        RoomSys.roomInit();
         loginUser = LogSys.runLoginSystem();
         
         while(true){
@@ -53,6 +57,7 @@ public class IntegrateManager {
         
         if(selectedMenu == 1){
             System.out.println("객실 현황 보기");
+            RoomSys.runRoomSys();
         }
         else if(selectedMenu == 2){
             System.out.println("식품 현황 보기");
