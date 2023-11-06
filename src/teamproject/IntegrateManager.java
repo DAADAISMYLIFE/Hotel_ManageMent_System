@@ -20,7 +20,7 @@ public class IntegrateManager {
     LoginSystem LogSys;
     FoodSystem FoodSys;
     RoomSystem RoomSys;
-    
+    boolean isQuit;
     User loginUser;
     
     
@@ -39,20 +39,21 @@ public class IntegrateManager {
         RoomSys.roomInit();
         loginUser = LogSys.runLoginSystem();
         
-        while(true){
+        while(!isQuit){
             showMainMenu();
         }
     }
     
     public void showMainMenu() throws IOException{
-        String rex = "[1-2]";
+        String rex = "[0-2]";
         System.out.println("==============================================");
         System.out.println("1. 객실 및 예약 정보");
         System.out.println("2. 식품 주문 및 정보");
         if(loginUser.getManager() == true){
-            rex = "[1-3]";
+            rex = "[0-3]";
             System.out.println("3. 시스템 정보 수정 및 보고서 작성");
         }
+        System.out.println("0. 종료");
         System.out.println("==============================================");
         
         String selectedMenuS;
@@ -71,6 +72,10 @@ public class IntegrateManager {
         }
         else if(selectedMenu == 3){
             System.out.println("시스템 정보 보기");
+        }
+        else if(selectedMenu == 0){
+            System.out.println("시스템을 종료합니다.");
+            isQuit = true;
         }
         
         
