@@ -6,9 +6,6 @@ public class Room {
     //String guestName;    // 예약자 이름
     int numberOfGuests;  // 투숙객 수
     int pricePerNight;   // 박당 가격
-    int year;
-    int month;
-    int day;
 
     public Room(String roomNumber, int pricePerNight) {
         this.roomNumber = roomNumber;
@@ -16,29 +13,11 @@ public class Room {
         this.isReserved = false;
         //this.guestName = "";
         this.numberOfGuests = 0;
-        this.year = 0;
-        this.month = 0;
-        this.day = 0;
     }
 
-    /*// 예약하기
-    public boolean reserveRoom(String guestName, int numberOfGuests) {
-        if (!isReserved) {
-            this.guestName = guestName;
-            this.numberOfGuests = numberOfGuests;
-            this.isReserved = true;
-            return true;  // 예약 성공
-        } else {
-            return false; // 예약 실패
-        }
+    public String getRoomNumber() {
+        return roomNumber;
     }
-
-    // 예약 취소하기
-    public void cancelReservation() {
-        this.guestName = "";
-        this.numberOfGuests = 0;
-        this.isReserved = false;
-    }*/
 
     // 룸 정보 출력
     public void printRoomInfo() {

@@ -21,6 +21,21 @@ public class SystemHelper {
         return input;
     }
     
+    public String getUserInput(String rex) throws IOException{
+        String input;
+        boolean isCorrect = false;
+        do{
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            input = br.readLine();
+            if(input.matches(rex))
+                isCorrect = true;
+            else{
+                System.out.println("올바른 값을 입력해 주세요");
+            }
+        }while(!isCorrect);
+        return input;
+    }
+    
     public boolean CheckFormat(String input, String rex){
         if(input.matches(rex))
             return true;
