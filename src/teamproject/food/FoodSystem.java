@@ -48,18 +48,44 @@ public class FoodSystem {
         }
     }
     
+    public int OrderFood() throws IOException{
+        System.out.print("호실: ");
+        String OrderID = helper.getUserInput();
+        
+        //TODO 주문한 예약자 
+        
+        System.out.print("메뉴: ");
+        String OrderMenu = helper.getUserInput();
+        
+         //비교를 위한 객체 생성
+           Food OrderTrying = new Food(OrderMenu,10);
+            
+            //비교
+            for(Food temp : foodDB){
+                if(OrderTrying.equals(temp)){
+                   OrderTrying = temp;
+                    System.out.println(OrderTrying.getName()+ " 주문 완료");
+                    return 0;
+                }
+            }
+            String str = OrderMenu;
+           System.out.println(str+ " 주문 실패");
+            return 0;
+    }
+    
     public void runFoodSystem() throws IOException{
         while(true){
             System.out.println("======================식품======================");
             System.out.println("1. 메뉴 보기");
             System.out.println("2. 음식 추가");
-            System.out.println("3. 뒤로 가기");
+            System.out.println("3. 음식 주문");
+            System.out.println("4. 뒤로 가기");
             System.out.println("===============================================");
 
             String selectedMenuS;
             do{
                selectedMenuS =  helper.getUserInput();
-             }while(!helper.CheckFormat(selectedMenuS,"[1-3]"));
+             }while(!helper.CheckFormat(selectedMenuS,"[1-4]"));
             int selectedMenu =Integer.parseInt(selectedMenuS);
 
             if(selectedMenu == 1){
@@ -69,6 +95,9 @@ public class FoodSystem {
                 addFood();
             }
             else if(selectedMenu==3){
+                OrderFood();
+            }
+             else if(selectedMenu==4){
                 break;
             }
         }  
