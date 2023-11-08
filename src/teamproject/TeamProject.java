@@ -16,6 +16,8 @@ public class TeamProject {
      */
     public static void main(String[] args) throws IOException{
         // TODO code application logic here
+        NewJFrame jf = new NewJFrame();
+        jf.pakeMain();
         IntegrateManager IM = new IntegrateManager();
         IM.initIM();
         IM.runIM();
