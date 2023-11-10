@@ -7,12 +7,23 @@ package teamproject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 
 /**
  *
  * @author qkekd
  */
 public class SystemHelper {
+     // 현재 날짜 구하기 (시스템 시계)
+        LocalDate now = LocalDate.now();         // 연도, 월(문자열, 숫자), 일, 일(year 기준), 요일(문자열, 숫자)
+        int year = now.getYear();                                       // 연도
+        int monthValue = now.getMonthValue();                    // 달(숫자)
+        int dayOfMonth = now.getDayOfMonth();                  // 해당 달의 날짜
+        int lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).getDayOfMonth();
+        int todayDateI = year*10000 + monthValue*100 + dayOfMonth;
+    
+    
+    
     
     public String getUserInput() throws IOException{
         String input;
@@ -40,9 +51,47 @@ public class SystemHelper {
         if(input.matches(rex))
             return true;
         else{
-            System.out.println("올바른 값을 입력해 주세요");
+            System.out.print("올바른 값을 입력해 주세요 : ");
             return false;
         }
     }
+    
+    public void showCalendar(){       
+        System.out.println(now); // 2023-11-06        
+        System.out.println(year); // 2023       
+        System.out.println(monthValue); // 11        
+        System.out.println(dayOfMonth); // 06
+        System.out.printf("%04d-%02d-%02d%n 해당 월의 마지막 일수 %02d", year, monthValue, dayOfMonth,lastDayOfMonth);
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonthValue() {
+        return monthValue;
+    }
+
+    public int getDayOfMonth() {
+        return dayOfMonth;
+    }
+
+    public int getLastDayOfMonth(int year, int month) {
+        String reseveDate = Integer.toString(year) +"-" + Integer.toString(month) +"-01";
+        CharSequence rd = new StringBuffer(reseveDate);
+        LocalDate reserveLocalDateLocal = LocalDate.parse(rd);
+        lastDayOfMonth = reserveLocalDateLocal.withDayOfMonth(reserveLocalDateLocal.lengthOfMonth()).getDayOfMonth();
+        System.out.println(lastDayOfMonth);
+        return lastDayOfMonth;
+    }
+    
+    public int getTodayDateI() {
+        return todayDateI;
+    }
+    
+    
+    
+    
+    
   
 }

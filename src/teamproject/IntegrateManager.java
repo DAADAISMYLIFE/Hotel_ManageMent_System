@@ -20,7 +20,6 @@ public class IntegrateManager {
     SystemHelper helper;
     LoginSystem LogSys;
     FoodSystem FoodSys;
-    RoomSystem RoomSys;
     ReservationSystem RserSys;
     boolean isQuit;
     User loginUser;
@@ -47,6 +46,8 @@ public class IntegrateManager {
     
     public void showMainMenu() throws IOException{
         String rex = "[0-2]";
+        System.out.println("현재 날짜");
+        helper.showCalendar();
         System.out.println("==============================================");
         System.out.println("1. 객실 및 예약 정보");
         System.out.println("2. 식품 주문 및 정보");

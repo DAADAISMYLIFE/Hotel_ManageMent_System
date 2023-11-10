@@ -73,7 +73,6 @@ public class ReservationSystem {
             startMonth = Integer.parseInt(startDate.split("/")[1]);
             startDay = Integer.parseInt(startDate.split("/")[2]);
 
-
             System.out.print("체크아웃 날짜를 입력해 주세요('/' 구분) : ");
             String endDate = helper.getUserInput("^20\\d{2}/\\d{1,2}/\\d{1,2}$");
             endYear = Integer.parseInt(endDate.split("/")[0]);
@@ -81,16 +80,21 @@ public class ReservationSystem {
             endDay = Integer.parseInt(endDate.split("/")[2]);
             startDateI = startYear*10000 + startMonth*100 + startDay; 
             endDateI = endYear*10000 + endMonth*100 + endDay; 
-            if(startMonth > 12 || endMonth > 12 || startDay > 32 || endDay > 32){
+            
+            
+            if(startMonth > 12 || endMonth > 12 || startDay > helper.getLastDayOfMonth(startYear, startMonth) || endDay > helper.getLastDayOfMonth(endYear, endMonth)){
+                System.out.println("잘못된 날짜 입력!");
+            }
+            else if(helper.getTodayDateI() >startDateI){
+                System.out.println("예약 날짜를 오늘 이후로 해주세요");
+            }
+            else if(endDateI<=startDateI){
                 System.out.println("잘못된 날짜 입력!");
             }
             else{
                 if(endDateI>startDateI){
                     System.out.format("%d/%d/%d ~ %d/%d/%d\n",startYear,startMonth,startDay,endYear,endMonth,endDay);
                     isCorrect = true;
-                }
-                else{
-                    System.out.println("잘못된 날짜 입력!");
                 }
             }
         }while(!isCorrect);
