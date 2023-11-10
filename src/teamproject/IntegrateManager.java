@@ -10,7 +10,6 @@ import teamproject.food.FoodSystem;
 import teamproject.login.LoginSystem;
 import teamproject.login.User;
 import teamproject.reservation.ReservationSystem;
-import teamproject.room.RoomSystem;
 
 /**
  *
@@ -20,7 +19,7 @@ public class IntegrateManager {
     SystemHelper helper;
     LoginSystem LogSys;
     FoodSystem FoodSys;
-    ReservationSystem RserSys;
+    ReservationSystem RserveSys;
     boolean isQuit;
     User loginUser;
     
@@ -31,8 +30,8 @@ public class IntegrateManager {
         loginUser = null;
         LogSys = new LoginSystem();
         helper = new SystemHelper();
-        FoodSys = new FoodSystem();
-        RserSys = new ReservationSystem();
+        RserveSys = new ReservationSystem();
+        FoodSys = new FoodSystem(RserveSys);
     }
             
     public void runIM() throws IOException{
@@ -46,8 +45,7 @@ public class IntegrateManager {
     
     public void showMainMenu() throws IOException{
         String rex = "[0-2]";
-        System.out.println("현재 날짜");
-        helper.showCalendar();
+        helper.showTodayDate();
         System.out.println("==============================================");
         System.out.println("1. 객실 및 예약 정보");
         System.out.println("2. 식품 주문 및 정보");
@@ -60,24 +58,28 @@ public class IntegrateManager {
         
         String selectedMenuS;
         do{
-                 selectedMenuS =  helper.getUserInput();
+            selectedMenuS =  helper.getUserInput();
          }while(!helper.CheckFormat(selectedMenuS,rex));
         int selectedMenu =Integer.parseInt(selectedMenuS);
         
-        if(selectedMenu == 1){
-            System.out.println("객실 현황 / 예약 보기");
-            RserSys.runReserSys();
-        }
-        else if(selectedMenu == 2){
-            System.out.println("식품 현황 보기");
-            FoodSys.runFoodSystem();
-        }
-        else if(selectedMenu == 3){
-            System.out.println("시스템 정보 보기");
-        }
-        else if(selectedMenu == 0){
-            System.out.println("시스템을 종료합니다.");
-            isQuit = true;
+        switch (selectedMenu) {
+            case 1:
+                System.out.println("객실 현황 / 예약 보기");
+                RserveSys.runReserSys();
+                break;
+            case 2:
+                System.out.println("식품 현황 보기");
+                FoodSys.runFoodSystem();
+                break;
+            case 3:
+                System.out.println("시스템 정보 보기");
+                break;
+            case 0:
+                System.out.println("시스템을 종료합니다.");
+                isQuit = true;
+                break;
+            default:
+                break;
         }
         
         

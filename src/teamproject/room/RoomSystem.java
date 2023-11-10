@@ -14,6 +14,7 @@ import teamproject.SystemHelper;
  */
 public class RoomSystem {
         public ArrayList<Room> roomDB;
+        private SystemHelper helper = new SystemHelper();
         
         public void roomInit(){
             roomDB = new ArrayList<>();
@@ -26,10 +27,20 @@ public class RoomSystem {
             }
         }
         
-        public void showAllRoom(){
-            for(Room temp : roomDB){
-                temp.printRoomInfo();
-           }
+        public void showAllRoom() throws IOException{
+            for(int i = 0; i < 10; i++){
+                System.out.println("\n======================================================================예약======================================================================");
+                for(int j = 0; j < 10; j++){
+                    Room temp = roomDB.get(i*10 + j);
+                    temp.printRoomInfo();
+                }
+
+                System.out.println("===============================================================================================================================================\n");
+                System.out.print("\n다음 층 보기 <y / n> : ");
+                if(helper.getUserInput("[y,n]").equals("n")){
+                    break;
+                }
+            }
         }
         
         public void showRoom(int index){

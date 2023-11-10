@@ -56,12 +56,8 @@ public class SystemHelper {
         }
     }
     
-    public void showCalendar(){       
-        System.out.println(now); // 2023-11-06        
-        System.out.println(year); // 2023       
-        System.out.println(monthValue); // 11        
-        System.out.println(dayOfMonth); // 06
-        System.out.printf("%04d-%02d-%02d%n 해당 월의 마지막 일수 %02d", year, monthValue, dayOfMonth,lastDayOfMonth);
+    public void showTodayDate(){       
+        System.out.println("현재 날짜 : " + now);
     }
 
     public int getYear() {

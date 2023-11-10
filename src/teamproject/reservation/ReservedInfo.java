@@ -22,9 +22,15 @@ public class ReservedInfo {
     private int endYear;
     private int endMonth;
     private int endDay;
+    
+    private int extraFee;
 
     public ReservedInfo(){
         this("","",0,0,0,0,0,0,0);
+    }
+    
+    public ReservedInfo(String roomID){
+        this(roomID,"",0,0,0,0,0,0,0);
     }
     
     public ReservedInfo(String roomID, String reserverName, int numOfGuests, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
@@ -37,6 +43,7 @@ public class ReservedInfo {
         this.endYear = endYear;
         this.endMonth = endMonth;
         this.endDay = endDay;
+        this.extraFee = 0;
     }
 
     public String getRoomID() {
@@ -110,7 +117,19 @@ public class ReservedInfo {
     public void setEndDay(int endDay) {
         this.endDay = endDay;
     }
+    
+    public void addExtraFee(int extraFee){
+        this.extraFee+=extraFee;
+    }
 
+    public int getExtraFee() {
+        return extraFee;
+    }
+
+    
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 3;

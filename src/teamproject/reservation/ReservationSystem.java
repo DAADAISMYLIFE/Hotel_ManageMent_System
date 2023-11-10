@@ -15,7 +15,7 @@ import teamproject.room.Room;
  * 예약 정보를 관리하는 시스템
  */
 public class ReservationSystem {
-    private ArrayList<ReservedInfo> ReserveDB = new ArrayList<>();
+    private ArrayList<ReservedInfo> reserveDB = new ArrayList<>();
     private SystemHelper helper = new SystemHelper();
     private RoomSystem RS = new RoomSystem();
     
@@ -23,17 +23,20 @@ public class ReservationSystem {
         RS.roomInit();
     }
     
+    public ArrayList<ReservedInfo> getReserveDB(){
+        return this.reserveDB;
+    }
     
     public void runReserSys() throws IOException{
         boolean continueReservations = true;
 
         while (continueReservations) {
-            System.out.println("1. show all rooms");
-            System.out.println("2. show reserved rooms ");
-            System.out.println("3. reserve a room ");
-            System.out.println("4. Exit");
+            System.out.println("1. 모든 방 보기");
+            System.out.println("2. 예약 현황 보기 ");
+            System.out.println("3. 예약 추가하기 ");
+            System.out.println("4. 나가기");
 
-            int choose = Integer.parseInt(helper.getUserInput("[1-4]"));
+            int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
             switch (choose) {
                 case 1:
                     RS.showAllRoom();
@@ -104,9 +107,10 @@ public class ReservationSystem {
         boolean canPrint = false;
         if(helper.getUserInput("[y,n]").equals("y")){
             canPrint = true;
+            
         }
         showAvaliableRooms(canReserveRoom,startDateI,endDateI,canPrint);
-        
+
         boolean canReserve = false;
          System.out.print("방 번호를 선택해 주세요 : ");
          String roomID;
@@ -131,22 +135,29 @@ public class ReservationSystem {
         String reserverName = helper.getUserInput();
         
         ReservedInfo temp = new ReservedInfo(roomID,reserverName,numOfGuests,startYear,startMonth,startDay,endYear,endMonth,endDay);
-        ReserveDB.add(temp);
+        reserveDB.add(temp);
     }
     
-    public void showAllReservation(){
+    public void showAllReservation() throws IOException{
         System.out.println("\n======================================================================예약======================================================================");
-        for(ReservedInfo temp : ReserveDB){
-            System.out.format("예약된 방 : %4s\t\t예약자 : %s\t\t숙박 인원 : %d\t\t예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\n",temp.getRoomID(),temp.getReserverName(),temp.getNumOfGuests(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay());
+        for(ReservedInfo temp : reserveDB){
+            System.out.format("예약된 방 : %4s\t\t예약자 : %s\t\t숙박 인원 : %d\t\t예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\t추가 금액 : %d\n",temp.getRoomID(),temp.getReserverName(),temp.getNumOfGuests(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay(),temp.getExtraFee());
         }
-        System.out.println("===============================================================================================================================================\n");
-    }  
-    
-    
-    public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,boolean canPrint){
+        System.out.println("===============================================================================================================================================");
+    } 
+
+    public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,boolean canPrint) throws IOException{
         for(int i = 0; i < 100; i++){
             boolean canShow = true;
-            for(ReservedInfo temp : ReserveDB){
+            
+            /*if(i != 0 &&i % 10 == 0){
+                System.out.print("다음 층 출력 [y / n] : ");
+                if(helper.getUserInput("[y,n]").equals("n")){
+                    break;
+                }
+            }*/
+            
+            for(ReservedInfo temp : reserveDB){
                 if(temp.getRoomID().equals(RS.roomDB.get(i).getRoomNumber())){
                     int startDateT = temp.getStartYear()*10000 + temp.getStartMonth()*100 + temp.getStartDay(); 
                     int endDateT = temp.getEndYear()*10000 + temp.getEndMonth()*100 + temp.getEndDay();

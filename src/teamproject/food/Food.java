@@ -9,19 +9,28 @@ package teamproject.food;
  * @author qkekd
  */
 public class Food {
+    private int menuID;
     private String name;
     private int price;
 
-    public Food(String name, int price) {
+    public Food(int menuID, String name, int price) {
+        this.menuID = menuID;
         this.name = name;
         this.price = price;
     }
-    public Food(String name) {
-        this(name,0);
-    }
     
-    public Food() {
-        this("",0);
+    public Food(int menuID) {
+        this.menuID = menuID;
+        this.name = "";
+        this.price = 0;
+    }
+
+    public int getMenuID() {
+        return menuID;
+    }
+
+    public void setMenuID(int menuID) {
+        this.menuID = menuID;
     }
     
     public String getName() {
@@ -39,14 +48,27 @@ public class Food {
     public void setPrice(int price) {
         this.price = price;
     }
-    
-     public boolean equals(Object object){
-        Food food = (Food) object;
-        if(food.getName().equals(this.getName())){
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        else
+        if (obj == null) {
             return false;
-     }
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Food other = (Food) obj;
+        return this.menuID == other.menuID;
+    }
+    
      
 }
