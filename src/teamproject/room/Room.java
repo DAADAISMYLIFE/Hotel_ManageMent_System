@@ -2,16 +2,14 @@ package teamproject.room;
 
 public class Room {
     String roomNumber;   // 방 번호
-    boolean isReserved;  // 예약 상태
-    //String guestName;    // 예약자 이름
+    String roomtype; // 방타입
     int numberOfGuests;  // 투숙객 수
     int pricePerNight;   // 박당 가격
 
-    public Room(String roomNumber, int pricePerNight, int numberOfGuests) {
+    public Room(String roomNumber, String roomtype, int pricePerNight, int numberOfGuests) {
         this.roomNumber = roomNumber;
         this.pricePerNight = pricePerNight;
-        this.isReserved = false;
-        //this.guestName = "";
+        this.roomtype = roomtype;
         this.numberOfGuests = numberOfGuests;
     }
 
@@ -22,8 +20,8 @@ public class Room {
     // 룸 정보 출력
     public void printRoomInfo() {
         System.out.print("Room Number: " + roomNumber);
-        System.out.print("\tPrice Per Night: $" + pricePerNight);
-        System.out.print("\t\tisReserved: " + isReserved);
-        System.out.println("\tNumber of Guests: " + numberOfGuests);
+        System.out.print("\t\tType: " + roomtype);
+        System.out.print("\t\tPrice Per Night: $" + pricePerNight);
+        System.out.println("\t\tMaximum Guests: " + numberOfGuests);
     }
 }

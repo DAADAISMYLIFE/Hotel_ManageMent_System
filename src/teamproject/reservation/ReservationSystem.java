@@ -32,11 +32,12 @@ public class ReservationSystem {
 
         while (continueReservations) {
             System.out.println("\n=====================예약=========================");
-            System.out.println("1. 모든 방 보기");
+            System.out.println("1. 모든 객실 보기");
             System.out.println("2. 예약 현황 보기 ");
             System.out.println("3. 예약 추가하기 ");
             System.out.println("4. 나가기");
-            System.out.println("=================================================");
+            //System.out.println("5. 객실 타입별로 보기");
+            System.out.println("===================================================");
             int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
             switch (choose) {
                 case 1:
@@ -51,6 +52,9 @@ public class ReservationSystem {
                 case 4:
                     continueReservations = false;
                     break;
+                //case 5:
+                    //RS.showTypeRoom();
+                    //break;
             }
         }
     }
@@ -143,7 +147,7 @@ public class ReservationSystem {
     
     public void showAllReservation() throws IOException{
         if(reserveDB.isEmpty()){
-            System.out.println("예약 현황이없습니다.");
+            System.out.println("예약 현황이 없습니다.");
         }
         else{
             System.out.println("\n======================================================================예약======================================================================");
@@ -158,7 +162,7 @@ public class ReservationSystem {
          
         ArrayList<String> id = new ArrayList<>();
         if(reserveDB.isEmpty()){
-            System.out.println("아직 예약 현황이없습니다.");
+            System.out.println("아직 예약 현황이 없습니다.");
         }
         else{
             System.out.println("\n==========================================================예약==========================================================");
