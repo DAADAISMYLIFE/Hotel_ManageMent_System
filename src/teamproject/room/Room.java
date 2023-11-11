@@ -17,6 +17,14 @@ public class Room {
         return roomNumber;
     }
 
+    public int getNumberOfGuests() {
+        return numberOfGuests;
+    }
+
+    public int getPricePerNight() {
+        return pricePerNight;
+    }
+
     // 룸 정보 출력
     public void printRoomInfo() {
         System.out.print("Room Number: " + roomNumber);

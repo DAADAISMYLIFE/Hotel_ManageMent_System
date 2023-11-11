@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.Period;
 
 /**
  *
@@ -21,8 +22,6 @@ public class SystemHelper {
         int dayOfMonth = now.getDayOfMonth();                  // 해당 달의 날짜
         int lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).getDayOfMonth();
         int todayDateI = year*10000 + monthValue*100 + dayOfMonth;
-    
-    
     
     
     public String getUserInput() throws IOException{
@@ -71,24 +70,31 @@ public class SystemHelper {
     public int getDayOfMonth() {
         return dayOfMonth;
     }
-
-    public int getLastDayOfMonth(int year, int month) {
+    
+    private LocalDate makeLocalDate(int year, int month, int day){
         String yearS = String.format("%04d", year);
         String monthS = String.format("%02d",month);
-        String reseveDate = yearS +"-" +monthS+"-01";
+        String dayS = String.format("%02d",day);
+        String reseveDate = yearS +"-" +monthS+"-" + dayS;
         CharSequence rd = new StringBuffer(reseveDate);
         LocalDate reserveLocalDateLocal = LocalDate.parse(rd);
+        
+        return reserveLocalDateLocal;
+    }
+    public int getLastDayOfMonth(int year, int month) {
+        LocalDate reserveLocalDateLocal = makeLocalDate(year, month, 1);
         lastDayOfMonth = reserveLocalDateLocal.withDayOfMonth(reserveLocalDateLocal.lengthOfMonth()).getDayOfMonth();
         return lastDayOfMonth;
+    }
+    
+    public int getDiffBetweenTwoDays(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
+        LocalDate startDate = makeLocalDate(startYear, startMonth, startDay);
+        LocalDate endDate = makeLocalDate(endYear, endMonth, endDay);
+        Period diff = Period.between(startDate,endDate);
+        return diff.getDays();
     }
     
     public int getTodayDateI() {
         return todayDateI;
     }
-    
-    
-    
-    
-    
-  
 }

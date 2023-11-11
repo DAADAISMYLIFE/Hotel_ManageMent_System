@@ -37,7 +37,7 @@ public class RoomSystem {
                 }
                 else if(40<=i && i<60){ // 5~6층 : 트윈, 70$, 최대 2명
                     pricePerNight = 70;
-                    type = "Twin Room\t";
+                    type = "Twin Room";
                     MaxiumGuest = 2;
                 }
                 else if(60<=i && i<80){ // 7~8층 : 트리플, 90$, 최대 3명

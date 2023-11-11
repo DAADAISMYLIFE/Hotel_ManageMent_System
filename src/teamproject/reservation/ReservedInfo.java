@@ -5,6 +5,7 @@
 package teamproject.reservation;
 
 import java.util.Objects;
+import teamproject.SystemHelper;
 
 /**
  *
@@ -12,6 +13,8 @@ import java.util.Objects;
  * 예약 정보를 담고 있는 클래스
  */
 public class ReservedInfo {
+    private SystemHelper helper = new SystemHelper();
+    
     private String roomID;
     private String reserverName;
     private int numOfGuests;
@@ -23,6 +26,7 @@ public class ReservedInfo {
     private int endMonth;
     private int endDay;
     
+    private int totalRoomFee;
     private int extraFee;
 
     public ReservedInfo(){
@@ -43,6 +47,7 @@ public class ReservedInfo {
         this.endYear = endYear;
         this.endMonth = endMonth;
         this.endDay = endDay;
+        this.totalRoomFee = 0;
         this.extraFee = 0;
     }
 
@@ -133,6 +138,15 @@ public class ReservedInfo {
     public int getEndDateI(){
         return endYear*10000 + endMonth*100 + endDay;
     }
+
+    public int getTotalRoomFee() {
+        return totalRoomFee;
+    }
+
+    public void setTotalRoomFee(int totalRoomFee) {
+        this.totalRoomFee = totalRoomFee;
+    }
+    
     
     
     
