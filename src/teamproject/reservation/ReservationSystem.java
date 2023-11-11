@@ -6,6 +6,7 @@ package teamproject.reservation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.*;
 import teamproject.SystemHelper;
 import teamproject.room.RoomSystem;
 import teamproject.room.Room;
@@ -22,33 +23,63 @@ public class ReservationSystem {
     public ReservationSystem(){
         RS.roomInit();
     }
-    
+    public void runR(){
+        JFrame frmF = new JFrame();
+         
+         frmF.getContentPane().setLayout(null);
+         
+         JButton btn1 = new JButton("show all rooms");
+        JButton btn2 = new JButton("show reserved rooms");
+         JButton btn3 = new JButton("reserve a room");
+         JButton btn4 = new JButton("Exit");
+
+        btn1.setBounds(182, 120, 172, 30);
+        btn2.setBounds(182, 170, 172, 30);
+        btn3.setBounds(182, 220, 172, 30);
+        btn4.setBounds(182, 270, 172, 30);
+        
+        frmF.getContentPane().add(btn1);
+        frmF.getContentPane().add(btn2);
+        frmF.getContentPane().add(btn3);
+        frmF.getContentPane().add(btn4);
+              
+        frmF.setSize(500,500);
+        frmF.setLocationRelativeTo(null);
+        frmF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        btn4.addActionListener(event -> {
+            System.out.println("시스템을 종료합니다.");
+            frmF.setVisible(false);
+        });
+        
+        frmF.setVisible(true);
+    }
     
     public void runReserSys() throws IOException{
         boolean continueReservations = true;
-
-        while (continueReservations) {
-            System.out.println("1. show all rooms");
-            System.out.println("2. show reserved rooms ");
-            System.out.println("3. reserve a room ");
-            System.out.println("4. Exit");
-
-            int choose = Integer.parseInt(helper.getUserInput("[1-4]"));
-            switch (choose) {
-                case 1:
-                    RS.showAllRoom();
-                    break;
-                case 2:
-                    showAllReservation();
-                    break;
-                case 3:
-                    addReservation();
-                    break;
-                case 4:
-                    continueReservations = false;
-                    break;
-            }
-        }
+        runR();
+//        while (continueReservations) {
+//            System.out.println("1. show all rooms");
+//            System.out.println("2. show reserved rooms ");
+//            System.out.println("3. reserve a room ");
+//            System.out.println("4. Exit");
+//
+//            int choose = Integer.parseInt(helper.getUserInput("[1-4]"));
+//            switch (choose) {
+//                case 1:
+//                    RS.showAllRoom();
+//                    break;
+//                case 2:
+//                    showAllReservation();
+//                    break;
+//                case 3:
+//                    addReservation();
+//                    break;
+//                case 4:
+//                    continueReservations = false;
+//                    break;
+//            }
+//        }
     }
     
     public void addReservation()throws IOException{        
@@ -137,6 +168,10 @@ public class ReservationSystem {
         }
         System.out.println("===============================================================================================================================================\n");
     }  
+    
+    public ArrayList<ReservedInfo> getDB(){
+        return ReserveDB;
+    }
     
     
     public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,boolean canPrint){
