@@ -126,7 +126,13 @@ public class ReservedInfo {
         return extraFee;
     }
 
+    public int getStartDateI(){ 
+        return startYear*10000 + startMonth*100 + startDay; 
+    }
     
+    public int getEndDateI(){
+        return endYear*10000 + endMonth*100 + endDay;
+    }
     
     
     
@@ -151,6 +157,22 @@ public class ReservedInfo {
         return Objects.equals(this.roomID, other.roomID);
     }
     
-    
-    
+    public boolean equals(Object obj, int todayDateI) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        if(((ReservedInfo)obj).getStartDateI()<= todayDateI){
+            final ReservedInfo other = (ReservedInfo) obj;
+            return Objects.equals(this.roomID, other.roomID);
+        }
+        else{
+            return false;
+        }
+    } 
 }

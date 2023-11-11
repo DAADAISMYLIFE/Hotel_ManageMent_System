@@ -25,6 +25,5 @@ public class Room {
         System.out.print("\tPrice Per Night: $" + pricePerNight);
         System.out.print("\t\tisReserved: " + isReserved);
         System.out.println("\tNumber of Guests: " + numberOfGuests);
-        System.out.println("");
     }
 }

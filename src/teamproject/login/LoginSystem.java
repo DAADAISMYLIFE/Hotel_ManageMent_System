@@ -23,11 +23,11 @@ public class LoginSystem {
        userDB = new ArrayList<>();
        helper = new SystemHelper();
        //관리자 추가
-       User temp = new User("admin","Admin","이승환",true);
+       User temp = new User("admin","Admin","관리자",true);
        userDB.add(temp);
        
        //일반 직원 추가
-       temp = new User("alba","Alba","강순우");
+       temp = new User("alba","Alba","직원");
        userDB.add(temp);
     }
     

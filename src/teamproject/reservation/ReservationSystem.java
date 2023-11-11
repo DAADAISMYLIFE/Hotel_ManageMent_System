@@ -31,11 +31,12 @@ public class ReservationSystem {
         boolean continueReservations = true;
 
         while (continueReservations) {
+            System.out.println("\n=====================예약=========================");
             System.out.println("1. 모든 방 보기");
             System.out.println("2. 예약 현황 보기 ");
             System.out.println("3. 예약 추가하기 ");
             System.out.println("4. 나가기");
-
+            System.out.println("=================================================");
             int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
             switch (choose) {
                 case 1:
@@ -81,6 +82,8 @@ public class ReservationSystem {
             endYear = Integer.parseInt(endDate.split("/")[0]);
             endMonth = Integer.parseInt(endDate.split("/")[1]);
             endDay = Integer.parseInt(endDate.split("/")[2]);
+            
+            
             startDateI = startYear*10000 + startMonth*100 + startDay; 
             endDateI = endYear*10000 + endMonth*100 + endDay; 
             
@@ -139,23 +142,40 @@ public class ReservationSystem {
     }
     
     public void showAllReservation() throws IOException{
-        System.out.println("\n======================================================================예약======================================================================");
-        for(ReservedInfo temp : reserveDB){
-            System.out.format("예약된 방 : %4s\t\t예약자 : %s\t\t숙박 인원 : %d\t\t예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\t추가 금액 : %d\n",temp.getRoomID(),temp.getReserverName(),temp.getNumOfGuests(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay(),temp.getExtraFee());
+        if(reserveDB.isEmpty()){
+            System.out.println("예약 현황이없습니다.");
         }
-        System.out.println("===============================================================================================================================================");
-    } 
-
+        else{
+            System.out.println("\n======================================================================예약======================================================================");
+            for(ReservedInfo temp : reserveDB){
+                System.out.format("호실 : %4s\t\t예약자 : %s\t\t숙박 인원 : %d\t\t예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\t추가 금액 : %d\n",temp.getRoomID(),temp.getReserverName(),temp.getNumOfGuests(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay(),temp.getExtraFee());
+            }
+            System.out.println("===============================================================================================================================================");
+        } 
+    }    
+    
+     public ArrayList<String> showUsingReservation() throws IOException{
+         
+        ArrayList<String> id = new ArrayList<>();
+        if(reserveDB.isEmpty()){
+            System.out.println("아직 예약 현황이없습니다.");
+        }
+        else{
+            System.out.println("\n==========================================================예약==========================================================");
+            for(ReservedInfo temp : reserveDB){
+                if(temp.getStartDateI() <= helper.getTodayDateI()){
+                     System.out.format("호실 : %4s\t\t예약자 : %s\t\t예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\n",temp.getRoomID(),temp.getReserverName(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay());
+                     id.add(temp.getRoomID());
+                }
+            }
+            System.out.println("==========================================================================================================================");
+        } 
+        return id;
+    }  
+    
     public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,boolean canPrint) throws IOException{
         for(int i = 0; i < 100; i++){
             boolean canShow = true;
-            
-            /*if(i != 0 &&i % 10 == 0){
-                System.out.print("다음 층 출력 [y / n] : ");
-                if(helper.getUserInput("[y,n]").equals("n")){
-                    break;
-                }
-            }*/
             
             for(ReservedInfo temp : reserveDB){
                 if(temp.getRoomID().equals(RS.roomDB.get(i).getRoomNumber())){

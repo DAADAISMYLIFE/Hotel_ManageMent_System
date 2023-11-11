@@ -64,15 +64,12 @@ public class IntegrateManager {
         
         switch (selectedMenu) {
             case 1:
-                System.out.println("객실 현황 / 예약 보기");
                 RserveSys.runReserSys();
                 break;
             case 2:
-                System.out.println("식품 현황 보기");
                 FoodSys.runFoodSystem();
                 break;
             case 3:
-                System.out.println("시스템 정보 보기");
                 break;
             case 0:
                 System.out.println("시스템을 종료합니다.");

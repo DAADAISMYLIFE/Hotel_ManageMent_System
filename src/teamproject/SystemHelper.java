@@ -77,7 +77,6 @@ public class SystemHelper {
         CharSequence rd = new StringBuffer(reseveDate);
         LocalDate reserveLocalDateLocal = LocalDate.parse(rd);
         lastDayOfMonth = reserveLocalDateLocal.withDayOfMonth(reserveLocalDateLocal.lengthOfMonth()).getDayOfMonth();
-        System.out.println(lastDayOfMonth);
         return lastDayOfMonth;
     }
     
