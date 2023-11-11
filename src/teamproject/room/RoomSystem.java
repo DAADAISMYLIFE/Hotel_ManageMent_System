@@ -21,8 +21,8 @@ public class RoomSystem {
             for (int i = 0; i < 100; i++) {
                 int roomNumer = (i/10+1)*100 + i%10;
                 String roomNum = String.format("%03d", roomNumer); // 룸 번호 형식 지정 (0001, 0002, ...)
-                int pricePerNight = 100;
-                Room room = new Room(roomNum, pricePerNight);
+                int pricePerNight = 10;
+                Room room = new Room(roomNum, pricePerNight,5);
                 roomDB.add(room);
             }
         }

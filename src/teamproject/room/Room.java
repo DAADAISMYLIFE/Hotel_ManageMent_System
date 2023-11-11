@@ -7,12 +7,12 @@ public class Room {
     int numberOfGuests;  // 투숙객 수
     int pricePerNight;   // 박당 가격
 
-    public Room(String roomNumber, int pricePerNight) {
+    public Room(String roomNumber, int pricePerNight, int numberOfGuests) {
         this.roomNumber = roomNumber;
         this.pricePerNight = pricePerNight;
         this.isReserved = false;
         //this.guestName = "";
-        this.numberOfGuests = 0;
+        this.numberOfGuests = numberOfGuests;
     }
 
     public String getRoomNumber() {

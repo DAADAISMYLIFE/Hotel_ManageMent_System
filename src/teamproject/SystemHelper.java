@@ -73,7 +73,9 @@ public class SystemHelper {
     }
 
     public int getLastDayOfMonth(int year, int month) {
-        String reseveDate = Integer.toString(year) +"-" + Integer.toString(month) +"-01";
+        String yearS = String.format("%04d", year);
+        String monthS = String.format("%02d",month);
+        String reseveDate = yearS +"-" +monthS+"-01";
         CharSequence rd = new StringBuffer(reseveDate);
         LocalDate reserveLocalDateLocal = LocalDate.parse(rd);
         lastDayOfMonth = reserveLocalDateLocal.withDayOfMonth(reserveLocalDateLocal.lengthOfMonth()).getDayOfMonth();
