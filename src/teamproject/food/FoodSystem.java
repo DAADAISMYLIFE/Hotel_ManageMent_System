@@ -20,11 +20,18 @@ public class FoodSystem {
     private SystemHelper helper;
     private int foodCount;
     
-    public FoodSystem(ReservationSystem reserveSys){
+    public FoodSystem(ReservationSystem reserveSys) {
+        this.reserveSys = reserveSys;
+    }
+    
+    public void FoodSystemInit()throws IOException{
         foodDB = new ArrayList<>();
         helper = new SystemHelper();
-        this.reserveSys = reserveSys;
         foodCount = 1;
+        helper.createDBFile(2, "food");
+        for(String readContext : helper.readDBFile(2)){
+            System.out.println(readContext);
+        }
     }
     
     public void addFood() throws IOException{

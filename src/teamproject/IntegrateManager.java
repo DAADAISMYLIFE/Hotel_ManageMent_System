@@ -26,12 +26,17 @@ public class IntegrateManager {
     
     
     
-    public void initIM(){
+    public void initIM() throws IOException{
         loginUser = null;
-        LogSys = new LoginSystem();
         helper = new SystemHelper();
+        
+        
+        LogSys = new LoginSystem();
         RserveSys = new ReservationSystem();
+        LogSys.init();
+        RserveSys.ReserveSysInit();
         FoodSys = new FoodSystem(RserveSys);
+        FoodSys.FoodSystemInit();
     }
             
     public void runIM() throws IOException{

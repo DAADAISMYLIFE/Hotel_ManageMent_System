@@ -14,10 +14,11 @@ import teamproject.SystemHelper;
  */
 public class RoomSystem {
         public ArrayList<Room> roomDB;
-        private SystemHelper helper = new SystemHelper();
+        private SystemHelper helper;
         
-        public void roomInit(){
+        public void roomInit() throws IOException{
             roomDB = new ArrayList<>();
+            helper = new SystemHelper();
             for (int i = 0; i < 100; i++) {
                 int roomNumer = (i/10+1)*100 + i%10+1;
                 String roomNum = String.format("%03d", roomNumer); // 룸 번호 형식 지정 (0001, 0002, ...)
@@ -53,6 +54,8 @@ public class RoomSystem {
                 
                 Room room = new Room(roomNum, type, pricePerNight,MaxiumGuest);
                 roomDB.add(room);
+                helper.createDBFile(1, "room");
+                helper.readDBFile(1);
             }
         }
         

@@ -5,10 +5,15 @@
 package teamproject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import teamproject.login.User;
 
 /**
  *
@@ -22,7 +27,6 @@ public class SystemHelper {
         int dayOfMonth = now.getDayOfMonth();                  // 해당 달의 날짜
         int lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).getDayOfMonth();
         int todayDateI = year*10000 + monthValue*100 + dayOfMonth;
-    
     
     public String getUserInput() throws IOException{
         String input;
@@ -97,4 +101,74 @@ public class SystemHelper {
     public int getTodayDateI() {
         return todayDateI;
     }
+    
+    public void createDBFile(int typeOfDB, String path) throws IOException{
+        String File_Path  = System.getProperty("user.dir") + "\\src\\teamproject\\"+path+"\\"; //파일 경로
+        String File_Name;
+        
+        switch (typeOfDB) {
+            case 0:
+                File_Name = "User.txt";
+                break;
+            case 1:
+                File_Name = "Room.txt";
+                break;
+            case 2:
+                File_Name = "Food.txt";
+                break;
+            case 3:
+                File_Name = "Reservation.txt";
+                break;
+            case 4:
+                File_Name = "Log.txt";
+                break;
+            default:
+                return;
+        }
+        
+        File_Path = File_Path + File_Name;
+        File Create_File = new File(File_Path);//File 객체 생성
+        
+       //파일 관련 추가 코드
+       if(!Create_File.exists()){    // 파일이 존재하지 않으면, 파일 만들고 직원들 기록
+            System.out.println("File is not exist.");
+            //파일 셍성, 파일 생성하려면 관리자 권한으로 실행해야 함
+            Create_File.createNewFile();
+        }
+    }
+    
+    public ArrayList<String> readDBFile(int typeOfDB)throws IOException{
+        String File_Path;
+        File Read_File;
+        
+        ArrayList<String> readContext = new ArrayList<>();
+        switch (typeOfDB) {
+            case 0:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\login\\User.txt";
+                break;
+            case 1:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\room\\Room.txt";
+                break;
+            case 2:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\food\\Food.txt";
+                break;
+            case 3:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\reservation\\Reservation.txt";
+                break;
+            case 4:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\room\\Room.txt";
+                break;
+            default:
+                return null;      
+        }
+
+        Read_File = new File(File_Path);
+        BufferedReader Buf_reader = new BufferedReader(new FileReader(Read_File));
+        //읽은거 출력
+        String File_Contents = null;
+        while((File_Contents = Buf_reader.readLine())!= null){
+            readContext.add(File_Contents);
+        }   
+        return readContext;
+    }  
 }

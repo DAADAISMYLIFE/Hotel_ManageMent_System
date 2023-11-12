@@ -1,0 +1,3 @@
+admin;Admin;관리자;true
+alba;Alba;직원;false
+swatper;qkrtkdgus;왕;false

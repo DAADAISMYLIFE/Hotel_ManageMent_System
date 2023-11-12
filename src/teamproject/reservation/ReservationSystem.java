@@ -16,12 +16,19 @@ import teamproject.room.Room;
  * 예약 정보를 관리하는 시스템
  */
 public class ReservationSystem {
-    private ArrayList<ReservedInfo> reserveDB = new ArrayList<>();
-    private SystemHelper helper = new SystemHelper();
-    private RoomSystem RS = new RoomSystem();
+    private ArrayList<ReservedInfo> reserveDB;
+    private SystemHelper helper;
+    private RoomSystem RS;
     
-    public ReservationSystem(){
+    public void ReserveSysInit() throws IOException{
+        reserveDB = new ArrayList<>();
+        helper = new SystemHelper();
+        RS = new RoomSystem();
         RS.roomInit();
+        helper.createDBFile(3, "reservation");
+        for(String readContext : helper.readDBFile(3)){
+            System.out.println(readContext);
+        }
     }
     
     public ArrayList<ReservedInfo> getReserveDB(){
