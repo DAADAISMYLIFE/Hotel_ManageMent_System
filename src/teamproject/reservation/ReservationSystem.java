@@ -10,6 +10,7 @@ import java.util.HashSet;
 import teamproject.SystemHelper;
 import teamproject.room.RoomSystem;
 import teamproject.room.Room;
+import javax.swing.*;
 /**
  *
  * @author qkekd
@@ -28,36 +29,68 @@ public class ReservationSystem {
         return this.reserveDB;
     }
     
+    public void runR(){
+        JFrame frmF = new JFrame();
+         
+         frmF.getContentPane().setLayout(null);
+         
+         JButton btn1 = new JButton("모든 객실 보기");
+        JButton btn2 = new JButton("예약 현황 보기");
+         JButton btn3 = new JButton("예약 추가하기");
+         JButton btn4 = new JButton("나가기");
+
+        btn1.setBounds(182, 120, 172, 30);
+        btn2.setBounds(182, 170, 172, 30);
+        btn3.setBounds(182, 220, 172, 30);
+        btn4.setBounds(182, 270, 172, 30);
+        
+        frmF.getContentPane().add(btn1);
+        frmF.getContentPane().add(btn2);
+        frmF.getContentPane().add(btn3);
+        frmF.getContentPane().add(btn4);
+              
+        frmF.setSize(500,500);
+        frmF.setLocationRelativeTo(null);
+        frmF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        btn4.addActionListener(event -> {
+            System.out.println("예약 시스템 종료.");
+            frmF.setVisible(false);
+        });
+        
+        frmF.setVisible(true);
+    }
+    
     public void runReserSys() throws IOException{
         boolean continueReservations = true;
-
-        while (continueReservations) {
-            System.out.println("\n=====================예약=========================");
-            System.out.println("1. 모든 객실 보기");
-            System.out.println("2. 예약 현황 보기 ");
-            System.out.println("3. 예약 추가하기 ");
-            System.out.println("4. 나가기");
-            //System.out.println("5. 객실 타입별로 보기");
-            System.out.println("===================================================");
-            int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
-            switch (choose) {
-                case 1:
-                    RS.showAllRoom();
-                    break;
-                case 2:
-                    showAllReservation();
-                    break;
-                case 3:
-                    addReservation();
-                    break;
-                case 4:
-                    continueReservations = false;
-                    break;
-                //case 5:
-                    //RS.showTypeRoom();
-                    //break;
-            }
-        }
+        runR();
+//        while (continueReservations) {
+//            System.out.println("\n=====================예약=========================");
+//            System.out.println("1. 모든 객실 보기");
+//            System.out.println("2. 예약 현황 보기 ");
+//            System.out.println("3. 예약 추가하기 ");
+//            System.out.println("4. 나가기");
+//            //System.out.println("5. 객실 타입별로 보기");
+//            System.out.println("===================================================");
+//            int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
+//            switch (choose) {
+//                case 1:
+//                    RS.showAllRoom();
+//                    break;
+//                case 2:
+//                    showAllReservation();
+//                    break;
+//                case 3:
+//                    addReservation();
+//                    break;
+//                case 4:
+//                    continueReservations = false;
+//                    break;
+//                //case 5:
+//                    //RS.showTypeRoom();
+//                    //break;
+//            }
+//        }
     }
     
     public void addReservation()throws IOException{        
