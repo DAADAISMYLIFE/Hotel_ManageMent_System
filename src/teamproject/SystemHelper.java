@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import teamproject.login.User;
 
 /**
  *
@@ -131,7 +130,6 @@ public class SystemHelper {
         
        //파일 관련 추가 코드
        if(!Create_File.exists()){    // 파일이 존재하지 않으면, 파일 만들고 직원들 기록
-            System.out.println("File is not exist.");
             //파일 셍성, 파일 생성하려면 관리자 권한으로 실행해야 함
             Create_File.createNewFile();
         }

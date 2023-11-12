@@ -42,10 +42,6 @@ public class LoginSystem {
                 User tempUser = new User (temp.split(";")[0],temp.split(";")[1],temp.split(";")[2],Boolean.parseBoolean(temp.split(";")[3]));
                 userDB.add(tempUser);
             }
-
-            for(User temp : userDB){
-                System.out.println(temp.getID()+temp.getPassword()+temp.getName()+temp.getManager());
-            }   
         }
     }
     
