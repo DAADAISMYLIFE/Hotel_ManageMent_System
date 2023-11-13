@@ -32,6 +32,7 @@ public class FoodSystem {
         for(String readContext : helper.readDBFile(2)){
             Food temp= new Food(Integer.parseInt(readContext.split(";")[0]),readContext.split(";")[1],Integer.parseInt(readContext.split(";")[2]));
             foodDB.add(temp);
+            foodCount++;
         }
     }
     
@@ -46,6 +47,7 @@ public class FoodSystem {
         foodCount++;
         
         foodDB.add(newFood);
+        helper.writeDBFile(2, foodDB);
     }
       
     public void showFood(){       

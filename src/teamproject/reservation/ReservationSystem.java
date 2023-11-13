@@ -163,6 +163,7 @@ public class ReservationSystem {
         ReservedInfo temp = new ReservedInfo(roomID,reserverName,numOfGuests,startYear,startMonth,startDay,endYear,endMonth,endDay);
         temp.setTotalRoomFee(days * costPerNight);
         reserveDB.add(temp);
+        helper.writeDBFile(3, reserveDB);
     }
     
     public void showAllReservation() throws IOException{

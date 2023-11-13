@@ -1,1 +1,2 @@
-01;pineApple Pizza;5000
+1;Mint Choco Pineapple Pizza;128000
+2;Pizza 12344;12344

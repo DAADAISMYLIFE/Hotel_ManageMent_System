@@ -13,6 +13,9 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import teamproject.food.Food;
+import teamproject.reservation.ReservationSystem;
+import teamproject.reservation.ReservedInfo;
 
 /**
  *
@@ -168,5 +171,39 @@ public class SystemHelper {
             readContext.add(File_Contents);
         }   
         return readContext;
+    }  
+    
+    public void writeDBFile(int typeOfDB, Object DBList)throws IOException{
+        String File_Path;
+        FileWriter write;
+        ArrayList<String> writeLine = new ArrayList<>();
+        switch (typeOfDB) {
+            case 2:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\food\\Food.txt";
+                write = new FileWriter(File_Path,false);
+                ArrayList<Food> foodWriter = (ArrayList<Food>)DBList;
+                for(Food temp : foodWriter){
+                    writeLine.add(temp.getMenuID() + ";"+ temp.getName() + ";"+temp.getPrice()+"\n");
+                }
+                for(String writeContext : writeLine){
+                    write.write(writeContext);
+                }
+                write.flush();
+                write.close();
+                break;
+            case 3:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\reservation\\Reservation.txt";
+                write = new FileWriter(File_Path,false);
+                ArrayList<ReservedInfo> reservationWriter = (ArrayList<ReservedInfo>)DBList;
+                for(ReservedInfo temp : reservationWriter){
+                    writeLine.add(temp.getRoomID() + ";"+temp.getReserverName()+ ";"+temp.getNumOfGuests()+";"+temp.getStartYear()+";"+temp.getStartMonth()+";"+temp.getStartDay()+";"+temp.getEndYear()+";"+temp.getEndMonth()+";"+temp.getEndDay()+";"+temp.getTotalRoomFee()+";"+temp.getExtraFee()+"\n");
+                }
+                for(String writeContext : writeLine){
+                    write.write(writeContext);
+                }
+                write.flush();
+                write.close();
+                break;   
+        } 
     }  
 }
