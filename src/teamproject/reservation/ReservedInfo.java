@@ -50,6 +50,20 @@ public class ReservedInfo {
         this.totalRoomFee = 0;
         this.extraFee = 0;
     }
+    
+    public ReservedInfo(String roomID, String reserverName, int numOfGuests, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay,int totalRoomFee, int extraFee) {
+        this.roomID = roomID;
+        this.reserverName = reserverName;
+        this.numOfGuests = numOfGuests;
+        this.startYear = startYear;
+        this.startMonth = startMonth;
+        this.startDay = startDay;
+        this.endYear = endYear;
+        this.endMonth = endMonth;
+        this.endDay = endDay;
+        this.totalRoomFee = totalRoomFee;
+        this.extraFee = extraFee;
+    }
 
     public String getRoomID() {
         return roomID;

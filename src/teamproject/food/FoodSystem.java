@@ -30,7 +30,8 @@ public class FoodSystem {
         foodCount = 1;
         helper.createDBFile(2, "food");
         for(String readContext : helper.readDBFile(2)){
-            System.out.println(readContext);
+            Food temp= new Food(Integer.parseInt(readContext.split(";")[0]),readContext.split(";")[1],Integer.parseInt(readContext.split(";")[2]));
+            foodDB.add(temp);
         }
     }
     

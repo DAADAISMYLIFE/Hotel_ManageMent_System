@@ -6,7 +6,6 @@ package teamproject.reservation;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import teamproject.SystemHelper;
 import teamproject.room.RoomSystem;
 import teamproject.room.Room;
@@ -27,7 +26,8 @@ public class ReservationSystem {
         RS.roomInit();
         helper.createDBFile(3, "reservation");
         for(String readContext : helper.readDBFile(3)){
-            System.out.println(readContext);
+            ReservedInfo temp= new ReservedInfo(readContext.split(";")[0],readContext.split(";")[1],Integer.parseInt(readContext.split(";")[2]),Integer.parseInt(readContext.split(";")[3]),Integer.parseInt(readContext.split(";")[4]),Integer.parseInt(readContext.split(";")[5]),Integer.parseInt(readContext.split(";")[6]),Integer.parseInt(readContext.split(";")[7]),Integer.parseInt(readContext.split(";")[8]),Integer.parseInt(readContext.split(";")[9]),Integer.parseInt(readContext.split(";")[10]));
+            reserveDB.add(temp);
         }
     }
     
