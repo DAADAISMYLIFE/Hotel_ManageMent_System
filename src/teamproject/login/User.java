@@ -39,14 +39,6 @@ public class User {
         else
             return false;
     }
-
-    
-    
-    
-    
-    
-    
-    
     
     public String getName() {
         return name;

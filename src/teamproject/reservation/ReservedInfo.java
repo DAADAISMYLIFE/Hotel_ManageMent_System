@@ -37,6 +37,10 @@ public class ReservedInfo {
         this(roomID,"",0,0,0,0,0,0,0);
     }
     
+    public ReservedInfo(String roomID,String reserverName,int startYear, int startMonth, int startDay){
+        this(roomID,reserverName,0,startYear,startMonth,startDay,0,0,0);
+    }
+    
     public ReservedInfo(String roomID, String reserverName, int numOfGuests, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
         this.roomID = roomID;
         this.reserverName = reserverName;
@@ -185,7 +189,7 @@ public class ReservedInfo {
         return Objects.equals(this.roomID, other.roomID);
     }
     
-    public boolean equals(Object obj, int todayDateI) {
+    public boolean equals(Object obj, int findDateI, boolean isToday) {
         if (this == obj) {
             return true;
         }
@@ -195,12 +199,24 @@ public class ReservedInfo {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        if(((ReservedInfo)obj).getStartDateI()<= todayDateI){
-            final ReservedInfo other = (ReservedInfo) obj;
-            return Objects.equals(this.roomID, other.roomID);
+        if(isToday){
+            if(((ReservedInfo)obj).getStartDateI()<= findDateI){
+                final ReservedInfo other = (ReservedInfo) obj;
+                return Objects.equals(this.roomID, other.roomID);
+            }
+            else{
+                return false;
+            }
         }
         else{
-            return false;
+            if(((ReservedInfo)obj).getStartDateI()== findDateI){
+                final ReservedInfo other = (ReservedInfo) obj;
+                return Objects.equals(this.roomID, other.roomID);
+            }
+            else{
+                return false;
+            }
         }
-    } 
+    }
+    
 }

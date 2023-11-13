@@ -49,6 +49,13 @@ public class FoodSystem {
         foodDB.add(newFood);
         helper.writeDBFile(2, foodDB);
     }
+    public void deleteFood() throws IOException{
+        System.out.print("삭제할 메뉴 ID : ");
+        int id = Integer.parseInt(helper.getUserInput());
+        Food newFood = new Food(id);
+        foodDB.remove(newFood);
+        helper.writeDBFile(2, foodDB);
+    }
       
     public void showFood(){       
         
@@ -59,7 +66,7 @@ public class FoodSystem {
             System.out.println("\n==============================================================================================");
             //음식 목록
             for(int i = 0;i < foodDB.size(); i++){
-                System.out.printf("메뉴 ID : %02d   이름 : %s\t\t가격  :  %d원\n", foodDB.get(i).getMenuID(), foodDB.get(i).getName(), foodDB.get(i).getPrice());
+                System.out.printf("메뉴 ID : %02d   이름 : %-30s가격  :  %8d원\n", foodDB.get(i).getMenuID(), foodDB.get(i).getName(), foodDB.get(i).getPrice());
             }
              System.out.println("==============================================================================================");
         }
@@ -82,7 +89,7 @@ public class FoodSystem {
          //비교를 위한 객체 생성
          ReservedInfo roomID = new ReservedInfo(OrderRoomID);
          for(ReservedInfo temp : reserveSys.getReserveDB()){
-              if(roomID.equals(temp,helper.getTodayDateI())){
+              if(roomID.equals(temp,helper.getTodayDateI(),true)){
                  roomID = temp;
                  System.out.println(roomID.getRoomID()+ "번 방의 " + roomID.getReserverName()+"님께 주문합니다.");
                  canFind = true;
@@ -94,7 +101,7 @@ public class FoodSystem {
          else{
             showFood();
             System.out.print("메뉴 ID를 입력해 주세요 : ");
-            int OrderMenuID = Integer.parseInt(helper.getUserInput());
+            int OrderMenuID = Integer.parseInt(helper.getUserInput("[0-9]+"));
 
             Food orderMenu = findMenu(OrderMenuID);
             if(orderMenu == null){
@@ -117,10 +124,6 @@ public class FoodSystem {
                  }
              }
              return null;
-    }
-    
-    public void deleteMenu(){
-        
     }
     
     public void runFoodSystem() throws IOException{
@@ -147,8 +150,9 @@ public class FoodSystem {
                     break;
                 case 3:
                     orderFood();
+                    break;
                 case 4:
-                    deleteMenu();
+                    deleteFood();
                     break;
                 case 5:
                     break OUTER;

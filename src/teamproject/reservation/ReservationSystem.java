@@ -43,8 +43,8 @@ public class ReservationSystem {
             System.out.println("1. 모든 객실 보기");
             System.out.println("2. 예약 현황 보기 ");
             System.out.println("3. 예약 추가하기 ");
-            System.out.println("4. 나가기");
-            //System.out.println("5. 객실 타입별로 보기");
+            System.out.println("4. 예약 삭제하기");
+            System.out.println("5. 나가기");
             System.out.println("===================================================");
             int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
             switch (choose) {
@@ -58,11 +58,11 @@ public class ReservationSystem {
                     addReservation();
                     break;
                 case 4:
+                    deleteReservation();
+                    break;
+                case 5:
                     continueReservations = false;
                     break;
-                //case 5:
-                    //RS.showTypeRoom();
-                    //break;
             }
         }
     }
@@ -118,22 +118,25 @@ public class ReservationSystem {
                 }
             }
         }while(!isCorrect);
+        
+        System.out.print("예약 인원을 입력해 주세요 : ");
+        int numOfGuests = Integer.parseInt(helper.getUserInput("[0-9]"));
+        
        
         //설정된 날짜동안 가능한 방 보여 주기
         System.out.print("예약 가능한 방들의 목록을 표시할까요?[y/n] : ");
         boolean canPrint = false;
         if(helper.getUserInput("[y,n]").equals("y")){
             canPrint = true;
-            
         }
-        showAvaliableRooms(canReserveRoom,startDateI,endDateI,canPrint);
+        showAvaliableRooms(canReserveRoom,startDateI,endDateI,numOfGuests,canPrint);
 
         boolean canReserve = false;
         int maximunGuests = 0;
         int costPerNight = 0;
-         System.out.print("방 번호를 선택해 주세요 : ");
          String roomID;
         do{
+            System.out.print("방 번호를 선택해 주세요 : ");
             roomID = helper.getUserInput("[0-1]{0,1}[0-9][0-1][0-9]");
             //예약 가능한 방에 포함되지 않으면 오류
             for(Room temp : canReserveRoom){
@@ -145,13 +148,17 @@ public class ReservationSystem {
                 }
             }
             if(!canReserve){
-                System.out.println("존재하지 않거나 이미 예약된 방 입니다.");
+                System.out.println("예약 불가능한 방 입니다.");
+                if(!canPrint){
+                    System.out.print("예약 가능한 방들의 목록을 표시할까요?[y/n] : ");
+                    if(helper.getUserInput("[y,n]").equals("y")){
+                        canPrint = true;
+                    }
+                    showAvaliableRooms(canReserveRoom,startDateI,endDateI,numOfGuests,canPrint);
+                }
             }
-        }while(!canReserve);    
-        
-        System.out.print("예약 인원을 입력해 주세요 : ");
-        int numOfGuests = Integer.parseInt(helper.getUserInput("[0-9]"));
-        
+        }while(!canReserve);
+             
         if(numOfGuests>maximunGuests){
             System.out.println("정원 초과 입니다.");
             return;
@@ -173,7 +180,7 @@ public class ReservationSystem {
         else{
             System.out.println("\n=============================================================================예약=============================================================================");
             for(ReservedInfo temp : reserveDB){
-                System.out.format("호실 : %4s\t\t예약자 : %s\t\t숙박 인원 : %d\t\t예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\t숙박 비용 : %d\t\t추가 금액 : %d\n",temp.getRoomID(),temp.getReserverName(),temp.getNumOfGuests(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay(),temp.getTotalRoomFee(),temp.getExtraFee());
+                System.out.format("호실 : %4s\t\t예약자 : %-20s숙박 인원 : %-10d예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\t\t숙박 비용 : %7d\t\t추가 금액 : %d\n",temp.getRoomID(),temp.getReserverName(),temp.getNumOfGuests(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay(),temp.getTotalRoomFee(),temp.getExtraFee());
             }
             System.out.println("=============================================================================================================================================================");
         } 
@@ -183,13 +190,13 @@ public class ReservationSystem {
          
         ArrayList<String> id = new ArrayList<>();
         if(reserveDB.isEmpty()){
-            System.out.println("아직 예약 현황이 없습니다.");
+            System.out.println("예약 현황이 없습니다.");
         }
         else{
             System.out.println("\n==========================================================예약==========================================================");
             for(ReservedInfo temp : reserveDB){
                 if(temp.getStartDateI() <= helper.getTodayDateI()){
-                     System.out.format("호실 : %4s\t\t예약자 : %s\t\t예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\n",temp.getRoomID(),temp.getReserverName(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay());
+                     System.out.format("호실 : %4s\t\t예약자 : %-20s예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\n",temp.getRoomID(),temp.getReserverName(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay());
                      id.add(temp.getRoomID());
                 }
             }
@@ -198,16 +205,24 @@ public class ReservationSystem {
         return id;
     }  
     
-    public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,boolean canPrint) throws IOException{
+    public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,int reserveGuests,boolean canPrint) throws IOException{
         for(int i = 0; i < 100; i++){
+            
             boolean canShow = true;
+            
+            if(reserveGuests > RS.roomDB.get(i).getNumberOfGuests()){
+                canShow = false;
+            }
+            
             
             for(ReservedInfo temp : reserveDB){
                 if(temp.getRoomID().equals(RS.roomDB.get(i).getRoomNumber())){
                     int startDateT = temp.getStartYear()*10000 + temp.getStartMonth()*100 + temp.getStartDay(); 
                     int endDateT = temp.getEndYear()*10000 + temp.getEndMonth()*100 + temp.getEndDay();
+                    
+                    
                     if((startDateI>=startDateT && startDateI < endDateT) ||(endDateI>startDateT && endDateI <= endDateT)|| (startDateI <= startDateT && endDateI >= endDateT))
-                        canShow = false;
+                         canShow = false;
                 }     
             }
             if(canShow){
@@ -215,6 +230,31 @@ public class ReservationSystem {
                 canReserveRoom.add(RS.roomDB.get(i));
                 if(canPrint)
                     RS.showRoom(i);
+            }
+        }
+    }
+    
+    public void deleteReservation() throws IOException{
+        showAllReservation();
+        if(reserveDB.isEmpty())
+            return;
+        
+        System.out.print("삭제할 방의 번호를 입력해 주세요 : ");
+        String roomID = helper.getUserInput("[0-1]{0,1}[0-9][0-1][0-9]");
+        System.out.print("예약자 이름을 입력해 주세요 : ");
+        String reserverName = helper.getUserInput();
+        System.out.print("체크인 날짜를 입력해 주세요('/' 구분) : ");
+        String startDate = helper.getUserInput("^20\\d{2}/\\d{1,2}/\\d{1,2}$");
+        int checkinYear = Integer.parseInt(startDate.split("/")[0]);
+        int checkinMonth = Integer.parseInt(startDate.split("/")[1]);
+        int checkinDay = Integer.parseInt(startDate.split("/")[2]);
+        int checkinDateI = checkinYear*10000 + checkinMonth*100 + checkinDay;
+        
+        for(ReservedInfo temp : reserveDB){
+            if(temp.getRoomID().equals(roomID) && temp.getReserverName().equals(reserverName) && temp.getStartDateI() == checkinDateI){
+                reserveDB.remove(temp);
+                helper.writeDBFile(3, reserveDB);
+                break;
             }
         }
     }
