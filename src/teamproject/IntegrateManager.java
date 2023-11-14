@@ -4,13 +4,16 @@
  */
 package teamproject;
 
-
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import teamproject.food.FoodSystem;
 import teamproject.login.LoginSystem;
 import teamproject.login.User;
 import teamproject.reservation.ReservationSystem;
-
+import teamproject.room.RoomSystem;
+import javax.swing.*;
 /**
  *
  * @author qkekd
@@ -22,11 +25,9 @@ public class IntegrateManager {
     ReservationSystem RserveSys;
     boolean isQuit;
     User loginUser;
-    
-    
-    
-    
-    public void initIM() throws IOException{
+    public static JFrame frm = new JFrame();
+
+    public void initIM()throws IOException{
         loginUser = null;
         helper = new SystemHelper();
         
@@ -43,12 +44,71 @@ public class IntegrateManager {
         initIM();
         loginUser = LogSys.runLoginSystem();
         
-        while(!isQuit){
+       // while(!isQuit){
             showMainMenu();
-        }
+        //}
+    }
+    
+    public void run() throws IOException{
+        
+         frm.getContentPane().setLayout(null);
+         
+         JButton btn1 = new JButton("객실 및 예약 정보");
+        JButton btn2 = new JButton("식품 주문 및 정보");
+         JButton btn3 = new JButton("시스템 정보 및 보고서");
+         JButton btn4 = new JButton("종료");
+
+        btn1.setBounds(182, 120, 172, 30);
+        btn2.setBounds(182, 170, 172, 30);
+        btn3.setBounds(182, 220, 172, 30);
+        btn4.setBounds(182, 270, 172, 30);
+        
+        frm.getContentPane().add(btn1);
+        frm.getContentPane().add(btn2);
+        frm.getContentPane().add(btn3);
+        frm.getContentPane().add(btn4);
+              
+        frm.setSize(500,500);
+        frm.setLocationRelativeTo(null);
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        
+        
+          btn1.addActionListener(event -> {
+            System.out.println("객실 현황 / 예약 보기");
+             try {
+                 RserveSys.runReserSys();
+             } catch (IOException ex) {
+                 Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+             }
+             frm.setVisible(false);
+        });
+        btn2.addActionListener(event -> {
+             System.out.println("식품 현황 보기");
+             try {
+                 FoodSys.runFoodSystem();
+             } catch (IOException ex) {
+                 Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+             }
+             frm.setVisible(false);
+        });
+        
+        btn3.addActionListener(event -> {
+            System.out.println("시스템 정보 및 보고서");
+        });
+        
+        btn4.addActionListener(event -> {
+            System.out.println("시스템을 종료합니다.");
+            isQuit = true;
+            frm.dispose();
+            System.exit(0);
+        });
+        
+        frm.setVisible(true);
     }
     
     public void showMainMenu() throws IOException{
+        run();
         String rex = "[0-2]";
         helper.showTodayDate();
         System.out.println("==============================================");
