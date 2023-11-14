@@ -12,6 +12,7 @@ import teamproject.SystemHelper;
 import teamproject.reservation.ReservationSystem;
 import teamproject.reservation.ReservedInfo;
 import javax.swing.*;
+import teamproject.food.Food;
 import teamproject.IntegrateManager;
 /**
  *
@@ -24,38 +25,13 @@ public class FoodSystem {
     private int foodCount;
     private int selectedMenu;
     boolean canFind = false;
-    
-    
-    public void showFoodFrame(){
-        JFrame F_Showfrm = new JFrame();
-        DefaultListModel<String> F_List =new DefaultListModel<>();
-        for(int i = 0;i < foodDB.size(); i++){
-                String temp = "메뉴 ID: "+foodDB.get(i).getMenuID()+" |이름: "+foodDB.get(i).getName()+" | 가격: "+foodDB.get(i).getPrice();
-                F_List.addElement(temp);
-            }
-        JList<String> ls = new JList<>(F_List);
-        JButton B = new JButton("확인");
-        
-        B.setBounds(400, 400, 70, 40);
-        ls.setBounds(120, 120, 350, 100);
-        
-        F_Showfrm.add(B);
-        F_Showfrm.add(ls);
-        
-        B.addActionListener(event -> {          
-            F_Showfrm.setVisible(false);
-        });
-        
-        F_Showfrm.setSize(500,500);
-        F_Showfrm.setLayout(null);
-        F_Showfrm.setVisible(true);
-        F_Showfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+     JFrame F_Showfrm = new JFrame();
+    JFrame frmF = new JFrame();
+
     
     public FoodSystem(ReservationSystem reserveSys) {
         this.reserveSys = reserveSys;
-    }
-    
+    } 
     public void FoodSystemInit()throws IOException{
         foodDB = new ArrayList<>();
         helper = new SystemHelper();
@@ -69,12 +45,6 @@ public class FoodSystem {
     }
     
     public void addFood() throws IOException{
-        System.out.print("메뉴 : ");
-    
-        //name =  helper.getUserInput();
-        System.out.print("가격 : ");
-       // int price =Integer.parseInt(helper.getUserInput());
-        
          JFrame addF = new JFrame();
          addF.getContentPane().setLayout(null);
          
@@ -100,12 +70,17 @@ public class FoodSystem {
             Food newFood = new Food(foodCount,name,price);
             foodCount++;       
             foodDB.add(newFood);
-            addF.setVisible(false);
+            addF.setVisible(false); 
+             try {
+                 helper.writeDBFile(2, foodDB);
+             } catch (IOException ex) {
+                 Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
+             }
+             frmF.setVisible(true);
         });
         addF.setVisible(true);
 
-        foodDB.add(newFood);
-        helper.writeDBFile(2, foodDB);
+       
     }
     public void deleteFood() throws IOException{
         System.out.print("삭제할 메뉴 ID : ");
@@ -115,7 +90,33 @@ public class FoodSystem {
         helper.writeDBFile(2, foodDB);
     
     }
-      
+    
+    public void showFoodFrame(){
+       
+        DefaultListModel<String> F_List =new DefaultListModel<>();
+        for(int i = 0;i < foodDB.size(); i++){
+                String temp = "메뉴 ID: "+foodDB.get(i).getMenuID()+" |이름: "+foodDB.get(i).getName()+" | 가격: "+foodDB.get(i).getPrice();
+                F_List.addElement(temp);
+            }
+        JList<String> ls = new JList<>(F_List);
+        JButton B = new JButton("확인");
+        
+        B.setBounds(400, 400, 70, 40);
+        ls.setBounds(120, 120, 350, 100);
+        
+        F_Showfrm.add(B);
+        F_Showfrm.add(ls);
+        
+        B.addActionListener(event -> {          
+            F_Showfrm.setVisible(false);
+            frmF.setVisible(true);
+        });
+        
+        F_Showfrm.setSize(500,500);
+        F_Showfrm.setLayout(null);
+        F_Showfrm.setVisible(true);
+        F_Showfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
     public void showFood(){       
         showFoodFrame();
         
@@ -133,6 +134,7 @@ public class FoodSystem {
     }
     
     public void orderFood() throws IOException{
+        F_Showfrm.setVisible(true);
         if(foodDB.isEmpty()){
              System.out.println("메뉴가 없습니다.");
              return;
@@ -177,9 +179,6 @@ public class FoodSystem {
              System.out.println("주문자를 찾을 수 없습니다!");
          }
          else{
-            showFood();
-            System.out.print("메뉴 ID를 입력해 주세요 : ");
-
             String temp = Order_Menu.getText();
             int OrderMenuID = Integer.parseInt(temp);
             Food orderMenu = findMenu(OrderMenuID);
@@ -189,6 +188,9 @@ public class FoodSystem {
             else{
                 System.out.println(orderMenu.getName() + " 주문 완료!");
                 roomID.addExtraFee(orderMenu.getPrice());
+                F_Showfrm.setVisible(false);
+                frmF.setVisible(true);
+                addF.setVisible(false);
             }
          }
         });//버튼 이벤트 끝
@@ -207,7 +209,7 @@ public class FoodSystem {
     }
  
     public void runF() {
-         JFrame frmF = new JFrame();
+         
          
          frmF.getContentPane().setLayout(null);
          
@@ -235,6 +237,7 @@ public class FoodSystem {
         
          btn1.addActionListener(event -> {          
             showFood();
+            frmF.setVisible(false);
         });
          btn2.addActionListener(event -> {          
              try {
@@ -242,6 +245,7 @@ public class FoodSystem {
              } catch (IOException ex) {
                  Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
              }
+             frmF.setVisible(false);
         });
          btn3.addActionListener(event -> {          
              try {
@@ -249,9 +253,12 @@ public class FoodSystem {
              } catch (IOException ex) {
                  Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
              }
+             showFood();
+             frmF.setVisible(false);
         });
          btn4.addActionListener(event -> {          
             showFood();
+            frmF.setVisible(false);
         });
         btn5.addActionListener(event -> {
             System.out.println("식품 시스템 종료.");
@@ -261,7 +268,7 @@ public class FoodSystem {
         
         frmF.setVisible(true);
     }
-    public void runFoodSystem() throws IOException{
+    public void runFoodSystem(){
         runF();
         
             System.out.println("\n======================메뉴======================");
@@ -276,21 +283,21 @@ public class FoodSystem {
 //                selectedMenuS =  helper.getUserInput();
 //            }while(!helper.CheckFormat(selectedMenuS,"[1-5]"));
 //            int selectedMenu =Integer.parseInt(selectedMenuS);
-            switch (selectedMenu) {
-                case 1:
-                    showFood();
-                    break;
-                case 2:
-                    addFood();
-                    break;
-                case 3:
-                    orderFood();
-                    break;
-                case 4:
-                    deleteFood();
-                    break;
-                case 5:
-                    break;
-            }//swich 종료
+//            switch (selectedMenu) {
+//                case 1:
+//                    showFood();
+//                    break;
+//                case 2:
+//                    addFood();
+//                    break;
+//                case 3:
+//                    orderFood();
+//                    break;
+//                case 4:
+//                    deleteFood();
+//                    break;
+//                case 5:
+//                    break;
+//            }//swich 종료
     }//runFoodSystem() 종료
 }//클래스 종료

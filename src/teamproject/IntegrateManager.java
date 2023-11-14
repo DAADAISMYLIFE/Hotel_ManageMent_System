@@ -23,18 +23,14 @@ public class IntegrateManager {
     LoginSystem LogSys;
     FoodSystem FoodSys;
     ReservationSystem RserveSys;
-    boolean isQuit;
     User loginUser;
     public static JFrame frm = new JFrame();
 
     public void initIM()throws IOException{
         loginUser = null;
         helper = new SystemHelper();
-        
-        
         LogSys = new LoginSystem();
         RserveSys = new ReservationSystem();
-        LogSys.init();
         RserveSys.ReserveSysInit();
         FoodSys = new FoodSystem(RserveSys);
         FoodSys.FoodSystemInit();
@@ -43,13 +39,12 @@ public class IntegrateManager {
     public void runIM() throws IOException{
         initIM();
         loginUser = LogSys.runLoginSystem();
-        
        // while(!isQuit){
             showMainMenu();
         //}
     }
     
-    public void run() throws IOException{
+    public void run(){
         
          frm.getContentPane().setLayout(null);
          
@@ -76,20 +71,12 @@ public class IntegrateManager {
         
           btn1.addActionListener(event -> {
             System.out.println("객실 현황 / 예약 보기");
-             try {
                  RserveSys.runReserSys();
-             } catch (IOException ex) {
-                 Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
-             }
              frm.setVisible(false);
         });
         btn2.addActionListener(event -> {
              System.out.println("식품 현황 보기");
-             try {
                  FoodSys.runFoodSystem();
-             } catch (IOException ex) {
-                 Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
-             }
              frm.setVisible(false);
         });
         
@@ -99,7 +86,6 @@ public class IntegrateManager {
         
         btn4.addActionListener(event -> {
             System.out.println("시스템을 종료합니다.");
-            isQuit = true;
             frm.dispose();
             System.exit(0);
         });
@@ -138,7 +124,6 @@ public class IntegrateManager {
                 break;
             case 0:
                 System.out.println("시스템을 종료합니다.");
-                isQuit = true;
                 break;
             default:
                 break;

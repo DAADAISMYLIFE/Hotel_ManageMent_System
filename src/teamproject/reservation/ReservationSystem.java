@@ -5,6 +5,7 @@
 package teamproject.reservation;
 
 import java.io.IOException;
+import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -15,6 +16,8 @@ import teamproject.room.Room;
 import javax.swing.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 import teamproject.IntegrateManager;
+import teamproject.food.Food;
+import teamproject.food.FoodSystem;
 /**
  *
  * @author qkekd
@@ -25,6 +28,7 @@ public class ReservationSystem {
     private SystemHelper helper;
     private RoomSystem RS;
     JFrame frmR = new JFrame();
+    JFrame A_ShowRoom = new JFrame();
     public void ReserveSysInit() throws IOException{
         reserveDB = new ArrayList<>();
         helper = new SystemHelper();
@@ -40,7 +44,6 @@ public class ReservationSystem {
     public ArrayList<ReservedInfo> getReserveDB(){
         return this.reserveDB;
     }
-    
     public void runR(){
          frmR.getContentPane().setLayout(null);
          
@@ -70,11 +73,16 @@ public class ReservationSystem {
              } catch (IOException ex) {
                  Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
              }
-             
+            frmR.setVisible(false);
+        });
+        btn2.addActionListener(event -> {
+            showAllReservationFrame();
+            frmR.setVisible(false);
+        });
+         btn3.addActionListener(event -> {
             
             frmR.setVisible(false);
         });
-        
         btn4.addActionListener(event -> {
             System.out.println("예약 시스템 종료.");
             frmR.setVisible(false);
@@ -84,7 +92,7 @@ public class ReservationSystem {
         frmR.setVisible(true);
     }
     
-    public void runReserSys() throws IOException{
+      public void runReserSys(){
         boolean continueReservations = true;
         runR();
         //while (continueReservations) {
@@ -95,29 +103,28 @@ public class ReservationSystem {
             System.out.println("4. 예약 삭제하기");
             System.out.println("5. 나가기");
             System.out.println("===================================================");
-            int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
-            switch (choose) {
-                case 1:
-                    RS.showAllRoom();
-                    break;
-                case 2:
-                    showAllReservation();
-                    break;
-                case 3:
-                    addReservation();
-                    break;
-                case 4:
-                    deleteReservation();
-                    break;
-                case 5:
-                    continueReservations = false;
-                    break;
-            }
+//            int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
+//            switch (choose) {
+//                case 1:
+//                    RS.showAllRoom();
+//                    break;
+//                case 2:
+//                    showAllReservation();
+//                    break;
+//                case 3:
+//                    addReservation();
+//                    break;
+//                case 4:
+//                    deleteReservation();
+//                    break;
+//                case 5:
+//                    continueReservations = false;
+//                    break;
+//            }
         //}
-        
-
     }
     
+
     public void addReservation()throws IOException{        
         //예약 정보 입력
         int startYear;
@@ -224,6 +231,38 @@ public class ReservationSystem {
         helper.writeDBFile(3, reserveDB);
     }
     
+    public void showAllReservationFrame(){
+          if(reserveDB.isEmpty()){
+            System.out.println("예약 현황이 없습니다.");
+            showMessageDialog(null, "예약 현황이 없습니다.");
+        }
+        else{
+              JFrame R_Showfrm = new JFrame();
+                DefaultListModel<String> R_List =new DefaultListModel<>();
+                for(ReservedInfo temp : reserveDB){
+                        String temp1 = format("호실 : %4s\t\t예약자 : %-20s숙박 인원 : %-10d예약기간 : %d/%02d/%02d ~ %d/%02d/%02d\t\t숙박 비용 : %7d\t\t추가 금액 : %d\n",temp.getRoomID(),temp.getReserverName(),temp.getNumOfGuests(),temp.getStartYear(),temp.getStartMonth(),temp.getStartDay(),temp.getEndYear(),temp.getEndMonth(),temp.getEndDay(),temp.getTotalRoomFee(),temp.getExtraFee());
+                        R_List.addElement(temp1);
+                    }
+                 JList<String> ls = new JList<>(R_List);
+                 JButton B = new JButton("확인");
+
+                 B.setBounds(700, 700, 70, 40);
+                 ls.setBounds(50, 50, 700, 650);
+
+                 R_Showfrm.add(B);
+                 R_Showfrm.add(ls);
+
+                 B.addActionListener(event -> {          
+                    R_Showfrm.setVisible(false);
+                    frmR.setVisible(true);
+                });
+
+                R_Showfrm.setSize(800,800);
+                R_Showfrm.setLayout(null);
+                R_Showfrm.setVisible(true);
+                R_Showfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        } 
+    }
     public void showAllReservation() throws IOException{
         if(reserveDB.isEmpty()){
             System.out.println("예약 현황이 없습니다.");
@@ -257,6 +296,53 @@ public class ReservationSystem {
         return id;
     }  
     
+     public void showAvaliableRoomsFrame(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,int reserveGuests,boolean canPrint){
+         DefaultListModel<String> A_List =new DefaultListModel<>();
+         
+          for(int i = 0; i < 100; i++){
+            
+            boolean canShow = true;
+            
+            if(reserveGuests > RS.roomDB.get(i).getNumberOfGuests()){
+                canShow = false;
+            }
+            for(ReservedInfo temp : reserveDB){
+                if(temp.getRoomID().equals(RS.roomDB.get(i).getRoomNumber())){
+                    int startDateT = temp.getStartYear()*10000 + temp.getStartMonth()*100 + temp.getStartDay(); 
+                    int endDateT = temp.getEndYear()*10000 + temp.getEndMonth()*100 + temp.getEndDay();
+                    
+                    
+                    if((startDateI>=startDateT && startDateI < endDateT) ||(endDateI>startDateT && endDateI <= endDateT)|| (startDateI <= startDateT && endDateI >= endDateT))
+                         canShow = false;
+                }     
+            }
+            if(canShow){
+                //예약 가능한 방 리스트
+                canReserveRoom.add(RS.roomDB.get(i));
+                String temp = "방번호: "+RS.roomDB.get(i).getRoomNumber()+"     |방타입: "+RS.roomDB.get(i).getRoomTypes()+"      |투숙객수: "+RS.roomDB.get(i).getNumberOfGuests()+"    |박당 가격: "+RS.roomDB.get(i).getPricePerNight();
+                        A_List.addElement(temp);
+                if(canPrint)
+                    RS.showRoom(i);
+            }
+        }
+          JList<String> ls = new JList<>(A_List);
+                        JButton B = new JButton("확인");
+
+                        B.setBounds(900, 900, 70, 40);
+                        ls.setBounds(50, 50, 850, 850);
+
+                        A_ShowRoom.add(B);
+                        A_ShowRoom.add(ls);
+
+                        B.addActionListener(event -> {          
+                            A_ShowRoom.setVisible(false);
+                        });
+
+                        A_ShowRoom.setSize(1000,1000);
+                        A_ShowRoom.setLayout(null);
+                        A_ShowRoom.setVisible(true);
+                        A_ShowRoom.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     }
     public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,int reserveGuests,boolean canPrint) throws IOException{
         for(int i = 0; i < 100; i++){
             

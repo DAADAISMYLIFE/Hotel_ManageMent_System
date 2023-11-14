@@ -16,7 +16,9 @@ public class Room {
     public String getRoomNumber() {
         return roomNumber;
     }
-
+    public String getRoomTypes() {
+        return roomtype;
+    }
     public int getNumberOfGuests() {
         return numberOfGuests;
     }
@@ -27,6 +29,14 @@ public class Room {
 
     // 룸 정보 출력
     public void printRoomInfo() {
+        System.out.print("Room Number: " + roomNumber);
+        System.out.print("\t\tType: " + roomtype);
+        System.out.print("\t\tPrice Per Night: $" + pricePerNight);
+        System.out.println("\t\tMaximum Guests: " + numberOfGuests);
+    }
+
+
+public void printRoomInfoFrame() {
         System.out.print("Room Number: " + roomNumber);
         System.out.print("\t\tType: " + roomtype);
         System.out.print("\t\tPrice Per Night: $" + pricePerNight);

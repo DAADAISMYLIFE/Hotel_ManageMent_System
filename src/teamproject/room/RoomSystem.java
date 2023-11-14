@@ -76,7 +76,7 @@ public class RoomSystem {
         }
         
         public void showRoom(int index){
-            roomDB.get(index).printRoomInfo();
+            roomDB.get(index).printRoomInfo();  
         }        
         
 //        public void showTypeRoom() throws IOException{
