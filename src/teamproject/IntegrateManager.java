@@ -25,10 +25,8 @@ public class IntegrateManager {
     ReservationSystem RserveSys;
     boolean isQuit;
     User loginUser;
-    
-    
-    
-    
+    public static JFrame frm = new JFrame();
+
     public void initIM(){
         loginUser = null;
         LogSys = new LoginSystem();
@@ -48,8 +46,6 @@ public class IntegrateManager {
     
     public void run() throws IOException{
         
-         JFrame frm = new JFrame();
-         
          frm.getContentPane().setLayout(null);
          
          JButton btn1 = new JButton("객실 및 예약 정보");
@@ -80,6 +76,7 @@ public class IntegrateManager {
              } catch (IOException ex) {
                  Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
              }
+             frm.setVisible(false);
         });
         btn2.addActionListener(event -> {
              System.out.println("식품 현황 보기");
@@ -88,6 +85,7 @@ public class IntegrateManager {
              } catch (IOException ex) {
                  Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
              }
+             frm.setVisible(false);
         });
         
         btn3.addActionListener(event -> {

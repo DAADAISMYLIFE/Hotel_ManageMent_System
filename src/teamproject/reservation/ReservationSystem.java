@@ -7,10 +7,14 @@ package teamproject.reservation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import teamproject.SystemHelper;
 import teamproject.room.RoomSystem;
 import teamproject.room.Room;
 import javax.swing.*;
+import static javax.swing.JOptionPane.showMessageDialog;
+import teamproject.IntegrateManager;
 /**
  *
  * @author qkekd
@@ -20,6 +24,7 @@ public class ReservationSystem {
     private ArrayList<ReservedInfo> reserveDB = new ArrayList<>();
     private SystemHelper helper = new SystemHelper();
     private RoomSystem RS = new RoomSystem();
+    JFrame frmR = new JFrame();
     
     public ReservationSystem(){
         RS.roomInit();
@@ -30,9 +35,7 @@ public class ReservationSystem {
     }
     
     public void runR(){
-        JFrame frmF = new JFrame();
-         
-         frmF.getContentPane().setLayout(null);
+         frmR.getContentPane().setLayout(null);
          
          JButton btn1 = new JButton("모든 객실 보기");
         JButton btn2 = new JButton("예약 현황 보기");
@@ -44,21 +47,34 @@ public class ReservationSystem {
         btn3.setBounds(182, 220, 172, 30);
         btn4.setBounds(182, 270, 172, 30);
         
-        frmF.getContentPane().add(btn1);
-        frmF.getContentPane().add(btn2);
-        frmF.getContentPane().add(btn3);
-        frmF.getContentPane().add(btn4);
+        frmR.getContentPane().add(btn1);
+        frmR.getContentPane().add(btn2);
+        frmR.getContentPane().add(btn3);
+        frmR.getContentPane().add(btn4);
               
-        frmF.setSize(500,500);
-        frmF.setLocationRelativeTo(null);
-        frmF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmR.setSize(500,500);
+        frmR.setLocationRelativeTo(null);
+        frmR.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        btn1.addActionListener(event -> {
+            System.out.println("모든 객실 보기");
+             try {
+                 showAllReservation();
+             } catch (IOException ex) {
+                 Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+             }
+             
+            
+            frmR.setVisible(false);
+        });
         
         btn4.addActionListener(event -> {
             System.out.println("예약 시스템 종료.");
-            frmF.setVisible(false);
+            frmR.setVisible(false);
+            IntegrateManager.frm.setVisible(true);
         });
         
-        frmF.setVisible(true);
+        frmR.setVisible(true);
     }
     
     public void runReserSys() throws IOException{
@@ -194,6 +210,7 @@ public class ReservationSystem {
     public void showAllReservation() throws IOException{
         if(reserveDB.isEmpty()){
             System.out.println("예약 현황이 없습니다.");
+            showMessageDialog(null, "예약 현황이 없습니다.");
         }
         else{
             System.out.println("\n=============================================================================예약=============================================================================");

@@ -12,6 +12,7 @@ import teamproject.SystemHelper;
 import teamproject.reservation.ReservationSystem;
 import teamproject.reservation.ReservedInfo;
 import javax.swing.*;
+import teamproject.IntegrateManager;
 /**
  *
  * @author qkekd
@@ -23,19 +24,28 @@ public class FoodSystem {
     private int foodCount;
     private int selectedMenu;
     boolean canFind = false;
-    DefaultListModel<String> F_List =new DefaultListModel<>();
+    
     
     public void showFoodFrame(){
         JFrame F_Showfrm = new JFrame();
-        
+        DefaultListModel<String> F_List =new DefaultListModel<>();
         for(int i = 0;i < foodDB.size(); i++){
                 String temp = "메뉴 ID: "+foodDB.get(i).getMenuID()+" |이름: "+foodDB.get(i).getName()+" | 가격: "+foodDB.get(i).getPrice();
                 F_List.addElement(temp);
             }
         JList<String> ls = new JList<>(F_List);
+        JButton B = new JButton("확인");
+        
+        B.setBounds(400, 400, 70, 40);
         ls.setBounds(120, 120, 350, 100);
         
+        F_Showfrm.add(B);
         F_Showfrm.add(ls);
+        
+        B.addActionListener(event -> {          
+            F_Showfrm.setVisible(false);
+        });
+        
         F_Showfrm.setSize(500,500);
         F_Showfrm.setLayout(null);
         F_Showfrm.setVisible(true);
@@ -118,7 +128,7 @@ public class FoodSystem {
          JFrame addF = new JFrame();
          addF.getContentPane().setLayout(null);
          
-         JButton btn1 = new JButton("추가");
+         JButton btn1 = new JButton("확인");
          JTextField Order_RoomID = new JTextField(10);
          JTextField Order_Menu = new JTextField(10);
          
@@ -231,6 +241,7 @@ public class FoodSystem {
         btn5.addActionListener(event -> {
             System.out.println("식품 시스템 종료.");
             frmF.setVisible(false);
+            IntegrateManager.frm.setVisible(true);
         });
         
         frmF.setVisible(true);
