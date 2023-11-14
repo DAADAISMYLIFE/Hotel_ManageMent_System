@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import teamproject.food.Food;
 import teamproject.reservation.ReservationSystem;
 import teamproject.reservation.ReservedInfo;
+import teamproject.report.Report;
 
 /**
  *
@@ -131,9 +132,8 @@ public class SystemHelper {
         File_Path = File_Path + File_Name;
         File Create_File = new File(File_Path);//File 객체 생성
         
-       //파일 관련 추가 코드
-       if(!Create_File.exists()){    // 파일이 존재하지 않으면, 파일 만들고 직원들 기록
-            //파일 셍성, 파일 생성하려면 관리자 권한으로 실행해야 함
+        // 파일이 존재하지 않으면 파일 생성
+       if(!Create_File.exists()){    
             Create_File.createNewFile();
         }
     }
@@ -156,8 +156,11 @@ public class SystemHelper {
             case 3:
                 File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\reservation\\Reservation.txt";
                 break;
-            case 4:
-                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\room\\Room.txt";
+            case 4 : //예약 로그 읽기
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Report.txt";
+                break;
+            case 5 : //주문 로그 읽기
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Report.txt";
                 break;
             default:
                 return null;      
@@ -165,8 +168,8 @@ public class SystemHelper {
 
         Read_File = new File(File_Path);
         BufferedReader Buf_reader = new BufferedReader(new FileReader(Read_File));
-        //읽은거 출력
         String File_Contents = null;
+        //로그 구분해서 readContext에 저장
         while((File_Contents = Buf_reader.readLine())!= null){
             readContext.add(File_Contents);
         }   
@@ -203,7 +206,20 @@ public class SystemHelper {
                 }
                 write.flush();
                 write.close();
-                break;   
+                break;
+            case 4:
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Log.txt";
+                write = new FileWriter(File_Path,false);
+                ArrayList<Report> reportWriter = (ArrayList<Report>)DBList;
+                for(Report temp : reportWriter){
+                    writeLine.add(temp.getReportData()+"\n");
+                }
+                for(String writeContext : writeLine){
+                    write.write(writeContext);
+                }
+                write.flush();
+                write.close();
+                break;
         } 
     }  
 }
