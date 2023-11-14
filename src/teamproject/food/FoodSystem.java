@@ -23,6 +23,24 @@ public class FoodSystem {
     private int foodCount;
     private int selectedMenu;
     boolean canFind = false;
+    DefaultListModel<String> F_List =new DefaultListModel<>();
+    
+    public void showFoodFrame(){
+        JFrame F_Showfrm = new JFrame();
+        
+        for(int i = 0;i < foodDB.size(); i++){
+                String temp = "메뉴 ID: "+foodDB.get(i).getMenuID()+" |이름: "+foodDB.get(i).getName()+" | 가격: "+foodDB.get(i).getPrice();
+                F_List.addElement(temp);
+            }
+        JList<String> ls = new JList<>(F_List);
+        ls.setBounds(120, 120, 350, 100);
+        
+        F_Showfrm.add(ls);
+        F_Showfrm.setSize(500,500);
+        F_Showfrm.setLayout(null);
+        F_Showfrm.setVisible(true);
+        F_Showfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
     
     public FoodSystem(ReservationSystem reserveSys){
         foodDB = new ArrayList<>();
@@ -37,8 +55,6 @@ public class FoodSystem {
         //name =  helper.getUserInput();
         System.out.print("가격 : ");
        // int price =Integer.parseInt(helper.getUserInput());
-        
-        
         
          JFrame addF = new JFrame();
          addF.getContentPane().setLayout(null);
@@ -73,6 +89,7 @@ public class FoodSystem {
     }
       
     public void showFood(){       
+        showFoodFrame();
         
         if(foodDB.isEmpty()){
             System.out.println("메뉴가 아직 없습니다. 메뉴를 추가해 주세요");
@@ -162,7 +179,6 @@ public class FoodSystem {
     }
     
     public void deleteMenu(){
-        
     }
     
     public void runF() {
