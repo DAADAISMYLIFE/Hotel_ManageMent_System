@@ -51,13 +51,20 @@ public class FoodSystem {
         foodCount++;
         
         foodDB.add(newFood);
+        foodReport.addReport("menu","add;"+(newFood.getName()+";"+newFood.getPrice()));
         helper.writeDBFile(2, foodDB);
-        foodReport.addReport(4,(newFood.getName()+";"+newFood.getPrice()));
+        
     }
     public void deleteFood() throws IOException{
+        if(foodDB.isEmpty()){
+            System.out.println("메뉴가 존재하지 않습니다.");
+            return;
+        }
+        showFood();
         System.out.print("삭제할 메뉴 ID : ");
         int id = Integer.parseInt(helper.getUserInput());
         Food newFood = new Food(id);
+         foodReport.addReport("menu","delete;"+newFood.getName()+";"+newFood.getPrice());
         foodDB.remove(newFood);
         helper.writeDBFile(2, foodDB);
     }
@@ -115,7 +122,8 @@ public class FoodSystem {
             else{
                 System.out.println(orderMenu.getName() + " 주문 완료!");
                 roomID.addExtraFee(orderMenu.getPrice());
-                foodReport.addReport(2, (OrderMenuID +OrderRoomID));
+                helper.writeDBFile(3,reserveSys.getReserveDB());
+                foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
             }
             
          }

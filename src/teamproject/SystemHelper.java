@@ -204,10 +204,10 @@ public class SystemHelper {
                 break;
             case 4:
                 File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Log.txt";
-                write = new FileWriter(File_Path,true);
+                write = new FileWriter(File_Path,false);
                 ArrayList<Report> reportWriter = (ArrayList<Report>)DBList;
                 for(Report temp : reportWriter){
-                    writeLine.add(temp.getReportData()+"\n");
+                    writeLine.add(temp.getReportType()+";"+temp.getReportData()+"\n");
                 }
                 for(String writeContext : writeLine){
                     write.write(writeContext);

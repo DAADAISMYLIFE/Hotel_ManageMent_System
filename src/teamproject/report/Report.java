@@ -4,43 +4,54 @@
  */
 package teamproject.report;
 
+import java.util.Objects;
+
 /**
  *
  * @author 박상현
  */
 public class Report {
-    private int reportType;          //로그 타입 1: 예약 2: 주문
+    private String reportType;          //로그 타입 1: 예약 2: 주문
     private String reportData;     //로그 입력 내용: 타입;이름;번호 -형태
 
     public Report(){
-        this.reportType = 0;
-        this.reportData = "(reservation/order);(LogData)";
+        this("Type","Context");
     }
     
-    public Report(int setReportType, String Data){
-    reportType = setReportType;
-        switch (reportType) {
-            case 3:
-                reportData = "reservation;" + Data;
-                break;
-            case 2:
-                reportData = "order;" + Data;
-                break;
-            case 1:
-                reportData = "login;" + Data;
-                break;
-            case 4:
-                reportData = "menu;" + Data;
-                break;
-            default:
-                break;
-        }
+    public Report(String reportType, String data){
+        this.reportType = reportType;
+        this.reportData = data;
   }
-    public int getReportType(){
+    public String getReportType(){
         return this.reportType;
     }
     public String getReportData(){
         return this.reportData;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Report other = (Report) obj;
+        return Objects.equals(this.reportType, other.reportType);
+    }
+    
+    
+    
+    
     
 }

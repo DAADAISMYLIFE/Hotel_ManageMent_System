@@ -82,6 +82,7 @@ public class IntegrateManager {
                 ReportSys.runReportSystem();
                 break;
             case 0:
+                ReportSys.addReport("login", loginUser.getID()+";logout");
                 System.out.println("시스템을 종료합니다.");
                 isQuit = true;
                 break;

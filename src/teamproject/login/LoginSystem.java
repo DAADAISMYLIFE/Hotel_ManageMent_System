@@ -34,14 +34,9 @@ public class LoginSystem {
        //일반 직원 추가
        //temp = new User("alba","Alba","직원");
         ArrayList<String> readContext = helper.readDBFile(0);
-        if(readContext == null){
-            return;
-        }
-        else{
-            for(String temp : readContext){
-                User tempUser = new User (temp.split(";")[0],temp.split(";")[1],temp.split(";")[2],Boolean.parseBoolean(temp.split(";")[3]));
-                userDB.add(tempUser);
-            }
+        for(String temp : readContext){
+            User tempUser = new User (temp.split(";")[0],temp.split(";")[1],temp.split(";")[2],Boolean.parseBoolean(temp.split(";")[3]));
+            userDB.add(tempUser);
         }
     }
     
@@ -64,7 +59,7 @@ public class LoginSystem {
                 if(loginTryingUser.equals(temp)){
                     loginUser = temp;
                     System.out.println("안녕하세요 " + loginUser.getName() + "님");
-                    loginReport.addReport(1, (ID+";0;"));
+                    loginReport.addReport("login", ID);
                     break;
                 }
             }

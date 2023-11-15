@@ -1,10 +1,7 @@
-login;admin;0;
-login;admin;0;
-reservation;Park;101;
-login;admin;0;
-reservation;Park;101;
-menu;Ramyeon;6800
-login;admin;0;
-reservation;Park;101;
-menu;Ramyeon;6800
-menu;qwer;1234
+login;admin
+menu;add;mint;1500
+order;mint;1010;1500
+login;admin;logout
+login;alba
+order;pizzzaaa;1010;12
+login;alba;logout

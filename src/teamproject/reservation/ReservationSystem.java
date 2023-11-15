@@ -179,7 +179,7 @@ public class ReservationSystem {
         helper.writeDBFile(3, reserveDB);
         
         //Log.txt에 예약 내역 기록
-        ReserveReport.addReport( 3,reserverName + ";"+ roomID + ";");
+        ReserveReport.addReport("reserve","add;"+reserverName + ";"+ roomID);
     }
     
     public void showAllReservation() throws IOException{
@@ -263,6 +263,7 @@ public class ReservationSystem {
             if(temp.getRoomID().equals(roomID) && temp.getReserverName().equals(reserverName) && temp.getStartDateI() == checkinDateI){
                 reserveDB.remove(temp);
                 helper.writeDBFile(3, reserveDB);
+                ReserveReport.addReport("reserve","delete;"+reserverName + ";"+ roomID);
                 break;
             }
         }
