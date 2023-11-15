@@ -7,12 +7,7 @@ package teamproject.login;
 import java.io.IOException;
 import java.util.ArrayList;
 import teamproject.SystemHelper;
-//파일 입출력
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import teamproject.report.ReportSystem;
 
 /**
  *
@@ -22,11 +17,14 @@ public class LoginSystem {
     private User loginUser;
     private SystemHelper helper;
     private ArrayList<User> userDB;     //유저(일반 직원, 관리자) 정보
+    private ReportSystem loginReport;
     
     public void init()throws IOException{
         loginUser = null;
         userDB = new ArrayList<>();
         helper = new SystemHelper();    
+        loginReport = new ReportSystem();
+        loginReport.ReportSystemInit();
         helper.createDBFile(0, "login");
        //관리자 추가
        //User temp = new User("admin","Admin","관리자",true);
@@ -64,6 +62,7 @@ public class LoginSystem {
                 if(loginTryingUser.equals(temp)){
                     loginUser = temp;
                     System.out.println("안녕하세요 " + loginUser.getName() + "님");
+                    loginReport.addReport(1, (ID+";0;"));
                     break;
                 }
             }
