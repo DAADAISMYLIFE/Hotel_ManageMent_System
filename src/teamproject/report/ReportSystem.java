@@ -80,6 +80,9 @@ public class ReportSystem {
                 else if(reportType == 1 && ReportDB.get(i).getReportData().contains("login")){               //로그인 기록
                  System.out.printf("%s\n", ReportDB.get(i).getReportData());
                 }
+                else if(reportType == 4 && ReportDB.get(i).getReportData().contains("menu")){               //메뉴 기록
+                 System.out.printf("%s\n", ReportDB.get(i).getReportData());
+                }
             }
             System.out.println("==============================================================================================");
          } 

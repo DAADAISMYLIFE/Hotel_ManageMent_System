@@ -23,15 +23,14 @@ public class FoodSystem {
     private int foodCount;
     private ReportSystem foodReport;
     
-    public FoodSystem(ReservationSystem reserveSys) {
+    public FoodSystem(ReservationSystem reserveSys,ReportSystem reportSys) {
         this.reserveSys = reserveSys;
+        foodReport = reportSys;
     }
     
     public void FoodSystemInit()throws IOException{
         foodDB = new ArrayList<>();
         helper = new SystemHelper();
-        foodReport = new ReportSystem();
-        foodReport.ReportSystemInit();
         foodCount = 1;
         helper.createDBFile(2, "food");
         for(String readContext : helper.readDBFile(2)){
@@ -53,6 +52,7 @@ public class FoodSystem {
         
         foodDB.add(newFood);
         helper.writeDBFile(2, foodDB);
+        foodReport.addReport(4,(newFood.getName()+";"+newFood.getPrice()));
     }
       
     public void showFood(){       

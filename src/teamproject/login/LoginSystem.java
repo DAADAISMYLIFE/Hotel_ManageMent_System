@@ -19,12 +19,14 @@ public class LoginSystem {
     private ArrayList<User> userDB;     //유저(일반 직원, 관리자) 정보
     private ReportSystem loginReport;
     
+    public LoginSystem(ReportSystem reportSys){
+        loginReport = reportSys;
+    }
+    
     public void init()throws IOException{
         loginUser = null;
         userDB = new ArrayList<>();
         helper = new SystemHelper();    
-        loginReport = new ReportSystem();
-        loginReport.ReportSystemInit();
         helper.createDBFile(0, "login");
        //관리자 추가
        //User temp = new User("admin","Admin","관리자",true);

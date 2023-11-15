@@ -21,13 +21,15 @@ public class ReservationSystem {
     private RoomSystem RS;
     private ReportSystem ReserveReport;
     
+    public ReservationSystem(ReportSystem reportSys){
+        ReserveReport = reportSys;
+    }
+    
     public void ReserveSysInit() throws IOException{
         reserveDB = new ArrayList<>();
         helper = new SystemHelper();
         RS = new RoomSystem();
         RS.roomInit();
-        ReserveReport = new ReportSystem();
-        ReserveReport.ReportSystemInit();
         helper.createDBFile(3, "reservation");
         for(String readContext : helper.readDBFile(3)){
             ReservedInfo temp= new ReservedInfo(readContext.split(";")[0],readContext.split(";")[1],Integer.parseInt(readContext.split(";")[2]),Integer.parseInt(readContext.split(";")[3]),Integer.parseInt(readContext.split(";")[4]),Integer.parseInt(readContext.split(";")[5]),Integer.parseInt(readContext.split(";")[6]),Integer.parseInt(readContext.split(";")[7]),Integer.parseInt(readContext.split(";")[8]),Integer.parseInt(readContext.split(";")[9]),Integer.parseInt(readContext.split(";")[10]));

@@ -31,16 +31,16 @@ public class IntegrateManager {
     public void initIM() throws IOException{
         loginUser = null;
         helper = new SystemHelper();
+        ReportSys = new ReportSystem();
+        ReportSys.ReportSystemInit();
         
-        
-        LogSys = new LoginSystem();
-        RserveSys = new ReservationSystem();
+        LogSys = new LoginSystem(ReportSys);
+        RserveSys = new ReservationSystem(ReportSys);
         LogSys.init();
         RserveSys.ReserveSysInit();
-        FoodSys = new FoodSystem(RserveSys);
+        FoodSys = new FoodSystem(RserveSys,ReportSys);
         FoodSys.FoodSystemInit();
-       ReportSys = new ReportSystem();
-       ReportSys.ReportSystemInit();
+       
     }
             
     public void runIM() throws IOException{

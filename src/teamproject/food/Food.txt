@@ -1,2 +1,6 @@
 1;Mint Choco Pineapple Pizza;128000
 2;Pizza 12344;12344
+3;pizza bug;15000
+4;abc;123
+5;Ramyeon;6800
+6;qwer;1234

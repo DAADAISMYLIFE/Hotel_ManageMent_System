@@ -19,15 +19,22 @@ public class Report {
     
     public Report(int setReportType, String Data){
     reportType = setReportType;
-    if(reportType == 3){
-        reportData = "reservation;" + Data;
-    }
-    else if (reportType == 2){
-        reportData = "order;" + Data;
-    }
-    else if (reportType == 1){
-        reportData = "login;" + Data;
-    }
+        switch (reportType) {
+            case 3:
+                reportData = "reservation;" + Data;
+                break;
+            case 2:
+                reportData = "order;" + Data;
+                break;
+            case 1:
+                reportData = "login;" + Data;
+                break;
+            case 4:
+                reportData = "menu;" + Data;
+                break;
+            default:
+                break;
+        }
   }
     public int getReportType(){
         return this.reportType;
