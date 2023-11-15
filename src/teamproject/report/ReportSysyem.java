@@ -6,8 +6,6 @@ package teamproject.report;
 
 import java.io.IOException;
 import teamproject.SystemHelper;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 /**
  * @author 박상현
@@ -21,28 +19,53 @@ public class ReportSysyem {
     public void ReportSystemInit() throws IOException {
         ReportDB = new ArrayList<>();
         helper = new SystemHelper();
-        helper.createDBFile(5, "report");
+        helper.createDBFile(4, "report");
+        for(String readContext : helper.readDBFile(4)){
+            int type;
+            if((readContext.split(";")[0]).equals("login")){
+                type = 1;
+            }
+            else if ((readContext.split(";")[0]).equals("order")){
+                type = 2;
+            }
+            else{
+                type = 3;
+            }
+            Report temp= new Report(type,readContext.split(";")[1]);
+            ReportDB.add(temp);
+        }
         helper.writeDBFile(4, ReportDB);
     }
     
     //ReportSystem이 하는 일 (보고서 읽기)
     public void runReportSystem() throws IOException{
-        boolean isCorrect = false;
-        do{
         System.out.println("어떤 보고서를 보고싶으신가요? 1: 예약 보고서 2: 주문 보고서");
-         BufferedReader bufRead = new BufferedReader(new InputStreamReader(System.in));
-         reportType = Integer.parseInt(bufRead.readLine());
-         if(reportType == 1){
-         helper.readDBFile(4);
-         isCorrect = true;
-         }
-         else if (reportType == 2){
-         helper.readDBFile(5);
-         isCorrect = true;
+         reportType = Integer.parseInt(helper.getUserInput("[1-3]"));
+         if(ReportDB.isEmpty()){
+                System.out.println("로그가 아직 없습니다.");
          }
          else{
-                System.out.println("올바른 값을 입력해 주세요");
-         }
-        }while(!isCorrect);
+            System.out.println("\n==============================================================================================");
+            //로그 출력
+            for(int i = 0;i < ReportDB.size(); i++){
+                if(reportType == 3 && ReportDB.get(i).getReportData().contains("reservationadmin") ){   //예약 기록
+                  System.out.printf("%s\n", ReportDB.get(i).getReportData());
+                }
+                else if (reportType == 2 && ReportDB.get(i).getReportData().contains("order")){              //주문 기록
+                    //주문 로그
+                    System.out.printf("%s\n", ReportDB.get(i).getReportData());
+                }
+                else if(reportType == 1 && ReportDB.get(i).getReportData().contains("login")){               //로그인 기록
+                 System.out.printf("%s\n", ReportDB.get(i).getReportData());
+                }
+            }
+            System.out.println("==============================================================================================");
+         } 
+    }
+    //로그 파일에 적을 내용 추가
+    public void addReport(int reportType, String Data)throws IOException{
+        Report tmp = new Report(reportType,Data);
+        ReportDB.add(tmp);
+        helper.writeDBFile(5, ReportDB);
     }
 }

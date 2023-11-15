@@ -156,11 +156,8 @@ public class SystemHelper {
             case 3:
                 File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\reservation\\Reservation.txt";
                 break;
-            case 4 : //예약 로그 읽기
-                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Report.txt";
-                break;
-            case 5 : //주문 로그 읽기
-                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Report.txt";
+            case 4 : //로그 읽기
+                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Log.txt";
                 break;
             default:
                 return null;      

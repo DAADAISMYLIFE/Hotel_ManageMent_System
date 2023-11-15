@@ -1,0 +1,6 @@
+reservation;asasa
+reservation;3131
+order;짜장면
+order;민트초코파인에플피자;
+login;누군가;
+reservation;누군가;몇명;몇호;등등;
