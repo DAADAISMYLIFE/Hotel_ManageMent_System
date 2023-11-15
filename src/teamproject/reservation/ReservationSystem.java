@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import teamproject.SystemHelper;
 import teamproject.room.RoomSystem;
 import teamproject.room.Room;
+import teamproject.report.ReportSystem;
 /**
  *
  * @author qkekd
@@ -18,6 +19,11 @@ public class ReservationSystem {
     private ArrayList<ReservedInfo> reserveDB;
     private SystemHelper helper;
     private RoomSystem RS;
+    private ReportSystem ReserveReport;
+    
+    public ReservationSystem(ReportSystem reportSys){
+        ReserveReport = reportSys;
+    }
     
     public void ReserveSysInit() throws IOException{
         reserveDB = new ArrayList<>();
@@ -171,6 +177,9 @@ public class ReservationSystem {
         temp.setTotalRoomFee(days * costPerNight);
         reserveDB.add(temp);
         helper.writeDBFile(3, reserveDB);
+        
+        //Log.txt에 예약 내역 기록
+        ReserveReport.addReport( 3,reserverName + ";"+ roomID + ";");
     }
     
     public void showAllReservation() throws IOException{

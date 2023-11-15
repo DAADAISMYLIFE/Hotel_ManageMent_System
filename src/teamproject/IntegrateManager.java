@@ -10,6 +10,7 @@ import teamproject.food.FoodSystem;
 import teamproject.login.LoginSystem;
 import teamproject.login.User;
 import teamproject.reservation.ReservationSystem;
+import teamproject.report.ReportSystem;
 
 /**
  *
@@ -20,6 +21,7 @@ public class IntegrateManager {
     LoginSystem LogSys;
     FoodSystem FoodSys;
     ReservationSystem RserveSys;
+    ReportSystem ReportSys;
     boolean isQuit;
     User loginUser;
     
@@ -29,14 +31,16 @@ public class IntegrateManager {
     public void initIM() throws IOException{
         loginUser = null;
         helper = new SystemHelper();
+        ReportSys = new ReportSystem();
+        ReportSys.ReportSystemInit();
         
-        
-        LogSys = new LoginSystem();
-        RserveSys = new ReservationSystem();
+        LogSys = new LoginSystem(ReportSys);
+        RserveSys = new ReservationSystem(ReportSys);
         LogSys.init();
         RserveSys.ReserveSysInit();
-        FoodSys = new FoodSystem(RserveSys);
+        FoodSys = new FoodSystem(RserveSys,ReportSys);
         FoodSys.FoodSystemInit();
+       
     }
             
     public void runIM() throws IOException{
@@ -75,6 +79,7 @@ public class IntegrateManager {
                 FoodSys.runFoodSystem();
                 break;
             case 3:
+                ReportSys.runReportSystem();
                 break;
             case 0:
                 System.out.println("시스템을 종료합니다.");

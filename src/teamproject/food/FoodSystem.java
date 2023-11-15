@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import teamproject.SystemHelper;
 import teamproject.reservation.ReservationSystem;
 import teamproject.reservation.ReservedInfo;
+import teamproject.report.ReportSystem;
+
 
 /**
  *
@@ -19,9 +21,11 @@ public class FoodSystem {
     private ReservationSystem reserveSys;
     private SystemHelper helper;
     private int foodCount;
+    private ReportSystem foodReport;
     
-    public FoodSystem(ReservationSystem reserveSys) {
+    public FoodSystem(ReservationSystem reserveSys,ReportSystem reportSys) {
         this.reserveSys = reserveSys;
+        foodReport = reportSys;
     }
     
     public void FoodSystemInit()throws IOException{
@@ -48,6 +52,7 @@ public class FoodSystem {
         
         foodDB.add(newFood);
         helper.writeDBFile(2, foodDB);
+        foodReport.addReport(4,(newFood.getName()+";"+newFood.getPrice()));
     }
     public void deleteFood() throws IOException{
         System.out.print("삭제할 메뉴 ID : ");
@@ -110,6 +115,7 @@ public class FoodSystem {
             else{
                 System.out.println(orderMenu.getName() + " 주문 완료!");
                 roomID.addExtraFee(orderMenu.getPrice());
+                foodReport.addReport(2, (OrderMenuID +OrderRoomID));
             }
             
          }
