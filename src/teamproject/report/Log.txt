@@ -1,4 +1,2 @@
-login;ManagerLogined;
-login;AlbaLogined;
-reservation;101;Customer;
-order;101;food;Price;
+reservation;ak;101;
+reservation;kangsunwoo;101;

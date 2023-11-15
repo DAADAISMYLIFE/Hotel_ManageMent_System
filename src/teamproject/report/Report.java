@@ -10,9 +10,8 @@ package teamproject.report;
  */
 public class Report {
     private int reportType;          //로그 타입 1: 예약 2: 주문
-    private String reportData;     //로그 입력 내용
+    private String reportData;     //로그 입력 내용: 타입;이름;번호 -형태
 
-    
     public Report(){
         this.reportType = 0;
         this.reportData = "(reservation/order);(LogData)";

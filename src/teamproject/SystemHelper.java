@@ -166,7 +166,6 @@ public class SystemHelper {
         Read_File = new File(File_Path);
         BufferedReader Buf_reader = new BufferedReader(new FileReader(Read_File));
         String File_Contents = null;
-        //로그 구분해서 readContext에 저장
         while((File_Contents = Buf_reader.readLine())!= null){
             readContext.add(File_Contents);
         }   
@@ -206,7 +205,7 @@ public class SystemHelper {
                 break;
             case 4:
                 File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\report\\Log.txt";
-                write = new FileWriter(File_Path,false);
+                write = new FileWriter(File_Path,true);
                 ArrayList<Report> reportWriter = (ArrayList<Report>)DBList;
                 for(Report temp : reportWriter){
                     writeLine.add(temp.getReportData()+"\n");

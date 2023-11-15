@@ -10,7 +10,7 @@ import teamproject.food.FoodSystem;
 import teamproject.login.LoginSystem;
 import teamproject.login.User;
 import teamproject.reservation.ReservationSystem;
-import teamproject.report.ReportSysyem;
+import teamproject.report.ReportSystem;
 
 /**
  *
@@ -21,7 +21,7 @@ public class IntegrateManager {
     LoginSystem LogSys;
     FoodSystem FoodSys;
     ReservationSystem RserveSys;
-    ReportSysyem ReportSys;
+    ReportSystem ReportSys;
     boolean isQuit;
     User loginUser;
     
@@ -39,7 +39,7 @@ public class IntegrateManager {
         RserveSys.ReserveSysInit();
         FoodSys = new FoodSystem(RserveSys);
         FoodSys.FoodSystemInit();
-       ReportSys = new ReportSysyem();
+       ReportSys = new ReportSystem();
        ReportSys.ReportSystemInit();
     }
             

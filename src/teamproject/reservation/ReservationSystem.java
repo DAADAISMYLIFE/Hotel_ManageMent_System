@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import teamproject.SystemHelper;
 import teamproject.room.RoomSystem;
 import teamproject.room.Room;
+import teamproject.report.ReportSystem;
 /**
  *
  * @author qkekd
@@ -18,12 +19,15 @@ public class ReservationSystem {
     private ArrayList<ReservedInfo> reserveDB;
     private SystemHelper helper;
     private RoomSystem RS;
+    private ReportSystem ReserveReport;
     
     public void ReserveSysInit() throws IOException{
         reserveDB = new ArrayList<>();
         helper = new SystemHelper();
         RS = new RoomSystem();
         RS.roomInit();
+        ReserveReport = new ReportSystem();
+        ReserveReport.ReportSystemInit();
         helper.createDBFile(3, "reservation");
         for(String readContext : helper.readDBFile(3)){
             ReservedInfo temp= new ReservedInfo(readContext.split(";")[0],readContext.split(";")[1],Integer.parseInt(readContext.split(";")[2]),Integer.parseInt(readContext.split(";")[3]),Integer.parseInt(readContext.split(";")[4]),Integer.parseInt(readContext.split(";")[5]),Integer.parseInt(readContext.split(";")[6]),Integer.parseInt(readContext.split(";")[7]),Integer.parseInt(readContext.split(";")[8]),Integer.parseInt(readContext.split(";")[9]),Integer.parseInt(readContext.split(";")[10]));
@@ -164,6 +168,9 @@ public class ReservationSystem {
         temp.setTotalRoomFee(days * costPerNight);
         reserveDB.add(temp);
         helper.writeDBFile(3, reserveDB);
+        
+        //Log.txt에 예약 내역 기록
+        ReserveReport.addReport( 3,reserverName + ";"+ roomID + ";");
     }
     
     public void showAllReservation() throws IOException{
