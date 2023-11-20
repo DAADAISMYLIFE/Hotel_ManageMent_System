@@ -24,7 +24,6 @@ public class IntegrateManager {
     ReportSystem ReportSys;
     boolean isQuit;
     User loginUser;
-    Check CheckSys;
     
     
     
@@ -39,14 +38,12 @@ public class IntegrateManager {
         LogSys.init();
         RserveSys.ReserveSysInit();
         FoodSys = new FoodSystem(RserveSys,ReportSys);
-        FoodSys.FoodSystemInit();
-       
-        CheckSys = new Check(RserveSys);
     }
             
     public void runIM() throws IOException{
         initIM();
         loginUser = LogSys.runLoginSystem();
+        FoodSys.FoodSystemInit(loginUser.getManager());
         
         while(!isQuit){
             showMainMenu();
@@ -63,7 +60,6 @@ public class IntegrateManager {
             rex = "[0-4]";
             System.out.println("3. 시스템 정보 수정 및 보고서 작성");
         }
-        System.out.println("4. 체크 인/아웃");
         System.out.println("0. 종료");
         System.out.println("==============================================");
         
@@ -83,9 +79,6 @@ public class IntegrateManager {
             case 3:
                 ReportSys.runReportSystem();
                 break;
-                case 4:
-                CheckSys.C_S_run();
-                break;
             case 0:
                 ReportSys.addReport("login", loginUser.getID()+";logout");
                 System.out.println("시스템을 종료합니다.");
@@ -94,11 +87,9 @@ public class IntegrateManager {
             default:
                 break;
         }
-        
-        
-        
-        
     }
-    
-    
+
+    public User getLoginUser() {
+        return loginUser;
+    }
 }

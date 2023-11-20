@@ -194,7 +194,7 @@ public class SystemHelper {
                 write = new FileWriter(File_Path,false);
                 ArrayList<ReservedInfo> reservationWriter = (ArrayList<ReservedInfo>)DBList;
                 for(ReservedInfo temp : reservationWriter){
-                    writeLine.add(temp.getRoomID() + ";"+temp.getReserverName()+ ";"+temp.getNumOfGuests()+";"+temp.getStartYear()+";"+temp.getStartMonth()+";"+temp.getStartDay()+";"+temp.getEndYear()+";"+temp.getEndMonth()+";"+temp.getEndDay()+";"+temp.getTotalRoomFee()+";"+temp.getExtraFee()+"\n");
+                    writeLine.add(temp.getRoomID() + ";"+temp.getReserverName()+ ";"+temp.getNumOfGuests()+";"+temp.getStartYear()+";"+temp.getStartMonth()+";"+temp.getStartDay()+";"+temp.getEndYear()+";"+temp.getEndMonth()+";"+temp.getEndDay()+";"+temp.getTotalRoomFee()+";"+temp.getExtraFee()+";"+temp.getCheck()+"\n");
                 }
                 for(String writeContext : writeLine){
                     write.write(writeContext);
