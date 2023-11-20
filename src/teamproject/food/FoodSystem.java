@@ -111,30 +111,29 @@ public class FoodSystem {
               else if(roomID.equals(temp) && !temp.getCheck())   
                    canFind=1;              
          }
-         if(canFind==0){
-             System.out.println("주문자를 찾을 수 없습니다!");
-         }
-         else if(canFind==1){
-             System.out.println("체크인 하지 않은 고객입니다.");
-             System.out.print(roomID.getCheck());
-         }
-         else{
-            showFood();
-            System.out.print("메뉴 ID를 입력해 주세요 : ");
-            int OrderMenuID = Integer.parseInt(helper.getUserInput("[0-9]+"));
-
-            Food orderMenu = findMenu(OrderMenuID);
-            if(orderMenu == null){
-                System.out.println("메뉴를 찾을 수 없습니다.");
-            }
-            else{
-                System.out.println(orderMenu.getName() + " 주문 완료!");
-                roomID.addExtraFee(orderMenu.getPrice());
-                helper.writeDBFile(3,reserveSys.getReserveDB());
-                foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
-            }
-            
-         }
+        switch (canFind) {
+            case 0:
+                System.out.println("주문자를 찾을 수 없습니다!");
+                break;
+            case 1:
+                System.out.println("체크인 하지 않은 고객입니다.");
+                System.out.print(roomID.getCheck());
+                break;
+            default:
+                showFood();
+                System.out.print("메뉴 ID를 입력해 주세요 : ");
+                int OrderMenuID = Integer.parseInt(helper.getUserInput("[0-9]+"));
+                Food orderMenu = findMenu(OrderMenuID);
+                if(orderMenu == null){
+                    System.out.println("메뉴를 찾을 수 없습니다.");
+                }
+                else{
+                    System.out.println(orderMenu.getName() + " 주문 완료!");
+                    roomID.addExtraFee(orderMenu.getPrice());
+                    helper.writeDBFile(3,reserveSys.getReserveDB());
+                    foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
+                }   break;
+        }
     }
     
     public Food findMenu(int OrderMenuID){
@@ -165,9 +164,9 @@ public class FoodSystem {
             System.out.println("0. 뒤로 가기");
             System.out.println("===============================================");
             String selectedMenuS;
-            do{
-                selectedMenuS =  helper.getUserInput();
-            }while(!helper.CheckFormat(selectedMenuS,rex));
+            
+            selectedMenuS =  helper.getUserInput(rex);
+            
             int selectedMenu =Integer.parseInt(selectedMenuS);
             switch (selectedMenu) {
                 case 1:

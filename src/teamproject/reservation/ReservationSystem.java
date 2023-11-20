@@ -93,7 +93,7 @@ public class ReservationSystem {
          int startDateI;
          int endDateI;
          
-         int days;
+         long days = 0;
          
          ArrayList<Room> canReserveRoom = new ArrayList<>();
         
@@ -114,10 +114,10 @@ public class ReservationSystem {
             
             startDateI = startYear*10000 + startMonth*100 + startDay; 
             endDateI = endYear*10000 + endMonth*100 + endDay; 
-            days = helper.getDiffBetweenTwoDays(startYear, startMonth, startDay, endYear, endMonth, endDay);
+            
             if(startMonth > 12 || endMonth > 12 || startDay > helper.getLastDayOfMonth(startYear, startMonth) || endDay > helper.getLastDayOfMonth(endYear, endMonth)){
                 System.out.println("잘못된 날짜 입력!");
-            }
+            }  
             else if(helper.getTodayDateI() >startDateI){
                 System.out.println("예약 날짜를 오늘 이후로 해주세요");
             }
@@ -126,6 +126,7 @@ public class ReservationSystem {
             }
             else{
                 if(endDateI>startDateI){
+                    days = helper.getDiffBetweenTwoDays(startYear, startMonth, startDay, endYear, endMonth, endDay);
                     System.out.format("%d/%d/%d ~ %d/%d/%d (%d일)\n",startYear,startMonth,startDay,endYear,endMonth,endDay,days);
                     
                     isCorrect = true;
@@ -182,7 +183,7 @@ public class ReservationSystem {
         String reserverName = helper.getUserInput();
         
         ReservedInfo temp = new ReservedInfo(roomID,reserverName,numOfGuests,startYear,startMonth,startDay,endYear,endMonth,endDay,false);
-        temp.setTotalRoomFee(days * costPerNight);
+        temp.setTotalRoomFee((int)days * costPerNight);
         reserveDB.add(temp);
         helper.writeDBFile(3, reserveDB);
         
