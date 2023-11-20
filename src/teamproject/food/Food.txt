@@ -1,2 +1,2 @@
-1;pizzzaaa;12
-2;mint;1500
+1;Mint Choco Pineapple Pizza;128000
+2;mint;123

@@ -85,7 +85,7 @@ public class FoodSystem {
     }
     
     public void orderFood() throws IOException{
-        boolean canFind = false;
+        int canFind = 0;
         if(foodDB.isEmpty()){
              System.out.println("메뉴가 없습니다.");
              return;
@@ -102,13 +102,21 @@ public class FoodSystem {
          ReservedInfo roomID = new ReservedInfo(OrderRoomID);
          for(ReservedInfo temp : reserveSys.getReserveDB()){
               if(roomID.equals(temp,helper.getTodayDateI(),true)){
-                 roomID = temp;
-                 System.out.println(roomID.getRoomID()+ "번 방의 " + roomID.getReserverName()+"님께 주문합니다.");
-                 canFind = true;
+                   if(roomID.Check){
+                        roomID = temp;
+                        System.out.println(roomID.getRoomID()+ "번 방의 " + roomID.getReserverName()+"님께 주문합니다.");
+                        canFind=2;
+                   }
+                   else if(!roomID.Check)   
+                       canFind=1;              
                }
          }
-         if(!canFind){
+         if(canFind==0){
              System.out.println("주문자를 찾을 수 없습니다!");
+         }
+         else if(canFind==1){
+             System.out.println("체크인 하지 않은 고객입니다.");
+             System.out.print(roomID.getCheck());
          }
          else{
             showFood();

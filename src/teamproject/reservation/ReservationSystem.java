@@ -264,6 +264,47 @@ public class ReservationSystem {
                 reserveDB.remove(temp);
                 helper.writeDBFile(3, reserveDB);
                 ReserveReport.addReport("reserve","delete;"+reserverName + ";"+ roomID);
+                System.out.print("삭제 완료");
+                break;
+            }
+        }
+    }
+    public void deleteReservation1() throws IOException{
+        showAllReservation();
+        if(reserveDB.isEmpty())
+            return;
+        
+        System.out.print("체크 아웃 할 방의 번호를 입력해 주세요 : ");
+        String roomID = helper.getUserInput("[0-1]{0,1}[0-9][0-1][0-9]");
+        System.out.print("예약자 이름을 입력해 주세요 : ");
+        String reserverName = helper.getUserInput();
+        System.out.print("체크 아웃 날짜를 입력해 주세요('/' 구분) : ");
+        String startDate = helper.getUserInput("^20\\d{2}/\\d{1,2}/\\d{1,2}$");
+        int checkinYear = Integer.parseInt(startDate.split("/")[0]);
+        int checkinMonth = Integer.parseInt(startDate.split("/")[1]);
+        int checkinDay = Integer.parseInt(startDate.split("/")[2]);
+        int checkinDateI = checkinYear*10000 + checkinMonth*100 + checkinDay;
+        
+        for(ReservedInfo temp : reserveDB){
+            if(temp.getRoomID().equals(roomID) && temp.getReserverName().equals(reserverName) && temp.getStartDateI() == checkinDateI){
+                reserveDB.remove(temp);
+                helper.writeDBFile(3, reserveDB);
+                ReserveReport.addReport("reserve","delete;"+reserverName + ";"+ roomID);
+                System.out.print("체크 아웃 완료");
+                break;
+            }
+        }
+    }
+    public void Check_in() throws IOException{
+        System.out.print("체크 아웃 할 방의 번호를 입력해 주세요 : ");
+        String roomID = helper.getUserInput("[0-1]{0,1}[0-9][0-1][0-9]");
+        System.out.print("예약자 이름을 입력해 주세요 : ");
+        String reserverName = helper.getUserInput();
+        
+        for(ReservedInfo temp : reserveDB){
+            if(temp.getRoomID().equals(roomID) && temp.getReserverName().equals(reserverName)){
+                reserveDB.get(reserveDB.indexOf(temp)).Check=true;
+                System.out.print("체크인 완료");
                 break;
             }
         }

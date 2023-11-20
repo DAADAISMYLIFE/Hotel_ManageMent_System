@@ -28,6 +28,14 @@ public class ReservedInfo {
     
     private int totalRoomFee;
     private int extraFee;
+    
+    public boolean Check = false;
+
+    public boolean getCheck(){
+        return Check;
+    }
+
+    
 
     public ReservedInfo(){
         this("","",0,0,0,0,0,0,0);
@@ -36,6 +44,7 @@ public class ReservedInfo {
     public ReservedInfo(String roomID){
         this(roomID,"",0,0,0,0,0,0,0);
     }
+    
     
     public ReservedInfo(String roomID,String reserverName,int startYear, int startMonth, int startDay){
         this(roomID,reserverName,0,startYear,startMonth,startDay,0,0,0);

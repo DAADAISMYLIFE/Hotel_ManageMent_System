@@ -24,7 +24,7 @@ public class IntegrateManager {
     ReportSystem ReportSys;
     boolean isQuit;
     User loginUser;
-    
+    Check CheckSys;
     
     
     
@@ -41,6 +41,7 @@ public class IntegrateManager {
         FoodSys = new FoodSystem(RserveSys,ReportSys);
         FoodSys.FoodSystemInit();
        
+        CheckSys = new Check(RserveSys);
     }
             
     public void runIM() throws IOException{
@@ -59,9 +60,10 @@ public class IntegrateManager {
         System.out.println("1. 객실 및 예약 정보");
         System.out.println("2. 식품 주문 및 정보");
         if(loginUser.getManager() == true){
-            rex = "[0-3]";
+            rex = "[0-4]";
             System.out.println("3. 시스템 정보 수정 및 보고서 작성");
         }
+        System.out.println("4. 체크 인/아웃");
         System.out.println("0. 종료");
         System.out.println("==============================================");
         
@@ -80,6 +82,9 @@ public class IntegrateManager {
                 break;
             case 3:
                 ReportSys.runReportSystem();
+                break;
+                case 4:
+                CheckSys.C_S_run();
                 break;
             case 0:
                 ReportSys.addReport("login", loginUser.getID()+";logout");
