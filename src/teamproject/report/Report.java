@@ -23,7 +23,7 @@ public class Report {
     private String logYear = Integer.toString(logDate.getYear());
     private String logMonth = Integer.toString(logDate.getMonthValue());
     private String logDay = Integer.toString(logDate.getDayOfMonth());
-    private String logTime =Integer.toString(logTimes.getHour()) + ":"+  Integer.toString(logTimes.getMinute());
+    private String logTime =String.format("%02d:%02d",logTimes.getHour(), logTimes.getMinute());
 
     //로그 작성시 사용할 생성자
     public Report(boolean first ,String reportType, String data){
