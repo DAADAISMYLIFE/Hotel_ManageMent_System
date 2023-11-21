@@ -126,16 +126,28 @@ public class ReservationSystem {
         
         JButton btn1 = new JButton("확인");
          JTextField add_in = new JTextField(10);
+          JTextField add_in2 = new JTextField(10);
+           JTextField add_in3 = new JTextField(10);
          JTextField add_out = new JTextField(10);
+          JTextField add_out2 = new JTextField(10);
+           JTextField add_out3 = new JTextField(10);
          JTextField add_num = new JTextField(10);
          
-         add_in.setBounds(182, 170, 172, 30);
-         add_out.setBounds(182, 210, 172, 30);
-         add_num.setBounds(182, 250, 172, 30);
+         add_in.setBounds(180, 170, 60, 30);
+         add_in2.setBounds(240, 170, 60, 30);
+         add_in3.setBounds(300, 170, 60, 30);
+         add_out.setBounds(180, 210, 60, 30);
+         add_out2.setBounds(240, 210, 60, 30);
+         add_out3.setBounds(300, 210, 60, 30);
+         add_num.setBounds(180, 250, 60, 30);
         btn1.setBounds(600, 600, 172, 30);
         
         frmR_add.getContentPane().add(add_in);
+        frmR_add.getContentPane().add(add_in2);
+        frmR_add.getContentPane().add(add_in3);
         frmR_add.getContentPane().add(add_out);
+        frmR_add.getContentPane().add(add_out2);
+        frmR_add.getContentPane().add(add_out3);
         frmR_add.getContentPane().add(add_num);
         frmR_add.getContentPane().add(btn1);
         
@@ -146,15 +158,14 @@ public class ReservationSystem {
         btn1.addActionListener(event -> {
                                                                                                                                                                   
             
-            String startDate = add_in.getText();
-            startYear = Integer.parseInt(startDate.split("/")[0]);
-            startMonth = Integer.parseInt(startDate.split("/")[1]);
-            startDay = Integer.parseInt(startDate.split("/")[2]);
+            startYear = Integer.parseInt(add_in.getText());
+            startMonth = Integer.parseInt(add_in2.getText());
+            startDay = Integer.parseInt(add_in3.getText());
             
-            String endDate = add_out.getText();
-            endYear = Integer.parseInt(endDate.split("/")[0]);
-            endMonth = Integer.parseInt(endDate.split("/")[1]);
-            endDay = Integer.parseInt(endDate.split("/")[2]);
+            
+            endYear = Integer.parseInt(add_out.getText());
+            endMonth = Integer.parseInt(add_out2.getText());
+            endDay = Integer.parseInt(add_out3.getText());
             
             startDateI = startYear*10000 + startMonth*100 + startDay; 
             endDateI = endYear*10000 + endMonth*100 + endDay; 
