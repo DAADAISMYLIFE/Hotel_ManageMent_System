@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -87,7 +86,7 @@ public class ReservationSystem extends JFrame {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setResizable(false);
         }
-        
+        reservationTable.getTableHeader().setReorderingAllowed(false);
         DefaultTableModel modelTemp = (DefaultTableModel) reservationTable.getModel();
         for (ReservedInfo reservation : reserveDB) {
             String room = reservation.getRoomID();
@@ -191,7 +190,7 @@ public class ReservationSystem extends JFrame {
                     String checkOut = checkOutField.getText();
                     String days = "0";
                     if(room.isBlank() || name.isBlank() || numPeople.isBlank() || checkIn.isBlank() || checkOut.isBlank()){
-                        
+                        System.out.println("모든 항목을 작성해주세요");
                     }
                     else{
                         int startYear;
@@ -257,11 +256,6 @@ public class ReservationSystem extends JFrame {
                                         reserveDB.add(temp);
                                         try {
                                             helper.writeDBFile(3, reserveDB);
-                                        } catch (IOException ex) {
-                                            Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-
-                                        try {
                                             ReserveReport.addReport("reserve","add;"+name + ";"+ room +";"+  Integer.toString( startYear) + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
                                         } catch (IOException ex) {
                                             Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);

@@ -4,8 +4,21 @@
  */
 package teamproject.food;
 
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import teamproject.SystemHelper;
 import teamproject.reservation.ReservationSystem;
 import teamproject.reservation.ReservedInfo;
@@ -16,7 +29,7 @@ import teamproject.report.ReportSystem;
  *
  * @author qkekd
  */
-public class FoodSystem {
+public class FoodSystem extends JFrame {
     private ArrayList<Food> foodDB; // 식품 관련 정보(메뉴 이름, 가격)
     private ReservationSystem reserveSys;
     private SystemHelper helper;
@@ -148,44 +161,126 @@ public class FoodSystem {
     }
     
     public void runFoodSystem() throws IOException{
-        boolean isContinue = true;
-        String rex = "[0-2]";
-        if(isManager)
-            rex = "[0-5]";
-        while (isContinue) {
-            System.out.println("\n======================메뉴======================");
-            System.out.println("1. 메뉴 보기");
-            System.out.println("2. 메뉴 주문");
-            
-            if(isManager){
-                System.out.println("3. 메뉴 추가");
-                System.out.println("4. 메뉴 삭제");
+        setTitle("메뉴 시스템");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container swingContext = getContentPane();
+        swingContext.setLayout(null);
+        JButton addFood = new JButton("메뉴 추가");
+        JButton deleteFood = new JButton("메뉴 삭제");
+        JButton makeOrder = new JButton("주문하기");
+        JButton quitFood = new JButton("나가기");
+        JTable menuTable;
+        JScrollPane scrollPane;
+
+        String[][] tableData = new String[][] {};
+        String[] columnNames = {"메뉴 ID","메뉴 이름","가격"};
+        DefaultTableModel model = new DefaultTableModel(tableData, columnNames){
+            public boolean isCellEditable(int rowIndex, int mColIndex){
+                return false;
             }
-            System.out.println("0. 뒤로 가기");
-            System.out.println("===============================================");
-            String selectedMenuS;
+        };
+        menuTable = new JTable(model);
+        scrollPane = new JScrollPane(menuTable);
+        TableColumnModel columnModel = menuTable.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(5);  // 메뉴 ID
+        columnModel.getColumn(1).setPreferredWidth(250); // 메뉴 이름
+        columnModel.getColumn(2).setPreferredWidth(80);  // 가격
+        
+        for (int i = 0; i < columnModel.getColumnCount(); i++) {
+            columnModel.getColumn(i).setResizable(false);
+        }
+        
+        DefaultTableModel modelTemp = (DefaultTableModel) menuTable.getModel();
+        for (Food food : foodDB) {
+            String menuID = String.valueOf(food.getMenuID());
+            String menuName = food.getName();
+            String price = String.valueOf(food.getPrice());
+            model.addRow(new String[] {menuID, menuName, price+"원"});
+        }
+        
+        scrollPane.setBounds(230, 50, 400, 200);
+        swingContext.add(scrollPane);
+        menuTable.getTableHeader().setReorderingAllowed(false);
+        addFood.setLocation(30,50);
+        deleteFood.setLocation(30,100);
+        makeOrder.setLocation(30,150);
+        quitFood.setLocation(30,200);
+        
+        addFood.setSize(180,30);
+        deleteFood.setSize(180,30);
+        makeOrder.setSize(180,30);
+        quitFood.setSize(180,30);
+        
+        swingContext.add(addFood);
+        swingContext.add(deleteFood);
+        swingContext.add(makeOrder);
+        swingContext.add(quitFood);
+        
+        setSize(700,350);
+        setVisible(true);
+        
+        addFood.addActionListener(event->{
+            JFrame inputFrame = new JFrame("메뉴 추가");
+            inputFrame.setSize(250, 200);
+            inputFrame.setLayout(null);
             
-            selectedMenuS =  helper.getUserInput(rex);
+            JLabel menuLabel = new JLabel("메뉴 이름:");
+            JTextField menuField = new JTextField();
+            JLabel priceLabel = new JLabel("메뉴 가격:");
+            JTextField priceField = new JTextField();
+            JButton submitButton = new JButton("확인");
             
-            int selectedMenu =Integer.parseInt(selectedMenuS);
-            switch (selectedMenu) {
-                case 1:
-                    showFood();
-                    break;
-                case 2:
-                    orderFood();
-                    break;
-                case 3:
-                    addFood();
-                    break;
-                case 4:
-                    deleteFood();
-                    break;
-                case 0:
-                    isContinue = false;
-                    break;
-                
-            }
-        }  
+            menuLabel.setLocation(20,20);
+            menuField.setLocation(100,20);
+            priceLabel.setLocation(20,70);
+            priceField.setLocation(100,70);
+            submitButton.setLocation(70,120);
+            
+            menuLabel.setSize(100,30);
+            menuField.setSize(100,30);
+            priceLabel.setSize(100,30);
+            priceField.setSize(100,30);
+            submitButton.setSize(100,30);
+
+            inputFrame.add(menuLabel);
+            inputFrame.add(menuField);
+            inputFrame.add(priceLabel);
+            inputFrame.add(priceField);
+            inputFrame.add(submitButton);
+            inputFrame.setVisible(true);
+            
+            submitButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    String menuID = String.valueOf(foodCount);
+                    String menuName = menuField.getText();
+                    String menuPrice = priceField.getText();
+                    
+                    if(menuName.isBlank() || menuPrice.isBlank()){
+                        System.out.println("모든 항목을 작성해주세요");
+                    }
+                    else{
+                        if(!menuPrice.matches("[0-9]+")){
+                            System.out.println("가격을 제대로 입력해 주세요");
+                        }
+                        else{
+                            Food temp = new Food(Integer.parseInt(menuID),menuName,Integer.parseInt(menuPrice));
+                            foodDB.add(temp);
+                            try {
+                                foodReport.addReport("menu","add;"+(temp.getName()+";"+temp.getPrice()));
+                                helper.writeDBFile(2, foodDB);
+                            } catch (IOException ex) {
+                                Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                            DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
+                            model.addRow(new String[] {menuID, menuName, menuPrice+"원"}); 
+                            inputFrame.dispose();
+                        }
+                    }
+                    
+                }
+                });
+        });
+        
     }
 }

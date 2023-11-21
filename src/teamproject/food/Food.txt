@@ -1,2 +1,5 @@
 1;Mint Choco Pineapple Pizza;128000
 2;mint;123
+3;피자;5000
+4;초코버터초코쿠키;2500
+5;r;1
