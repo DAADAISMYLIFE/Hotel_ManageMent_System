@@ -262,8 +262,7 @@ public class ReservationSystem extends JFrame {
                                         }
 
                                         try {
-                                            //Log.txt에 예약 내역 기록
-                                            ReserveReport.addReport("reserve","add;"+name + ";"+ room);
+                                            ReserveReport.addReport("reserve","add;"+name + ";"+ room +";"+  Integer.toString( startYear) + "/" + startMonth + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
                                         } catch (IOException ex) {
                                             Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
                                         }
@@ -271,6 +270,7 @@ public class ReservationSystem extends JFrame {
                                         String time = String.format(checkIn + " ~ " + checkOut);
                                         DefaultTableModel model = (DefaultTableModel) reservationTable.getModel();
                                         model.addRow(new String[] {room, name, numPeople, time, "false", totalRoomFee, "0"});
+                                        
                                         inputFrame.dispose();
                                     }
                                 }
@@ -304,9 +304,7 @@ public class ReservationSystem extends JFrame {
                 Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
-        //Log.txt에 예약 내역 기록
-        ReserveReport.addReport("reserve","add;"+reserverName + ";"+ roomID +  Integer.toString( startYear) + "/" + startMonth + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
+
     }
 
     public ArrayList<ReservedInfo> showAllReservation(int onlyCheckIn) throws IOException{
