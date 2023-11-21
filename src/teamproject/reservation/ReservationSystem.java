@@ -262,7 +262,7 @@ public class ReservationSystem extends JFrame {
                                         }
 
                                         try {
-                                            ReserveReport.addReport("reserve","add;"+name + ";"+ room +";"+  Integer.toString( startYear) + "/" + startMonth + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
+                                            ReserveReport.addReport("reserve","add;"+name + ";"+ room +";"+  Integer.toString( startYear) + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
                                         } catch (IOException ex) {
                                             Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
                                         }
@@ -282,29 +282,114 @@ public class ReservationSystem extends JFrame {
         });
         
         deleteReservation.addActionListener(event->{
-            try {
-                deleteReservation();
-            } catch (IOException ex) {
-                Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+            int selectedRow = reservationTable.getSelectedRow();
+            if (selectedRow != -1) {
+                JFrame questionFrame = new JFrame("예약 삭제");
+                questionFrame.setSize(350, 300);
+                questionFrame.setLayout(null);
+
+                JLabel questionLabel = new JLabel("정말로 예약을 삭제합니까?");
+                JButton yesButton = new JButton("확인");
+                JButton noButton = new JButton("취소");
+                
+                questionLabel.setLocation(100,50);
+                yesButton.setLocation(50,150);
+                noButton.setLocation(200,150);
+                
+                questionLabel.setSize(200,50);
+                yesButton.setSize(80,50);
+                noButton.setSize(80,50);
+                
+                questionFrame.add(questionLabel);
+                questionFrame.add(yesButton);
+                questionFrame.add(noButton);
+                questionFrame.setVisible(true);
+                
+                yesButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+
+                        String room = (String) reservationTable.getValueAt(selectedRow, 0);
+                        String name = (String) reservationTable.getValueAt(selectedRow, 1);
+                        String checkInDate = ((String) reservationTable.getValueAt(selectedRow, 3)).split(" ")[0];
+                        String isCheckedIn = (String) reservationTable.getValueAt(selectedRow, 4);
+                        
+                        if(isCheckedIn.equals("true")){
+                            System.out.println("이미 체크인한 손님입니다.");
+                        }
+                        else{
+                            int startYear = Integer.parseInt(checkInDate.split("/")[0]);
+                            int startMonth = Integer.parseInt(checkInDate.split("/")[1]);
+                            int startDay = Integer.parseInt(checkInDate.split("/")[2]);
+
+                            int startDateI = startYear*10000 + startMonth*100 + startDay; 
+                            for(ReservedInfo temp : reserveDB){
+                                if(temp.getRoomID().equals(room) && temp.getReserverName().equals(name) && temp.getStartDateI() == startDateI){
+                                    reserveDB.remove(temp);
+                                    try {
+                                        helper.writeDBFile(3, reserveDB);
+                                        ReserveReport.addReport("reserve","delete;"+name + ";"+ room);
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    break;
+                                }
+                            }
+                        
+                            model.removeRow(selectedRow);
+                            questionFrame.dispose();
+                        }
+                    }  
+                });
+                
+                noButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        questionFrame.dispose();
+                    }
+                });
             }
         });
         
         checkInReservation.addActionListener(event->{
-            try {
-                checkIn();
-            } catch (IOException ex) {
-                Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+            int selectedRow = reservationTable.getSelectedRow();
+            if (selectedRow != -1) {
+                String room = (String) reservationTable.getValueAt(selectedRow, 0);
+                for(ReservedInfo temp : reserveDB){
+                    if(temp.getRoomID().equals(room) && temp.getCheck() == false){
+                        temp.setCheck(true);
+                        System.out.print("체크인 완료");
+                        model.setValueAt("true", selectedRow, 4);
+                        try {
+                            helper.writeDBFile(3, reserveDB);
+                            ReserveReport.addReport("reserve","checkIn;"+ room);
+                        } catch (IOException ex) {
+                            Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        break;
+                    }
+                }
             }
         });
         
         checkOutReservation.addActionListener(event->{
-            try {
-                checkOut();
-            } catch (IOException ex) {
-                Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+            int selectedRow = reservationTable.getSelectedRow();
+            if (selectedRow != -1) {
+            for(ReservedInfo temp : reserveDB){
+                String room = (String) reservationTable.getValueAt(selectedRow, 0);
+                if(temp.getRoomID().equals(room) && temp.getCheck() == true){
+                        reserveDB.remove(temp);
+                    try {
+                        helper.writeDBFile(3, reserveDB);
+                        ReserveReport.addReport("reserve","checkOut;"+ room);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                        System.out.print("체크 아웃 완료");
+                        model.removeRow(selectedRow);
+                        break;
+                    }
+                }
             }
         });
-
     }
 
     public ArrayList<ReservedInfo> showAllReservation(int onlyCheckIn) throws IOException{
