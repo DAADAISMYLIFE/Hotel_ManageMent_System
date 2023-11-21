@@ -94,30 +94,42 @@ public class ReportSystem extends JFrame{
             System.out.println("\n==============================================================================================");
             //로그 출력
             String findTypeS;
+            String reportTypeS = "";
             switch (findType) {
                 case 1:
                     findTypeS = "login";
+                    reportTypeS = "로그인 ";
                     break;
                 case 2:
                     findTypeS = "order";
+                    reportTypeS = "주문 ";
                     break;
                 case 3:
                     findTypeS = "menu";
+                    reportTypeS = "메뉴 ";
                     break;
                 case 4:
                     findTypeS = "reserve";
+                    reportTypeS = "예약 ";
                     break;
                 default:
                     findTypeS = "";
                     break;
             }
+            //스윙 만들기
+            setTitle(reportTypeS+"보고서");
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            Container swing_Context = getContentPane();
             for(Report temp  : ReportDB){
                 //형식에 맞는 로그 출력
                   if(temp.getReportType().equals(findTypeS))
                     System.out.printf("%s;%s\n",temp.getReportType(),temp.getReportData());
             }
             System.out.println("\n==============================================================================================");
-         } 
+                 //크기랑 보이기 설정
+                setSize(300,300);
+                setVisible(true);
+        } 
     }
     //로그 파일에 적을 내용 추가
     public void addReport(String reportType, String Data)throws IOException{
