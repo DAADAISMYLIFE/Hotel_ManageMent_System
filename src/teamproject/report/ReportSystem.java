@@ -4,6 +4,7 @@
  */
 package teamproject.report;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.io.IOException;
 import teamproject.SystemHelper;
@@ -19,7 +20,6 @@ public class ReportSystem extends JFrame{
     private ArrayList<Report> ReportDB;
     private JTable reportTable; //읽은 로그들을 저장하여 보여줄 테이블
     public DefaultTableModel reportTableModel; //테이블 형식
-    public JFrame reportContext;
     public ReportSystem(){ }            //기본 생성자
     
     //기본 설정 
@@ -121,34 +121,43 @@ public class ReportSystem extends JFrame{
                     reportTypeS = "";
                     break;
             }
-            reportContext = new JFrame();
-            reportTable = new JTable(); //테이블 생성
+            JFrame reportContext = new JFrame();
+           
             //스윙 만들기
             setTitle(reportTypeS+"보고서");
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            Container report_Context = reportContext.getContentPane();
-            report_Context.setLayout(null); //절대 위치 사용
+  
             //나가기 버튼
             JButton reportExit = new JButton("나가기");
-            reportExit.setLocation(50,200);
-            reportExit.setSize(150,30);
-            report_Context.add(reportExit);
+            reportExit.setBounds(380, 420, 100, 30);
+   
+
+            
             reportExit.addActionListener(event -> {
                 reportContext.dispose(); //지금 보고있는 폼 종료
                 setVisible(true);          //처음 만들었던 폼 다시 보이게 함
             });
             //DB 내용 읽기
+            DefaultListModel<String> listModel = new DefaultListModel<>();
             for(Report tmp  : ReportDB){
                 //형식에 맞는 로그 출력
                 if(tmp.getReportType().equals(findTypeS)){
                     System.out.printf("%s;%s\n",tmp.getReportType(),tmp.getReportData());
-                    //폼에다 출력하기
-                    
+                    String item = String.format("%s;%s\n",tmp.getReportType(),tmp.getReportData());
+                    listModel.addElement(item);
+                    //폼에다 출력하기 
                   }
             }
+            JList<String> list = new JList<>(listModel);
+            list.setBounds(10, 10, 300, 300);
+            JScrollPane scrollPane = new JScrollPane(list);
+            reportContext.add(list);
+            reportContext.add(reportExit);
+            reportContext.setLayout(null);
+            reportContext.getContentPane().add(scrollPane, BorderLayout.CENTER);
             System.out.println("\n==============================================================================================");
             //크기랑 보이기 설정
-            reportContext.setSize(300,300);
+            reportContext.setSize(500,500);
             reportContext.setVisible(true);
         } 
     }
