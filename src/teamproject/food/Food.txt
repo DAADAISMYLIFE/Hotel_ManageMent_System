@@ -2,7 +2,4 @@
 2;mint;123
 4;erwer;213123
 5;sadasd;23132
-7;fdsfsd;31231
 6;werw;12313
-7;qqqq;1111
-8;qweqwe;1231

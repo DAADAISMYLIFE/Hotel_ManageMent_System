@@ -32,7 +32,7 @@ public class FoodSystem extends JFrame{
     private int foodCount;
     private ReportSystem foodReport;
     private boolean isManager;
-    JFrame frmF_show = new JFrame();
+    
     JFrame frmF = new JFrame();
     private DefaultTableModel tableModel;
     private JTable foodTable;
@@ -85,7 +85,11 @@ public class FoodSystem extends JFrame{
              frmF.setVisible(false);
         });
          btn4.addActionListener(event -> {    
-             showFood();
+             try {
+                 deleteFood();
+             } catch (IOException ex) {
+                 Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
+             }
             
             frmF.setVisible(false);
         });
@@ -159,16 +163,14 @@ public class FoodSystem extends JFrame{
             System.out.println("메뉴가 존재하지 않습니다.");
             return;
         }
-        
-        
-        JFrame delF = new JFrame();
+         JFrame delF = new JFrame();
          delF.getContentPane().setLayout(null);
-         
-         JButton btn1 = new JButton("추가");
+         JLabel lab = new JLabel("메뉴 ID: ");
+         JButton btn1 = new JButton("삭제");
          JTextField del_ID = new JTextField(10);
-         
-        btn1.setBounds(182, 120, 172, 30);
-       del_ID.setBounds(182, 170, 172, 30);
+         lab.setBounds(10, 10,50, 30);
+        btn1.setBounds(10, 50, 172, 30);
+        del_ID.setBounds(100, 10, 60, 30);
       
         delF.getContentPane().add(btn1);
         delF.getContentPane().add(del_ID);
@@ -181,10 +183,13 @@ public class FoodSystem extends JFrame{
          String ID = del_ID.getText();
          int id = Integer.parseInt(ID);
          Food newFood = new Food(id);
-          foodDB.remove(newFood);
-          for(int i = 0;i < foodDB.size(); i++){
-                 tableModel.addRow(new String[]{String.valueOf(foodDB.get(i).getMenuID()), foodDB.get(i).getName(), String.valueOf(foodDB.get(i).getPrice())});
-            }
+         for(Food temp: foodDB){
+             if(temp.getMenuID()==id){
+                 foodDB.remove(newFood);
+                 newFood =temp;
+                 break;
+             }
+         }
             try {
                 foodReport.addReport("menu","delete;"+newFood.getName()+";"+newFood.getPrice());
                 helper.writeDBFile(2, foodDB);
@@ -221,36 +226,16 @@ public class FoodSystem extends JFrame{
         foodTable.setEnabled(true);
 
             JButton hideButton = new JButton("확인");
-            JButton delButton = new JButton("삭제");
+        
          hideButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frmF_show.dispose();
                 frmF.setVisible(true);
             }
         });
-         delButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                int[] selectedRows = foodTable.getSelectedRows();
-                for (int i = selectedRows.length - 1; i >= 0; i--) {
-                tableModel.removeRow(selectedRows[i]);
-                
-                 int selectedRow = foodTable.getSelectedRow();
-                 int id = (int) foodTable.getValueAt(selectedRow, 0);
-                Food newFood = new Food(id);
-                 foodDB.remove(newFood);
-                    try {
-                        helper.writeDBFile(2, foodDB);
-                    } catch (IOException ex) {
-                        Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
+         
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(hideButton);
-        buttonPanel.add(delButton);
-        frmF_show.add(buttonPanel, BorderLayout.SOUTH);
         frmF_show.add(buttonPanel, BorderLayout.SOUTH);
         // 레이아웃 설정
         frmF_show.pack();
