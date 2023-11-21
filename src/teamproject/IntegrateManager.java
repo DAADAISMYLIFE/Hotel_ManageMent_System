@@ -6,6 +6,10 @@ package teamproject;
 
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import teamproject.food.FoodSystem;
 import teamproject.login.LoginSystem;
 import teamproject.login.User;
@@ -24,7 +28,7 @@ public class IntegrateManager {
     ReportSystem ReportSys;
     boolean isQuit;
     User loginUser;
-    
+    public static JFrame frm = new JFrame();
     
     
     public void initIM() throws IOException{
@@ -44,49 +48,72 @@ public class IntegrateManager {
         initIM();
         loginUser = LogSys.runLoginSystem();
         FoodSys.FoodSystemInit(loginUser.getManager());
-        
-        while(!isQuit){
-            showMainMenu();
-        }
+        showMainMenu();
     }
     
     public void showMainMenu() throws IOException{
-        String rex = "[0-2]";
-        helper.showTodayDate();
-        System.out.println("==============================================");
-        System.out.println("1. 객실 및 예약 정보");
-        System.out.println("2. 식품 주문 및 정보");
-        if(loginUser.getManager() == true){
-            rex = "[0-4]";
-            System.out.println("3. 시스템 정보 수정 및 보고서 작성");
-        }
-        System.out.println("0. 종료");
-        System.out.println("==============================================");
-        
-        String selectedMenuS;
-        do{
-            selectedMenuS =  helper.getUserInput();
-         }while(!helper.CheckFormat(selectedMenuS,rex));
-        int selectedMenu =Integer.parseInt(selectedMenuS);
-        
-        switch (selectedMenu) {
-            case 1:
-                RserveSys.runReserSys();
-                break;
-            case 2:
-                FoodSys.runFoodSystem();
-                break;
-            case 3:
-                ReportSys.runReportSystem();
-                break;
-            case 0:
-                ReportSys.addReport("login", loginUser.getID()+";logout");
+           frm.getContentPane().setLayout(null);
+            JButton reservationButton = new JButton("객실 및 예약 정보");
+            JButton menuButton = new JButton("식품 주문 및 정보");
+            JButton reportButton = new JButton("시스템 정보 수정 및 보고서 작성");
+            JButton quitButton = new JButton("종료");
+
+            reservationButton.setBounds(182, 120, 172, 30);
+            menuButton.setBounds(182, 170, 172, 30);
+            reportButton.setBounds(182, 220, 172, 30);
+            quitButton.setBounds(182, 270, 172, 30);
+
+            frm.getContentPane().add(reservationButton);
+            frm.getContentPane().add(menuButton);
+             if(loginUser.getManager() == true){
+                frm.getContentPane().add(reportButton);
+             }
+            frm.getContentPane().add(quitButton);
+
+            frm.setSize(500,500);
+            frm.setLocationRelativeTo(null);
+            frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+
+            reservationButton.addActionListener(event -> {
+                System.out.println("객실 현황 / 예약 보기");
+               try {
+                   RserveSys.runReserSys();
+                   frm.setVisible(false);
+               } catch (IOException ex) {
+                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+               }
+                
+            });
+            menuButton.addActionListener(event -> {
+                 System.out.println("식품 현황 보기");
+               try {
+                   FoodSys.runFoodSystem();
+                   frm.setVisible(false);
+               } catch (IOException ex) {
+                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+               }
+                 
+            });
+
+            reportButton.addActionListener(event -> {
+                System.out.println("시스템 정보 및 보고서");
+               try {
+                   ReportSys.runReportSystem();
+                   frm.setVisible(false);
+               } catch (IOException ex) {
+                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+               }
+            });
+
+            quitButton.addActionListener(event -> {
                 System.out.println("시스템을 종료합니다.");
-                isQuit = true;
-                break;
-            default:
-                break;
-        }
+                frm.dispose();
+                System.exit(0);
+            });
+
+            frm.setVisible(true);
     }
 
     public User getLoginUser() {

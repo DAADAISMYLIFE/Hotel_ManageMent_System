@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import teamproject.IntegrateManager;
 import teamproject.SystemHelper;
 import teamproject.room.RoomSystem;
 import teamproject.room.Room;
@@ -383,6 +384,11 @@ public class ReservationSystem extends JFrame {
                     }
                 }
             }
+        });
+        
+        quitReservation.addActionListener(event->{
+            this.dispose();
+            IntegrateManager.frm.setVisible(true);
         });
     }
 

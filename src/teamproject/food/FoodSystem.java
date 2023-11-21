@@ -20,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import teamproject.IntegrateManager;
 import teamproject.SystemHelper;
 import teamproject.reservation.ReservationSystem;
 import teamproject.reservation.ReservedInfo;
@@ -272,6 +273,10 @@ public class FoodSystem extends JFrame {
                     }
                 });
             }
+        });
+        quitFood.addActionListener(event->{
+            this.dispose();
+            IntegrateManager.frm.setVisible(true);
         });
     }
     
