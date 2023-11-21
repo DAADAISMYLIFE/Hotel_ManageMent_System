@@ -29,6 +29,21 @@ public class ReservationSystem {
     private RoomSystem RS;
     JFrame frmR = new JFrame();
     JFrame A_ShowRoom = new JFrame();
+         int numOfGuests=0;
+         int startYear;
+         int startMonth;
+         int startDay;
+         int endYear;
+         int endMonth;
+         int endDay;
+         int startDateI;
+         int endDateI;
+         int days;
+
+          ArrayList<Room> canReserveRoom = new ArrayList<>();
+
+      boolean isCorrect = false;
+    
     public void ReserveSysInit() throws IOException{
         reserveDB = new ArrayList<>();
         helper = new SystemHelper();
@@ -80,7 +95,7 @@ public class ReservationSystem {
             frmR.setVisible(false);
         });
          btn3.addActionListener(event -> {
-            
+            frmR_add();
             frmR.setVisible(false);
         });
         btn4.addActionListener(event -> {
@@ -92,37 +107,161 @@ public class ReservationSystem {
         frmR.setVisible(true);
     }
     
-      public void runReserSys(){
-        boolean continueReservations = true;
-        runR();
-        //while (continueReservations) {
-            System.out.println("\n=====================예약=========================");
-            System.out.println("1. 모든 객실 보기");
-            System.out.println("2. 예약 현황 보기 ");
-            System.out.println("3. 예약 추가하기 ");
-            System.out.println("4. 예약 삭제하기");
-            System.out.println("5. 나가기");
-            System.out.println("===================================================");
-//            int choose = Integer.parseInt(helper.getUserInput("[1-5]"));
-//            switch (choose) {
-//                case 1:
-//                    RS.showAllRoom();
-//                    break;
-//                case 2:
-//                    showAllReservation();
-//                    break;
-//                case 3:
-//                    addReservation();
-//                    break;
-//                case 4:
-//                    deleteReservation();
-//                    break;
-//                case 5:
-//                    continueReservations = false;
-//                    break;
-//            }
-        //}
-    }
+    public void frmR_add(){
+       JFrame frmR_add = new JFrame();
+        frmR_add.getContentPane().setLayout(null);
+        
+        JLabel lbl = new JLabel();
+        lbl.setBounds(100, 170, 150, 30);
+        lbl.setText("체크인 날짜: ");
+        frmR_add.getContentPane().add(lbl);
+         JLabel lbl2 = new JLabel();
+        lbl2.setBounds(90, 210, 150, 30);
+        lbl2.setText("체크아웃 날짜: ");
+        frmR_add.getContentPane().add(lbl2);
+         JLabel lbl3 = new JLabel();
+        lbl3.setBounds(110, 250, 150, 30);
+        lbl3.setText("예약 인원: ");
+        frmR_add.getContentPane().add(lbl3);
+        
+        JButton btn1 = new JButton("확인");
+         JTextField add_in = new JTextField(10);
+         JTextField add_out = new JTextField(10);
+         JTextField add_num = new JTextField(10);
+         
+         add_in.setBounds(182, 170, 172, 30);
+         add_out.setBounds(182, 210, 172, 30);
+         add_num.setBounds(182, 250, 172, 30);
+        btn1.setBounds(600, 600, 172, 30);
+        
+        frmR_add.getContentPane().add(add_in);
+        frmR_add.getContentPane().add(add_out);
+        frmR_add.getContentPane().add(add_num);
+        frmR_add.getContentPane().add(btn1);
+        
+        frmR_add.setSize(800,800);
+        frmR_add.setLocationRelativeTo(null);
+        frmR_add.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        btn1.addActionListener(event -> {
+                                                                                                                                                                  
+            
+            String startDate = add_in.getText();
+            startYear = Integer.parseInt(startDate.split("/")[0]);
+            startMonth = Integer.parseInt(startDate.split("/")[1]);
+            startDay = Integer.parseInt(startDate.split("/")[2]);
+            
+            String endDate = add_out.getText();
+            endYear = Integer.parseInt(endDate.split("/")[0]);
+            endMonth = Integer.parseInt(endDate.split("/")[1]);
+            endDay = Integer.parseInt(endDate.split("/")[2]);
+            
+            startDateI = startYear*10000 + startMonth*100 + startDay; 
+            endDateI = endYear*10000 + endMonth*100 + endDay; 
+            days = helper.getDiffBetweenTwoDays(startYear, startMonth, startDay, endYear, endMonth, endDay);
+            
+            numOfGuests = Integer.parseInt(add_num.getText());
+            
+            if(startMonth > 12 || endMonth > 12 || startDay > helper.getLastDayOfMonth(startYear, startMonth) || endDay > helper.getLastDayOfMonth(endYear, endMonth)){
+                 JOptionPane.showMessageDialog(null, "잘못된 날짜 입력!");
+            }
+            else if(helper.getTodayDateI() >startDateI){
+                 JOptionPane.showMessageDialog(null, "예약 날짜를 오늘 이후로 해주세요");
+            }
+            else if(endDateI<=startDateI){
+                JOptionPane.showMessageDialog(null, "잘못된 날짜 입력!");
+            }
+            else{
+                if(endDateI>startDateI){
+                    System.out.format("%d/%d/%d ~ %d/%d/%d (%d일)\n",startYear,startMonth,startDay,endYear,endMonth,endDay,days);
+                    frmR_add2();
+                    boolean canPrint = true;
+                    try {
+                        showAvaliableRooms(canReserveRoom,startDateI,endDateI,numOfGuests,canPrint);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    frmR_add.setVisible(false);
+                }
+            }
+            frmR_add.setVisible(false);
+        });// 버튼 끝
+        
+        
+         frmR_add.setVisible(true);
+    }// 예약 추가 프레임1 끝
+    
+   public void frmR_add2(){
+        JFrame frmR_add2 = new JFrame();
+        frmR_add2.getContentPane().setLayout(null);
+        
+        JLabel lbl = new JLabel();
+        lbl.setBounds(100, 170, 150, 30);
+        lbl.setText("방 번호: ");
+        frmR_add2.getContentPane().add(lbl);
+        JLabel lbl2 = new JLabel();
+        lbl2.setBounds(100, 210, 150, 30);
+        lbl2.setText("예약자 이름: ");
+        frmR_add2.getContentPane().add(lbl2);
+        
+        JButton btn1 = new JButton("확인");
+         JTextField add_ID = new JTextField(10);
+         JTextField add_name = new JTextField(10);
+      
+         add_ID.setBounds(182, 170, 172, 30);
+         add_name.setBounds(182, 210, 172, 30);
+        btn1.setBounds(600, 600, 172, 30);
+        
+        frmR_add2.getContentPane().add(add_ID);
+        frmR_add2.getContentPane().add(add_name);
+        frmR_add2.getContentPane().add(btn1);
+        
+        frmR_add2.setSize(800,800);
+        frmR_add2.setLocationRelativeTo(null);
+        frmR_add2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       
+        ///////////////////////////////////////////////////버튼 시작/////////////////////////////////////////////////////
+        btn1.addActionListener(event -> {
+         boolean canReserve = false;
+         int maximunGuests = 0;
+         int costPerNight = 0;
+         String roomID;
+         
+         roomID = add_ID.getText();
+         String reserverName = add_name.getText();
+         
+         for(Room temp : canReserveRoom){
+                if(temp.getRoomNumber().equals(roomID)){
+                    canReserve = true;
+                    maximunGuests = temp.getNumberOfGuests();
+                    costPerNight = temp.getPricePerNight();
+                    break;
+                }
+            }
+         
+         if(!canReserve){
+                JOptionPane.showMessageDialog(null, "예약 불가능한 방입니다.");
+         }
+         else if(numOfGuests>maximunGuests){
+             JOptionPane.showMessageDialog(null, "정원 초과입니다.");
+         }
+         else{
+        ReservedInfo temp = new ReservedInfo(roomID,reserverName,numOfGuests,startYear,startMonth,startDay,endYear,endMonth,endDay);
+        temp.setTotalRoomFee(days * costPerNight);
+        reserveDB.add(temp);
+            try {
+                helper.writeDBFile(3, reserveDB);
+            } catch (IOException ex) {
+                Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "예약 완료.");
+            frmR_add2.setVisible(false);
+            frmR.setVisible(true);
+         }
+        });////////////////////////////////////////////////////버튼 끝//////////////////////////////////////////////////////////////////
+        
+        frmR_add2.setVisible(true);
+   }// 예약 추가 프레임2 끝
     
 
     public void addReservation()throws IOException{        
