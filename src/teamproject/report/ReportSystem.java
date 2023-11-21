@@ -9,6 +9,7 @@ import java.io.IOException;
 import teamproject.SystemHelper;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 /**
  * @author 박상현
  */
@@ -16,6 +17,8 @@ public class ReportSystem extends JFrame{
     private int findType = 0;          //1: 로그인 관련  2: 주문 관련 3: 예약 관련 
     private SystemHelper helper;
     private ArrayList<Report> ReportDB;
+    private JTable reportTable; //읽은 로그들을 저장하여 보여줄 테이블
+    public DefaultTableModel reportTableModel; //테이블 형식
     public JFrame reportContext;
     public ReportSystem(){ }            //기본 생성자
     
@@ -119,6 +122,7 @@ public class ReportSystem extends JFrame{
                     break;
             }
             reportContext = new JFrame();
+            reportTable = new JTable(); //테이블 생성
             //스윙 만들기
             setTitle(reportTypeS+"보고서");
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -134,10 +138,10 @@ public class ReportSystem extends JFrame{
                 setVisible(true);          //처음 만들었던 폼 다시 보이게 함
             });
             //DB 내용 읽기
-            for(Report temp  : ReportDB){
+            for(Report tmp  : ReportDB){
                 //형식에 맞는 로그 출력
-                  if(temp.getReportType().equals(findTypeS)){
-                    System.out.printf("%s;%s\n",temp.getReportType(),temp.getReportData());
+                if(tmp.getReportType().equals(findTypeS)){
+                    System.out.printf("%s;%s\n",tmp.getReportType(),tmp.getReportData());
                     //폼에다 출력하기
                     
                   }
