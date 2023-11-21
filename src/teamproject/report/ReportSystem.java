@@ -16,10 +16,9 @@ public class ReportSystem extends JFrame{
     private int findType = 0;          //1: 로그인 관련  2: 주문 관련 3: 예약 관련 
     private SystemHelper helper;
     private ArrayList<Report> ReportDB;
+    public JFrame reportContext;
+    public ReportSystem(){ }            //기본 생성자
     
-    public ReportSystem(){
-    
-    }
     //기본 설정 
     public void ReportSystemInit() throws IOException {
         ReportDB = new ArrayList<>();
@@ -37,7 +36,7 @@ public class ReportSystem extends JFrame{
         //스윙 코드
          setTitle("보고서");
          setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         Container swing_Context = getContentPane();
+         Container swing_Context =getContentPane();
          swing_Context.setLayout(null); //절대 위치 사용
          //버튼 객체 생성
         JButton loginButton = new JButton("로그인 보고서");
@@ -65,18 +64,22 @@ public class ReportSystem extends JFrame{
         //버튼별 이벤트
         loginButton.addActionListener(event -> {
              findType = 1;
-             showReport(findType);
+              setVisible(false);
+              showReport(findType);
          });
         orderButton.addActionListener(event -> {
              findType = 2;
+             setVisible(false);
              showReport(findType);
          });
         menuButton.addActionListener(event -> {
              findType = 3;
+             setVisible(false);
              showReport(findType);
          });
         reservationButton.addActionListener(event -> {
              findType = 4;
+             setVisible(false);
              showReport(findType);
          });
          
@@ -116,17 +119,20 @@ public class ReportSystem extends JFrame{
                     findTypeS = "";
                     break;
             }
+            reportContext = new JFrame();
             //스윙 만들기
             setTitle(reportTypeS+"보고서");
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            Container swing_Context = getContentPane();
+            Container report_Context = reportContext.getContentPane();
+            report_Context.setLayout(null); //절대 위치 사용
             //나가기 버튼
             JButton reportExit = new JButton("나가기");
             reportExit.setLocation(50,200);
             reportExit.setSize(150,30);
-            swing_Context.add(reportExit);
+            report_Context.add(reportExit);
             reportExit.addActionListener(event -> {
-                setVisible(false);
+                reportContext.dispose();
+                setVisible(true);
             });
             //DB 내용 읽기
             for(Report temp  : ReportDB){
@@ -136,8 +142,8 @@ public class ReportSystem extends JFrame{
             }
             System.out.println("\n==============================================================================================");
             //크기랑 보이기 설정
-            setSize(300,300);
-            setVisible(true);
+            reportContext.setSize(300,300);
+            reportContext.setVisible(true);
         } 
     }
     
