@@ -305,9 +305,8 @@ public class ReservationSystem extends JFrame {
             }
         });
         
-        quitReservation.addActionListener(event->{
-            setVisible(false);
-        });
+        //Log.txt에 예약 내역 기록
+        ReserveReport.addReport("reserve","add;"+reserverName + ";"+ roomID +  Integer.toString( startYear) + "/" + startMonth + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
     }
 
     public ArrayList<ReservedInfo> showAllReservation(int onlyCheckIn) throws IOException{
