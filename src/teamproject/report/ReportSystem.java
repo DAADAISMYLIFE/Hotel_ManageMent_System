@@ -34,9 +34,7 @@ public class ReportSystem {
     public void runReportSystem() throws IOException{
         System.out.println("1: 로그인 보고서 2: 주문 보고서 3: 메뉴 보고서 4: 예약 보고서");
          findType = Integer.parseInt(helper.getUserInput("[1-4]"));
-         
          showReport(findType);
-         
     }
     
     public void showReport(int findType){
