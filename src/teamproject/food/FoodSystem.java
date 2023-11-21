@@ -77,11 +77,11 @@ public class FoodSystem extends JFrame{
         });
          btn3.addActionListener(event -> {          
              try {
+                 showFood();
                  orderFood();
              } catch (IOException ex) {
                  Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
              }
-             showFood();
              frmF.setVisible(false);
         });
          btn4.addActionListener(event -> {    
@@ -244,25 +244,39 @@ public class FoodSystem extends JFrame{
     }
     
     public void orderFood() throws IOException{
-        int canFind = 0;
-        if(foodDB.isEmpty()){
-             System.out.println("메뉴가 없습니다.");
-             return;
-         }
-         if(reserveSys.showAllReservation(1).isEmpty()){
-            return;
-        }
-         
-        System.out.print("주문 호실 : ");
-       
-        String OrderRoomID = helper.getUserInput();
         
-         //비교를 위한 객체 생성
+         JFrame frmF_order = new JFrame();
+         frmF_order.getContentPane().setLayout(null);
+         
+         JButton btn1 = new JButton("추가");
+         JTextField oder_ID= new JTextField(10);
+         JTextField oder_menu = new JTextField(10);
+         JLabel lab1 =new JLabel("주문 호실:");
+         JLabel lab2 =new JLabel("메뉴 ID:");
+         
+        btn1.setBounds(182, 120, 172, 30);
+        oder_ID.setBounds(182, 170, 172, 30);
+        lab1.setBounds(120, 170, 60, 30);
+        
+        oder_menu.setBounds(182, 210, 172, 30);
+         lab2.setBounds(120, 210, 60, 30);
+        frmF_order.getContentPane().add(btn1);
+        frmF_order.getContentPane().add(oder_ID);
+        frmF_order.getContentPane().add(oder_menu);
+        frmF_order.getContentPane().add(lab1);
+        frmF_order.getContentPane().add(lab2);
+        frmF_order.setSize(500,500);
+        frmF_order.setLocationRelativeTo(null);
+        frmF_order.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+         btn1.addActionListener(event -> {         
+          int canFind = 0;
+         String OrderRoomID= oder_ID.getText();
+          int OrderMenuID = Integer.parseInt(oder_menu.getText());
          ReservedInfo roomID = new ReservedInfo(OrderRoomID);
          for(ReservedInfo temp : reserveSys.getReserveDB()){
               if(roomID.equals(temp) && temp.getCheck()){
                         roomID = temp;
-                        System.out.println(roomID.getRoomID()+ "번 방의 " + roomID.getReserverName()+"님께 주문합니다.");
                         canFind=2;
               }
               else if(roomID.equals(temp) && !temp.getCheck())   
@@ -270,27 +284,32 @@ public class FoodSystem extends JFrame{
          }
         switch (canFind) {
             case 0:
-                System.out.println("주문자를 찾을 수 없습니다!");
+                JOptionPane.showMessageDialog(null, "주문자를 찾을 수 없습니다!");
                 break;
             case 1:
-                System.out.println("체크인 하지 않은 고객입니다.");
+                JOptionPane.showMessageDialog(null, "체크인 하지 않은 고객입니다!");
                 System.out.print(roomID.getCheck());
                 break;
-            default:
-                showFood();
-                System.out.print("메뉴 ID를 입력해 주세요 : ");
-                int OrderMenuID = Integer.parseInt(helper.getUserInput("[0-9]+"));
+                default:
                 Food orderMenu = findMenu(OrderMenuID);
                 if(orderMenu == null){
-                    System.out.println("메뉴를 찾을 수 없습니다.");
+                    JOptionPane.showMessageDialog(null, "메뉴를 찾을 수 없습니다.");
                 }
                 else{
-                    System.out.println(orderMenu.getName() + " 주문 완료!");
+                    JOptionPane.showMessageDialog(null, "주문 완료!");
                     roomID.addExtraFee(orderMenu.getPrice());
-                    helper.writeDBFile(3,reserveSys.getReserveDB());
-                    foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
+                    frmF_order.setVisible(false);
+                    frmF.setVisible(true);
+              try {
+                  helper.writeDBFile(3,reserveSys.getReserveDB());
+                  foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
+              } catch (IOException ex) {
+                  Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 }   break;
-        }
+             }
+        });
+        frmF_order.setVisible(true); 
     }
     
     public Food findMenu(int OrderMenuID){

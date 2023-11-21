@@ -67,10 +67,8 @@ public class LoginFrame extends JFrame{
              }   
         }
     });
-        
-        
+       
         add(panel);
-        
         setVisible(true);
         setSize(600,400);
         setLocationRelativeTo(null);

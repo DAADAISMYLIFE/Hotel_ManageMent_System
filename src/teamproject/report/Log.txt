@@ -99,3 +99,10 @@ menu;delete;fdsfsd;31231;2023/11/22/01:01
 login;admin;2023/11/22/01:05
 login;admin;2023/11/22/01:06
 menu;delete;qqqq;1111;2023/11/22/01:06
+login;admin;2023/11/22/01:32
+menu;delete;werw;12313;2023/11/22/01:32
+menu;delete;sadasd;23132;2023/11/22/01:32
+login;admin;2023/11/22/01:51
+login;admin;2023/11/22/01:56
+order;mint;707;123;2023/11/22/01:57
+login;admin;2023/11/22/01:58

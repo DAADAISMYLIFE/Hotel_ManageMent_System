@@ -1,5 +1,3 @@
 1;Mint Choco Pineapple Pizza;128000
 2;mint;123
 4;erwer;213123
-5;sadasd;23132
-6;werw;12313
