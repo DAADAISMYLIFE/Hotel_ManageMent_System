@@ -4,8 +4,20 @@
  */
 package teamproject.login;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import teamproject.SystemHelper;
 import teamproject.report.ReportSystem;
 
@@ -13,8 +25,8 @@ import teamproject.report.ReportSystem;
  *
  * @author qkekd
  */
-public class LoginSystem {
-    private User loginUser;
+public class LoginSystem extends JFrame{
+    public static User loginUser;
     private SystemHelper helper;
     private ArrayList<User> userDB;     //유저(일반 직원, 관리자) 정보
     private ReportSystem loginReport;
@@ -39,40 +51,67 @@ public class LoginSystem {
             userDB.add(tempUser);
         }
     }
-    
-    public void login() throws IOException{
-        User loginTryingUser;
+    public void login(){
+       
+        JPanel panel = new JPanel();
+        JLabel label =new JLabel("ID : ");
+        JLabel pswrd =new JLabel("Password : ");
+        JTextField txtID = new JTextField(10);
+        JPasswordField txtPass = new JPasswordField(10);
+        JButton logBtn =new JButton("로그인");
         
-        do{
+        panel.add(label);
+        panel.add(txtID);
+        panel.add(pswrd);
+        panel.add(txtPass);
+        panel.add(logBtn);
+        
+        logBtn.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e){
+            
+            User loginTryingUser;
+
             //아이디 입력
             System.out.print("ID : ");
-            String ID = helper.getUserInput();
-            //비밀번호 입력
+            String ID = txtID.getText();
+            //비밀번호 입력admin
             System.out.print("PASS : ");
-            String password = helper.getUserInput();
+            String password = txtPass.getText();
 
             //비교를 위한 객체 생성
-            loginTryingUser = new User(ID,password);
-            
+           loginTryingUser = new User(ID,password); 
             //비교
-            for(User temp : userDB){
+       for(User temp : userDB){
                 if(loginTryingUser.equals(temp)){
                     loginUser = temp;
+                    dispose();
                     System.out.println("안녕하세요 " + loginUser.getName() + "님");
-                    loginReport.addReport("login", ID);
+                    JOptionPane.showMessageDialog(null, "안녕하세요 " + loginUser.getName() + "님");
+                    try {
+                        loginReport.addReport("login", ID);
+                    } catch (IOException ex) {
+                        Logger.getLogger(LoginSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;
                 }
             }
-            
             if(loginUser == null)
-                System.out.println("정보를 찾을 수 없습니다.");
-            
-        }while(loginUser == null);
-    }
-    
+                JOptionPane.showMessageDialog(null, "로그인 실패");
+        }
+    }); 
+        add(panel);
+        setVisible(true);
+        setSize(600,400);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+}
     public User runLoginSystem() throws IOException{
         init();
         login();
+        do{
+            System.out.print("");
+           }while(loginUser == null);
         
         return loginUser;
     }
