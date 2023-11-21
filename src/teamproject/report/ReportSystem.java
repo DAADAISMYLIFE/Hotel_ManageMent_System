@@ -45,15 +45,15 @@ public class ReportSystem extends JFrame{
         JButton menuButton = new JButton("메뉴 보고서");
         JButton reservationButton = new JButton("예약 보고서");
         //위치 설정
-        loginButton.setLocation(100,20);
-        orderButton.setLocation(100,50);
-        menuButton.setLocation(100,80);
-        reservationButton.setLocation(100,110);
+        loginButton.setLocation(50,40);
+        orderButton.setLocation(50,80);
+        menuButton.setLocation(50,120);
+        reservationButton.setLocation(50,160);
         //크기 설정
-        loginButton.setSize(150,20);
-        orderButton.setSize(150,20);
-        menuButton.setSize(150,20);
-        reservationButton.setSize(150,20);
+        loginButton.setSize(200,30);
+        orderButton.setSize(200,30);
+        menuButton.setSize(200,30);
+        reservationButton.setSize(200,30);
         //버튼을 스윙에 추가
         swing_Context.add(loginButton);
         swing_Context.add(orderButton);
