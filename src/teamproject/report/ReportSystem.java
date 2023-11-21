@@ -4,14 +4,16 @@
  */
 package teamproject.report;
 
+import java.awt.Container;
 import java.io.IOException;
 import teamproject.SystemHelper;
 import java.util.ArrayList;
+import javax.swing.*;
 /**
  * @author 박상현
  */
-public class ReportSystem {
-    private int findType;          //1: 로그인 관련  2: 주문 관련 3: 예약 관련 
+public class ReportSystem extends JFrame{
+    private int findType = 0;          //1: 로그인 관련  2: 주문 관련 3: 예약 관련 
     private SystemHelper helper;
     private ArrayList<Report> ReportDB;
     
@@ -32,9 +34,56 @@ public class ReportSystem {
     
     //ReportSystem이 하는 일 (보고서 읽기)
     public void runReportSystem() throws IOException{
-        System.out.println("1: 로그인 보고서 2: 주문 보고서 3: 메뉴 보고서 4: 예약 보고서");
-         findType = Integer.parseInt(helper.getUserInput("[1-4]"));
-         showReport(findType);
+        //스윙 코드
+         setTitle("보고서");
+         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         Container swing_Context = getContentPane();
+         swing_Context.setLayout(null); //절대 위치 사용
+         //버튼 객체 생성
+        JButton loginButton = new JButton("로그인 보고서");
+        JButton orderButton = new JButton("주문 보고서");
+        JButton menuButton = new JButton("메뉴 보고서");
+        JButton reservationButton = new JButton("예약 보고서");
+        //위치 설정
+        loginButton.setLocation(100,20);
+        orderButton.setLocation(100,50);
+        menuButton.setLocation(100,80);
+        reservationButton.setLocation(100,110);
+        //크기 설정
+        loginButton.setSize(150,20);
+        orderButton.setSize(150,20);
+        menuButton.setSize(150,20);
+        reservationButton.setSize(150,20);
+        //버튼을 스윙에 추가
+        swing_Context.add(loginButton);
+        swing_Context.add(orderButton);
+        swing_Context.add(menuButton);
+        swing_Context.add(reservationButton);
+        //크기랑 보이기 설정
+        setSize(300,300);
+        setVisible(true);
+        //버튼별 이벤트
+        loginButton.addActionListener(event -> {
+             findType = 1;
+             showReport(findType);
+         });
+        orderButton.addActionListener(event -> {
+             findType = 2;
+             showReport(findType);
+         });
+        menuButton.addActionListener(event -> {
+             findType = 3;
+             showReport(findType);
+         });
+        reservationButton.addActionListener(event -> {
+             findType = 4;
+             showReport(findType);
+         });
+         
+         //기존에 있는 함수
+        /*System.out.println("1: 로그인 보고서 2: 주문 보고서 3: 메뉴 보고서 4: 예약 보고서");
+         findType = Integer.parseInt(helper.getUserInput("[1-4]"));*/
+         
     }
     
     public void showReport(int findType){
