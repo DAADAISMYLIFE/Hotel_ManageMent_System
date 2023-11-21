@@ -53,6 +53,10 @@ public class SystemHelper {
         return input;
     }
     
+    public boolean getUserInput(String str, String rex) throws IOException{
+        return str.matches(rex);
+    }
+    
     public boolean CheckFormat(String input, String rex){
         if(input.matches(rex))
             return true;
