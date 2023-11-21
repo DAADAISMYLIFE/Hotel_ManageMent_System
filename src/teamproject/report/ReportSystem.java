@@ -23,9 +23,9 @@ public class ReportSystem {
         ReportDB = new ArrayList<>();
         helper = new SystemHelper();
         helper.createDBFile(4, "report");
-        
+        //기존에 있는 로그파일 읽고 다시 쓰는 부분
         for(String readContext : helper.readDBFile(4)){
-            Report temp= new Report(readContext.split(";",2)[0],readContext.split(";",2)[1]);
+            Report temp= new Report(true,readContext.split(";",2)[0],readContext.split(";",2)[1]);
             ReportDB.add(temp);
         }
     }
@@ -65,6 +65,7 @@ public class ReportSystem {
                     break;
             }
             for(Report temp  : ReportDB){
+                //형식에 맞는 로그 출력
                   if(temp.getReportType().equals(findTypeS))
                     System.out.printf("%s;%s\n",temp.getReportType(),temp.getReportData());
             }
@@ -73,7 +74,7 @@ public class ReportSystem {
     }
     //로그 파일에 적을 내용 추가
     public void addReport(String reportType, String Data)throws IOException{
-        Report tmp = new Report(reportType,Data);
+        Report tmp = new Report(false,reportType,Data);
         ReportDB.add(tmp);
         helper.writeDBFile(4, ReportDB);
     }

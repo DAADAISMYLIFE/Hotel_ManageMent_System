@@ -179,7 +179,7 @@ public class ReservationSystem {
         helper.writeDBFile(3, reserveDB);
         
         //Log.txt에 예약 내역 기록
-        ReserveReport.addReport("reserve","add;"+reserverName + ";"+ roomID);
+        ReserveReport.addReport("reserve","add;"+reserverName + ";"+ roomID +  Integer.toString( startYear) + "/" + startMonth + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
     }
     
     public void showAllReservation() throws IOException{
