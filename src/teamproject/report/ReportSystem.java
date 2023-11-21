@@ -44,10 +44,10 @@ public class ReportSystem extends JFrame{
         JButton menuButton = new JButton("메뉴 보고서");
         JButton reservationButton = new JButton("예약 보고서");
         //위치 설정
-        loginButton.setLocation(50,40);
-        orderButton.setLocation(50,80);
-        menuButton.setLocation(50,120);
-        reservationButton.setLocation(50,160);
+        loginButton.setLocation(50,50);
+        orderButton.setLocation(50,100);
+        menuButton.setLocation(50,150);
+        reservationButton.setLocation(50,200);
         //크기 설정
         loginButton.setSize(200,30);
         orderButton.setSize(200,30);
@@ -65,28 +65,26 @@ public class ReportSystem extends JFrame{
         loginButton.addActionListener(event -> {
              findType = 1;
               setVisible(false);
-              showReport(findType);
+              showReport(findType); //지금 사용중인 폼 안보이게 하기
          });
         orderButton.addActionListener(event -> {
              findType = 2;
              setVisible(false);
-             showReport(findType);
+             showReport(findType); //지금 사용중인 폼 안보이게 하기
          });
         menuButton.addActionListener(event -> {
              findType = 3;
              setVisible(false);
-             showReport(findType);
+             showReport(findType); //지금 사용중인 폼 안보이게 하기
          });
         reservationButton.addActionListener(event -> {
              findType = 4;
              setVisible(false);
-             showReport(findType);
+             showReport(findType); //지금 사용중인 폼 안보이게 하기
          });
-         
          //기존에 있는 함수
         /*System.out.println("1: 로그인 보고서 2: 주문 보고서 3: 메뉴 보고서 4: 예약 보고서");
          findType = Integer.parseInt(helper.getUserInput("[1-4]"));*/
-         
     }
     
     public void showReport(int findType){
@@ -97,7 +95,7 @@ public class ReportSystem extends JFrame{
             System.out.println("\n==============================================================================================");
             //로그 출력
             String findTypeS;
-            String reportTypeS = "";
+            String reportTypeS;
             switch (findType) {
                 case 1:
                     findTypeS = "login";
@@ -117,6 +115,7 @@ public class ReportSystem extends JFrame{
                     break;
                 default:
                     findTypeS = "";
+                    reportTypeS = "";
                     break;
             }
             reportContext = new JFrame();
@@ -131,14 +130,17 @@ public class ReportSystem extends JFrame{
             reportExit.setSize(150,30);
             report_Context.add(reportExit);
             reportExit.addActionListener(event -> {
-                reportContext.dispose();
-                setVisible(true);
+                reportContext.dispose(); //지금 보고있는 폼 종료
+                setVisible(true);          //처음 만들었던 폼 다시 보이게 함
             });
             //DB 내용 읽기
             for(Report temp  : ReportDB){
                 //형식에 맞는 로그 출력
-                  if(temp.getReportType().equals(findTypeS))
+                  if(temp.getReportType().equals(findTypeS)){
                     System.out.printf("%s;%s\n",temp.getReportType(),temp.getReportData());
+                    //폼에다 출력하기
+                    
+                  }
             }
             System.out.println("\n==============================================================================================");
             //크기랑 보이기 설정
