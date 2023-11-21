@@ -500,9 +500,7 @@ public class ReservationSystem extends JFrame {
             }
         }
     }
-   
 
-    
     public void checkIn() throws IOException{
         ArrayList<ReservedInfo> checkedInRooms =showUsingReservation();
         if(checkedInRooms.isEmpty()){
