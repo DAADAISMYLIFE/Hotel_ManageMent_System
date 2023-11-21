@@ -27,7 +27,6 @@ public class IntegrateManager {
     
     
     
-    
     public void initIM() throws IOException{
         loginUser = null;
         helper = new SystemHelper();
@@ -39,13 +38,12 @@ public class IntegrateManager {
         LogSys.init();
         RserveSys.ReserveSysInit();
         FoodSys = new FoodSystem(RserveSys,ReportSys);
-        FoodSys.FoodSystemInit();
-       
     }
             
     public void runIM() throws IOException{
         initIM();
         loginUser = LogSys.runLoginSystem();
+        FoodSys.FoodSystemInit(loginUser.getManager());
         
         while(!isQuit){
             showMainMenu();
@@ -59,7 +57,7 @@ public class IntegrateManager {
         System.out.println("1. 객실 및 예약 정보");
         System.out.println("2. 식품 주문 및 정보");
         if(loginUser.getManager() == true){
-            rex = "[0-3]";
+            rex = "[0-4]";
             System.out.println("3. 시스템 정보 수정 및 보고서 작성");
         }
         System.out.println("0. 종료");
@@ -89,11 +87,9 @@ public class IntegrateManager {
             default:
                 break;
         }
-        
-        
-        
-        
     }
-    
-    
+
+    public User getLoginUser() {
+        return loginUser;
+    }
 }

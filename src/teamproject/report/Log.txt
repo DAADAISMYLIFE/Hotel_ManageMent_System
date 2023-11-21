@@ -1,0 +1,15 @@
+login;admin
+login;admin;logout
+login;alba
+order;mint;203;123
+login;alba
+login;admin
+login;alba
+reserve;add;Kang;101
+login;alba
+login;alba
+login;alba
+reserve;add;KangSunWoo;707
+reserve;checkIn;707
+reserve;checkOut;203
+login;alba;logout

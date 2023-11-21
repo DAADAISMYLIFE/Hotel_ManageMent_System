@@ -22,16 +22,18 @@ public class FoodSystem {
     private SystemHelper helper;
     private int foodCount;
     private ReportSystem foodReport;
+    private boolean isManager;
     
     public FoodSystem(ReservationSystem reserveSys,ReportSystem reportSys) {
         this.reserveSys = reserveSys;
         foodReport = reportSys;
     }
     
-    public void FoodSystemInit()throws IOException{
+    public void FoodSystemInit(boolean isManager)throws IOException{
         foodDB = new ArrayList<>();
         helper = new SystemHelper();
         foodCount = 1;
+        this.isManager = isManager;
         helper.createDBFile(2, "food");
         for(String readContext : helper.readDBFile(2)){
             Food temp= new Food(Integer.parseInt(readContext.split(";")[0]),readContext.split(";")[1],Integer.parseInt(readContext.split(";")[2]));
@@ -85,12 +87,12 @@ public class FoodSystem {
     }
     
     public void orderFood() throws IOException{
-        boolean canFind = false;
+        int canFind = 0;
         if(foodDB.isEmpty()){
              System.out.println("메뉴가 없습니다.");
              return;
          }
-         if(reserveSys.showUsingReservation().isEmpty()){
+         if(reserveSys.showAllReservation(1).isEmpty()){
             return;
         }
          
@@ -101,32 +103,37 @@ public class FoodSystem {
          //비교를 위한 객체 생성
          ReservedInfo roomID = new ReservedInfo(OrderRoomID);
          for(ReservedInfo temp : reserveSys.getReserveDB()){
-              if(roomID.equals(temp,helper.getTodayDateI(),true)){
-                 roomID = temp;
-                 System.out.println(roomID.getRoomID()+ "번 방의 " + roomID.getReserverName()+"님께 주문합니다.");
-                 canFind = true;
-               }
+              if(roomID.equals(temp) && temp.getCheck()){
+                        roomID = temp;
+                        System.out.println(roomID.getRoomID()+ "번 방의 " + roomID.getReserverName()+"님께 주문합니다.");
+                        canFind=2;
+              }
+              else if(roomID.equals(temp) && !temp.getCheck())   
+                   canFind=1;              
          }
-         if(!canFind){
-             System.out.println("주문자를 찾을 수 없습니다!");
-         }
-         else{
-            showFood();
-            System.out.print("메뉴 ID를 입력해 주세요 : ");
-            int OrderMenuID = Integer.parseInt(helper.getUserInput("[0-9]+"));
-
-            Food orderMenu = findMenu(OrderMenuID);
-            if(orderMenu == null){
-                System.out.println("메뉴를 찾을 수 없습니다.");
-            }
-            else{
-                System.out.println(orderMenu.getName() + " 주문 완료!");
-                roomID.addExtraFee(orderMenu.getPrice());
-                helper.writeDBFile(3,reserveSys.getReserveDB());
-                foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
-            }
-            
-         }
+        switch (canFind) {
+            case 0:
+                System.out.println("주문자를 찾을 수 없습니다!");
+                break;
+            case 1:
+                System.out.println("체크인 하지 않은 고객입니다.");
+                System.out.print(roomID.getCheck());
+                break;
+            default:
+                showFood();
+                System.out.print("메뉴 ID를 입력해 주세요 : ");
+                int OrderMenuID = Integer.parseInt(helper.getUserInput("[0-9]+"));
+                Food orderMenu = findMenu(OrderMenuID);
+                if(orderMenu == null){
+                    System.out.println("메뉴를 찾을 수 없습니다.");
+                }
+                else{
+                    System.out.println(orderMenu.getName() + " 주문 완료!");
+                    roomID.addExtraFee(orderMenu.getPrice());
+                    helper.writeDBFile(3,reserveSys.getReserveDB());
+                    foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
+                }   break;
+        }
     }
     
     public Food findMenu(int OrderMenuID){
@@ -141,35 +148,42 @@ public class FoodSystem {
     }
     
     public void runFoodSystem() throws IOException{
-        OUTER:
-        while (true) {
+        boolean isContinue = true;
+        String rex = "[0-2]";
+        if(isManager)
+            rex = "[0-5]";
+        while (isContinue) {
             System.out.println("\n======================메뉴======================");
             System.out.println("1. 메뉴 보기");
-            System.out.println("2. 메뉴 추가");
-            System.out.println("3. 메뉴 주문");
-            System.out.println("4. 메뉴 삭제");
-            System.out.println("5. 뒤로 가기");
+            System.out.println("2. 메뉴 주문");
+            
+            if(isManager){
+                System.out.println("3. 메뉴 추가");
+                System.out.println("4. 메뉴 삭제");
+            }
+            System.out.println("0. 뒤로 가기");
             System.out.println("===============================================");
             String selectedMenuS;
-            do{
-                selectedMenuS =  helper.getUserInput();
-            }while(!helper.CheckFormat(selectedMenuS,"[1-5]"));
+            
+            selectedMenuS =  helper.getUserInput(rex);
+            
             int selectedMenu =Integer.parseInt(selectedMenuS);
             switch (selectedMenu) {
                 case 1:
                     showFood();
                     break;
                 case 2:
-                    addFood();
+                    orderFood();
                     break;
                 case 3:
-                    orderFood();
+                    addFood();
                     break;
                 case 4:
                     deleteFood();
                     break;
-                case 5:
-                    break OUTER;
+                case 0:
+                    isContinue = false;
+                    break;
                 
             }
         }  

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import teamproject.food.Food;
 import teamproject.reservation.ReservedInfo;
@@ -93,11 +94,11 @@ public class SystemHelper {
         return lastDayOfMonth;
     }
     
-    public int getDiffBetweenTwoDays(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
+    public long getDiffBetweenTwoDays(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
         LocalDate startDate = makeLocalDate(startYear, startMonth, startDay);
         LocalDate endDate = makeLocalDate(endYear, endMonth, endDay);
-        Period diff = Period.between(startDate,endDate);
-        return diff.getDays();
+        long days = ChronoUnit.DAYS.between(startDate, endDate);
+        return days;
     }
     
     public int getTodayDateI() {
@@ -194,7 +195,7 @@ public class SystemHelper {
                 write = new FileWriter(File_Path,false);
                 ArrayList<ReservedInfo> reservationWriter = (ArrayList<ReservedInfo>)DBList;
                 for(ReservedInfo temp : reservationWriter){
-                    writeLine.add(temp.getRoomID() + ";"+temp.getReserverName()+ ";"+temp.getNumOfGuests()+";"+temp.getStartYear()+";"+temp.getStartMonth()+";"+temp.getStartDay()+";"+temp.getEndYear()+";"+temp.getEndMonth()+";"+temp.getEndDay()+";"+temp.getTotalRoomFee()+";"+temp.getExtraFee()+"\n");
+                    writeLine.add(temp.getRoomID() + ";"+temp.getReserverName()+ ";"+temp.getNumOfGuests()+";"+temp.getStartYear()+";"+temp.getStartMonth()+";"+temp.getStartDay()+";"+temp.getEndYear()+";"+temp.getEndMonth()+";"+temp.getEndDay()+";"+temp.getTotalRoomFee()+";"+temp.getExtraFee()+";"+temp.getCheck()+"\n");
                 }
                 for(String writeContext : writeLine){
                     write.write(writeContext);

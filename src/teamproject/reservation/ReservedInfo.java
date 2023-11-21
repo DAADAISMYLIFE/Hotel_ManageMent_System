@@ -28,20 +28,32 @@ public class ReservedInfo {
     
     private int totalRoomFee;
     private int extraFee;
+    
+    public boolean check;
+
+    public boolean getCheck(){
+        return check;
+    }
+    
+    public void setCheck(boolean check){
+        this.check =  check;
+    }
+    
 
     public ReservedInfo(){
-        this("","",0,0,0,0,0,0,0);
+        this("","",0,0,0,0,0,0,0,false);
     }
     
     public ReservedInfo(String roomID){
-        this(roomID,"",0,0,0,0,0,0,0);
+        this(roomID,"",0,0,0,0,0,0,0,false);
     }
+    
     
     public ReservedInfo(String roomID,String reserverName,int startYear, int startMonth, int startDay){
-        this(roomID,reserverName,0,startYear,startMonth,startDay,0,0,0);
+        this(roomID,reserverName,0,startYear,startMonth,startDay,0,0,0,false);
     }
     
-    public ReservedInfo(String roomID, String reserverName, int numOfGuests, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
+    public ReservedInfo(String roomID, String reserverName, int numOfGuests, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay, boolean isCheckedIn) {
         this.roomID = roomID;
         this.reserverName = reserverName;
         this.numOfGuests = numOfGuests;
@@ -53,9 +65,10 @@ public class ReservedInfo {
         this.endDay = endDay;
         this.totalRoomFee = 0;
         this.extraFee = 0;
+        this.check = isCheckedIn;
     }
     
-    public ReservedInfo(String roomID, String reserverName, int numOfGuests, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay,int totalRoomFee, int extraFee) {
+    public ReservedInfo(String roomID, String reserverName, int numOfGuests, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay,int totalRoomFee, int extraFee, boolean isCheckedIn) {
         this.roomID = roomID;
         this.reserverName = reserverName;
         this.numOfGuests = numOfGuests;
@@ -67,6 +80,7 @@ public class ReservedInfo {
         this.endDay = endDay;
         this.totalRoomFee = totalRoomFee;
         this.extraFee = extraFee;
+        this.check = isCheckedIn;
     }
 
     public String getRoomID() {
