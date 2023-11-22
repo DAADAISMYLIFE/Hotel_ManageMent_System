@@ -1,6 +1,10 @@
-login;admin;2023/11/22/15:21
-login;admin;logout;2023/11/22/15:21
-login;admin;login;2023/11/22/15:22
-login;admin;logout;2023/11/22/15:23
-login;admin;login;2023/11/22/15:23
-login;admin;logout;2023/11/22/15:23
+login;admin;login;2023/11/22/15:38
+menu;add;asdf;12000;2023/11/22/15:38
+reserve;add;Kang;101;2023/11/22;2023/11/23;2023/11/22/15:39
+reserve;checkIn;101;2023/11/22/15:39
+order;asdf;101;12000;2023/11/22/15:39
+login;admin;login;2023/11/22/15:42
+login;admin;login;2023/11/22/15:44
+login;admin;login;2023/11/22/15:44
+login;admin;login;2023/11/22/15:47
+login;admin;logout;2023/11/22/15:48

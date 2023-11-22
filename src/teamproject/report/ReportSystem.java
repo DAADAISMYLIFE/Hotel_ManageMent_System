@@ -152,17 +152,25 @@ public class ReportSystem extends JFrame{
                 //형식에 맞는 로그 출력
                 if(tmp.getReportType().equals(findTypeS)){
                     //table과 연동하여 보여주기
-                    if(findTypeS == "login"){
-                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]});
-                    }
-                    else if(findTypeS == "order"){
-                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3]});
-                    }
-                    else if(findTypeS == "menu"){
-                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[3]});
-                    }
-                    else if(findTypeS == "reserve"){
-                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0]});
+                    switch (findTypeS) {
+                        case "login":
+                            System.out.println(tmp.getReportData().split(";")[0]+tmp.getReportData().split(";")[1]+tmp.getReportData().split(";")[2]);
+                            reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]});
+                            break;
+                        case "order":
+                            reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3]});
+                            break;
+                        case "menu":
+                            reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[3]});
+                            break;
+                        case "reserve":
+                            System.out.println(tmp.getReportData());
+                            if(!(tmp.getReportData().split(";")[0].equals("checkIn") || tmp.getReportData().split(";")[0].equals("checkOut"))){
+                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0]});
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 } 
             }
