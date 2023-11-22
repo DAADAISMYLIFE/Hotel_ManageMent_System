@@ -124,8 +124,8 @@ public class ReportSystem extends JFrame{
             JFrame reportContext = new JFrame();
            
             //스윙 만들기
-            setTitle(reportTypeS+"보고서");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            reportContext.setTitle(reportTypeS+"보고서");
+            reportContext.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   
             //나가기 버튼
             JButton reportExit = new JButton("나가기");
