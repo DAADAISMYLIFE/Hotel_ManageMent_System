@@ -27,7 +27,6 @@ import teamproject.reservation.ReservationSystem;
 import teamproject.reservation.ReservedInfo;
 import teamproject.report.ReportSystem;
 
-
 /**
  *
  * @author qkekd
@@ -87,8 +86,6 @@ public class FoodSystem extends JFrame {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setResizable(false);
         }
-        
-        DefaultTableModel modelTemp = (DefaultTableModel) menuTable.getModel();
         for (Food food : foodDB) {
             String menuID = String.valueOf(food.getMenuID());
             String menuName = food.getName();
@@ -109,8 +106,10 @@ public class FoodSystem extends JFrame {
         makeOrder.setSize(180,30);
         quitFood.setSize(180,30);
         
-        swingContext.add(addFood);
-        swingContext.add(deleteFood);
+        if(isManager){
+            swingContext.add(addFood);
+            swingContext.add(deleteFood);
+        }
         swingContext.add(makeOrder);
         swingContext.add(quitFood);
         
@@ -288,17 +287,5 @@ public class FoodSystem extends JFrame {
             IntegrateManager.frm.setVisible(true);
         });
         setLocationRelativeTo(null);
-    }
-    
-    
-    public Food findMenu(int OrderMenuID){
-            Food OrderMenu = new Food(OrderMenuID);
-             //비교
-             for(Food temp : foodDB){
-                 if(OrderMenu.equals(temp)){
-                    return temp;
-                 }
-             }
-             return null;
     }
 }

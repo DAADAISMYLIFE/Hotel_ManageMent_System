@@ -68,7 +68,5 @@ public class Food {
         }
         final Food other = (Food) obj;
         return this.menuID == other.menuID;
-    }
-    
-     
+    } 
 }

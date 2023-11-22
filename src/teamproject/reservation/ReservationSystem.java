@@ -7,7 +7,6 @@ package teamproject.reservation;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -90,7 +89,6 @@ public class ReservationSystem extends JFrame {
             columnModel.getColumn(i).setResizable(false);
         }
         reservationTable.getTableHeader().setReorderingAllowed(true);
-        DefaultTableModel modelTemp = (DefaultTableModel) reservationTable.getModel();
         for (ReservedInfo reservation : reserveDB) {
             String room = reservation.getRoomID();
             String name = reservation.getReserverName();
@@ -241,7 +239,7 @@ public class ReservationSystem extends JFrame {
                             else{
                                 ArrayList<Room> canReserveRoom = new ArrayList<>();
                                 try {
-                                    showAvaliableRooms(canReserveRoom,startDateI,endDateI,Integer.parseInt(numPeople),true);
+                                    showAvaliableRooms(canReserveRoom,startDateI,endDateI,Integer.parseInt(numPeople));
                                 } catch (IOException ex) {
                                     Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -298,17 +296,6 @@ public class ReservationSystem extends JFrame {
                     }
                 }
             });
-            
-            /*
-            makeReserveButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    int selectedRow = canReserveRoomTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        
-                    }
-                }
-            });*/
-  
         });
         
         deleteReservation.addActionListener(event->{
@@ -446,49 +433,8 @@ public class ReservationSystem extends JFrame {
         });
         frmR.setLocationRelativeTo(null);
     }
-
-    public ArrayList<ReservedInfo> showAllReservation(int onlyCheckIn) throws IOException{
-        ArrayList<ReservedInfo> canCheckIn = new  ArrayList<>();
-        if(reserveDB.isEmpty()){
-            JOptionPane.showMessageDialog(null, "예약 현황이 없습니다.");
-        }
-        else if(onlyCheckIn == 1){
-            for(ReservedInfo temp : reserveDB){
-                if(temp.getCheck()){
-                    canCheckIn.add(temp);
-                }
-            }
-        }
-        
-        else if(onlyCheckIn == 2){
-            for(ReservedInfo temp : reserveDB){
-                if(!temp.getCheck()){
-                    canCheckIn.add(temp);
-                }
-            }
-        }
-        return canCheckIn;
-    }    
     
-     public ArrayList<ReservedInfo> showUsingReservation() throws IOException{
-         
-        ArrayList<ReservedInfo> id = new ArrayList<>();
-        if(reserveDB.isEmpty()){
-             JOptionPane.showMessageDialog(null, "예약 현황이 없습니다.");
-        }
-        else{
-           for(ReservedInfo temp : reserveDB){
-                if(temp.getStartDateI() <= helper.getTodayDateI()){
-                    if(!temp.getCheck()){
-                         id.add(temp);
-                    }
-                }
-            }
-        } 
-        return id;
-    }  
-    
-    public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,int reserveGuests,boolean canPrint) throws IOException{
+    public void showAvaliableRooms(ArrayList<Room> canReserveRoom,int startDateI, int endDateI,int reserveGuests) throws IOException{
         for(int i = 0; i < 100; i++){
             
             boolean canShow = true;
@@ -496,7 +442,6 @@ public class ReservationSystem extends JFrame {
             if(reserveGuests > RS.roomDB.get(i).getNumberOfGuests()){
                 canShow = false;
             }
-            
             
             for(ReservedInfo temp : reserveDB){
                 if(temp.getRoomID().equals(RS.roomDB.get(i).getRoomNumber())){
@@ -511,8 +456,6 @@ public class ReservationSystem extends JFrame {
             if(canShow){
                 //예약 가능한 방 리스트
                 canReserveRoom.add(RS.roomDB.get(i));
-                if(canPrint)
-                    RS.showRoom(i);
             }
         }
     }

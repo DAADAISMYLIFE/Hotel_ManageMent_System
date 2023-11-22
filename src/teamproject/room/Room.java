@@ -28,8 +28,6 @@ public class Room {
     public String getRoomtype() {
         return roomtype;
     }
-
-    
     
     // 룸 정보 출력
     public boolean printRoomInfo() {

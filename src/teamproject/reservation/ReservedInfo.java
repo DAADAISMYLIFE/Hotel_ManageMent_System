@@ -179,9 +179,7 @@ public class ReservedInfo {
         this.totalRoomFee = totalRoomFee;
     }
     
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 3;

@@ -67,10 +67,4 @@ public class User {
     public void setManager(boolean isManager) {
         this.isManager = isManager;
     }
-    
-    
-    
-    
-    
-    
 }

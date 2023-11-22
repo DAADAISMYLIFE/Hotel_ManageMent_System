@@ -27,27 +27,27 @@ public class RoomSystem {
                 String type;
                 
                 if(0<=i && i<20){ // 1-2층 : 스탠다드, 50$, 최대 2명
-                    pricePerNight = 50;
+                    pricePerNight = 50000;
                     type = "Standard Room";
                     MaxiumGuest = 2;
                 }
                 else if(20<=i && i<40){ // 3~4층 : 더블, 70$, 최대 2명
-                    pricePerNight = 70;
+                    pricePerNight = 70000;
                     type = "Double Room";
                     MaxiumGuest = 2;
                 }
                 else if(40<=i && i<60){ // 5~6층 : 트윈, 70$, 최대 2명
-                    pricePerNight = 70;
+                    pricePerNight = 70000;
                     type = "Twin Room";
                     MaxiumGuest = 2;
                 }
                 else if(60<=i && i<80){ // 7~8층 : 트리플, 90$, 최대 3명
-                    pricePerNight = 90;
+                    pricePerNight = 90000;
                     type = "Triple Room";
                     MaxiumGuest = 3;
                 }
                 else{ // 9~10층 : 슈페리얼, 120$, 최대 4명
-                    pricePerNight = 120;
+                    pricePerNight = 120000;
                     type = "Superior Room";
                     MaxiumGuest = 4;
                 }
@@ -58,67 +58,4 @@ public class RoomSystem {
                 helper.readDBFile(1);
             }
         }
-        
-        public void showAllRoom() throws IOException{
-            for(int i = 0; i < 10; i++){
-                System.out.println("\n======================================================================예약====================================================================");
-                for(int j = 0; j < 10; j++){
-                    Room temp = roomDB.get(i*10 + j);
-                    temp.printRoomInfo();
-                }
-
-                System.out.println("===============================================================================================================================================\n");
-                System.out.print("\n다음 층 보기 <y / n> : ");
-                if(helper.getUserInput("[y,n]").equals("n")){
-                    break;
-                }
-            }
-        }
-        
-        public void showRoom(int index){
-            roomDB.get(index).printRoomInfo();
-        }        
-        
-//        public void showTypeRoom() throws IOException{
-//            System.out.println("검색할 객실 타입을 선택하세요");
-//            System.out.println("1. Standard Room");
-//            System.out.println("2. Double Room");
-//            System.out.println("3. Twin Room");
-//            System.out.println("4. Triple Room");
-//            System.out.println("5. Superior Room");
-//            
-//           String selectedMenuS;
-//            do{
-//                selectedMenuS =  helper.getUserInput();
-//            }while(!helper.CheckFormat(selectedMenuS,"[1-5]"));
-//            int selectedMenu =Integer.parseInt(selectedMenuS);
-//            
-//            switch (selectedMenu) {
-//                case 1:
-//                    showStandard();
-//                    
-//                case 2:
-//                    
-//                    break;
-//                case 3:
-//                    
-//                case 4:
-//                    
-//                    break;
-//                case 5:
-//                    break;
-//                
-//            }
-//        }
-
-//        public void showStandard(){
-//            for(int i = 0; i < 2; i++){
-//                System.out.println("\n======================================================================예약======================================================================");
-//                for(int j = 0; j < 10; j++){
-//                    Room temp = roomDB.get(i*10 + j);
-//                    temp.printRoomInfo();
-//                }
-//                System.out.println("===============================================================================================================================================\n");
-//              }
-//        }
 }
