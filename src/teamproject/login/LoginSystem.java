@@ -59,7 +59,7 @@ public class LoginSystem {
                 if(loginTryingUser.equals(temp)){
                     loginUser = temp;
                     System.out.println("안녕하세요 " + loginUser.getName() + "님");
-                    loginReport.addReport("login", ID);
+                    loginReport.addReport("login", ID+ ";login");
                     break;
                 }
             }
