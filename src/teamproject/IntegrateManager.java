@@ -108,6 +108,11 @@ public class IntegrateManager {
             });
 
             quitButton.addActionListener(event -> {
+               try {
+                   ReportSys.addReport("login", loginUser.getID()+";logout");
+               } catch (IOException ex) {
+                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+               }
                 System.out.println("시스템을 종료합니다.");
                 frm.dispose();
                 System.exit(0);
