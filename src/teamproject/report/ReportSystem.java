@@ -18,9 +18,10 @@ public class ReportSystem extends JFrame{
     private int findType = 0;          //1: 로그인 관련  2: 주문 관련 3: 예약 관련 
     private SystemHelper helper;
     private ArrayList<Report> ReportDB;
-    private JTable reportTable; //읽은 로그들을 저장하여 보여줄 테이블
-    public DefaultTableModel reportTableModel; //테이블 형식
-    public JFrame reportContext;
+    private JTable reportTable;            //보고서 작성 테이블
+    public DefaultTableModel defaultReportTableModel; //처음 테이블 형식
+    public DefaultTableModel reportTableModel;          //보고서 테이블의 형식
+    public JFrame reportContext;       //보고서용 프레임 
     public ReportSystem(){ }            //기본 생성자
     
     //기본 설정 
@@ -37,7 +38,11 @@ public class ReportSystem extends JFrame{
     
     //ReportSystem이 하는 일 (보고서 읽기)
     public void runReportSystem() throws IOException{
-        //스윙 코드
+        //처음 보고서 테이블 양식
+        defaultReportTableModel = new DefaultTableModel();  //아무것도 없는 model
+        reportTableModel = new DefaultTableModel();             //다른곳에서 model에 colum이랑 Row 추가할 예정
+        reportTable = new JTable(defaultReportTableModel);
+        //프레임 코드
          setTitle("보고서");
          setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          Container swing_Context =getContentPane();
@@ -49,48 +54,47 @@ public class ReportSystem extends JFrame{
         JButton reservationButton = new JButton("예약 보고서");
         JButton quitReport = new JButton("나가기");
         //위치 설정
-        loginButton.setLocation(50,50);
-        orderButton.setLocation(50,100);
-        menuButton.setLocation(50,150);
-        reservationButton.setLocation(50,200);
-        quitReport.setLocation(50,250);
-
-        
+        loginButton.setLocation(20,30);
+        orderButton.setLocation(20,80);
+        menuButton.setLocation(20,130);
+        reservationButton.setLocation(20,180);
+        quitReport.setLocation(20,230);
+        reportTable.setLocation(250,20);
         //크기 설정
         loginButton.setSize(200,30);
         orderButton.setSize(200,30);
         menuButton.setSize(200,30);
         reservationButton.setSize(200,30);
         quitReport.setSize(200,30);
-        //버튼을 스윙에 추가
+        reportTable.setSize(700, 300    );
+        //버튼을 프레임에 추가
         swing_Context.add(loginButton);
         swing_Context.add(orderButton);
         swing_Context.add(menuButton);
         swing_Context.add(reservationButton);
         swing_Context.add(quitReport);
+        swing_Context.add(reportTable);
+        //프레임 초기 위치 설정밒
+        //setLocationRelativeTo(null);
         //크기랑 보이기 설정
-        setSize(300,400);
+        setSize(1000,400);
         setVisible(true);
         //버튼별 이벤트
         loginButton.addActionListener(event -> {
              findType = 1;
-              setVisible(false);
-              showReport(findType); //지금 사용중인 폼 안보이게 하기
+              showReport(findType); 
          });
         orderButton.addActionListener(event -> {
              findType = 2;
-             setVisible(false);
-             showReport(findType); //지금 사용중인 폼 안보이게 하기
+             showReport(findType); 
          });
         menuButton.addActionListener(event -> {
              findType = 3;
-             setVisible(false);
-             showReport(findType); //지금 사용중인 폼 안보이게 하기
+             showReport(findType); 
          });
         reservationButton.addActionListener(event -> {
              findType = 4;
-             setVisible(false);
-             showReport(findType); //지금 사용중인 폼 안보이게 하기
+             showReport(findType); 
          });
          //기존에 있는 함수
         /*System.out.println("1: 로그인 보고서 2: 주문 보고서 3: 메뉴 보고서 4: 예약 보고서");
@@ -109,58 +113,41 @@ public class ReportSystem extends JFrame{
             System.out.println("\n==============================================================================================");
             //로그 출력
             String findTypeS;
-            String reportTypeS;
+            //보고서 양식(model) 설정
             switch (findType) {
                 case 1:
                     findTypeS = "login";
-                    reportTypeS = "로그인 ";
+                    reportTableModel.addColumn("사용자");
+                    reportTableModel.addColumn("접속 여부");
+                    reportTableModel.addColumn("접속 시간");
                     break;
                 case 2:
-                    findTypeS = "order";
-                    reportTypeS = "주문 ";
+                    findTypeS = "order";  
+                    reportTableModel.addColumn(NORMAL);
                     break;
                 case 3:
                     findTypeS = "menu";
-                    reportTypeS = "메뉴 ";
+                    reportTableModel.addColumn(NORMAL);
                     break;
                 case 4:
                     findTypeS = "reserve";
-                    reportTypeS = "예약 ";
+                    reportTableModel.addColumn(NORMAL);
                     break;
                 default:
                     findTypeS = "";
-                    reportTypeS = "";
                     break;
-            }
-            reportContext = new JFrame();
-            reportTable = new JTable(); //테이블 생성
-            //스윙 만들기
-            reportContext.setTitle(reportTypeS+"보고서");
-            reportContext.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            Container report_Context = reportContext.getContentPane();
-            report_Context.setLayout(null); //절대 위치 사용
-            //나가기 버튼
-            JButton reportExit = new JButton("나가기");
-            reportExit.setLocation(50,200);
-            reportExit.setSize(150,30);
-            report_Context.add(reportExit);
-            reportExit.addActionListener(event -> {
-                reportContext.dispose(); //지금 보고있는 폼 종료
-                setVisible(true);          //처음 만들었던 폼 다시 보이게 함
-            });
+            }            
             //DB 내용 읽기
             for(Report tmp  : ReportDB){
                 //형식에 맞는 로그 출력
                 if(tmp.getReportType().equals(findTypeS)){
-                    System.out.printf("%s;%s\n",tmp.getReportType(),tmp.getReportData());
-                    //폼에다 출력하기
-                    
-                  }
-            }
+                    //System.out.printf("%s;%s\n",tmp.getReportType(),tmp.getReportData());
+                    //table과 연동하여 보여주기
+                    reportTableModel.addRow(new String[]{tmp.getReportData(),tmp.getReportType(),tmp.getReportData()});
+                  } 
+            } 
+            reportTable.setModel(reportTableModel); //Table model 바꾸기
             System.out.println("\n==============================================================================================");
-            //크기랑 보이기 설정
-            reportContext.setSize(300,300);
-            reportContext.setVisible(true);
         } 
     }
     
