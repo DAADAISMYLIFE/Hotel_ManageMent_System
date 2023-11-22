@@ -52,11 +52,11 @@ public class ReservationSystem extends JFrame {
     
     public void runReserSys() throws IOException{
         JFrame frmR =new JFrame();
-        frmR.invalidate();
+         frmR.invalidate();
          frmR.setTitle("예약 시스템");
          frmR.setDefaultCloseOperation(frmR.EXIT_ON_CLOSE);
-        frmR.getContentPane();
-        frmR.setLayout(null);
+         frmR.getContentPane();
+         frmR.setLayout(null);
         JButton addReservation = new JButton("예약 추가");
         JButton deleteReservation = new JButton("예약 삭제");
         JButton checkInReservation = new JButton("체크인");
@@ -281,20 +281,20 @@ public class ReservationSystem extends JFrame {
             int selectedRow = reservationTable.getSelectedRow();
             if (selectedRow != -1) {
                 JFrame questionFrame = new JFrame("예약 삭제");
-                questionFrame.setSize(350, 300);
+                questionFrame.setSize(250, 150);
                 questionFrame.setLayout(null);
-
+                questionFrame.setLocationRelativeTo(null);
                 JLabel questionLabel = new JLabel("정말로 예약을 삭제합니까?");
                 JButton yesButton = new JButton("확인");
                 JButton noButton = new JButton("취소");
                 
-                questionLabel.setLocation(100,50);
-                yesButton.setLocation(50,150);
-                noButton.setLocation(200,150);
+                questionLabel.setLocation(40,10);
+                yesButton.setLocation(40,60);
+                noButton.setLocation(120,60);
                 
                 questionLabel.setSize(200,50);
-                yesButton.setSize(80,50);
-                noButton.setSize(80,50);
+                yesButton.setSize(80,30);
+                noButton.setSize(80,30);
                 
                 questionFrame.add(questionLabel);
                 questionFrame.add(yesButton);
