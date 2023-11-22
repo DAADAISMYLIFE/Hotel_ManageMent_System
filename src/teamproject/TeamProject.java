@@ -15,7 +15,6 @@ public class TeamProject {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException{
-        // TODO code application logic here
         IntegrateManager IM = new IntegrateManager();
         IM.initIM();
         IM.runIM();
