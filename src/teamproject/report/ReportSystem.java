@@ -135,8 +135,8 @@ public class ReportSystem extends JFrame{
             reportContext = new JFrame();
             reportTable = new JTable(); //테이블 생성
             //스윙 만들기
-            setTitle(reportTypeS+"보고서");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            reportContext.setTitle(reportTypeS+"보고서");
+            reportContext.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             Container report_Context = reportContext.getContentPane();
             report_Context.setLayout(null); //절대 위치 사용
             //나가기 버튼
