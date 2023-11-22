@@ -48,79 +48,82 @@ public class IntegrateManager {
     public void runIM() throws IOException{
         initIM();
         loginUser = LogSys.runLoginSystem();
-        FoodSys.FoodSystemInit(loginUser.getManager());
-        showMainMenu();
+        if(loginUser!=null){
+            FoodSys.FoodSystemInit(loginUser.getManager());
+            showMainMenu();
+        }
     }
     
     public void showMainMenu() throws IOException{
-            frm.setTitle("호텔 관리 통합 시스템");
-            frm.getContentPane().setLayout(null);
-            JButton reservationButton = new JButton("객실 및 예약 정보");
-            JButton menuButton = new JButton("식품 주문 및 정보");
-            JButton reportButton = new JButton("로그 정보");
-            JButton quitButton = new JButton("종료");
+        System.out.println("sfdsfsdfdfs");
+        frm.setTitle("호텔 관리 통합 시스템");
+        frm.getContentPane().setLayout(null);
+        JButton reservationButton = new JButton("객실 및 예약 정보");
+        JButton menuButton = new JButton("식품 주문 및 정보");
+        JButton reportButton = new JButton("로그 정보");
+        JButton quitButton = new JButton("종료");
 
-            reservationButton.setBounds(70, 30, 210, 50);
-            menuButton.setBounds(70, 110, 210, 50);
-            reportButton.setBounds(70, 190, 210, 50);
-            quitButton.setBounds(70, 270, 210, 50);
+        reservationButton.setBounds(70, 30, 210, 50);
+        menuButton.setBounds(70, 110, 210, 50);
+        reportButton.setBounds(70, 190, 210, 50);
+        quitButton.setBounds(70, 270, 210, 50);
 
-            frm.getContentPane().add(reservationButton);
-            frm.getContentPane().add(menuButton);
-             if(loginUser.getManager() == true){
-                frm.getContentPane().add(reportButton);
-             }
-            frm.getContentPane().add(quitButton);
+        frm.getContentPane().add(reservationButton);
+        frm.getContentPane().add(menuButton);
+         if(loginUser.getManager() == true){
+            frm.getContentPane().add(reportButton);
+         }
+        frm.getContentPane().add(quitButton);
 
-            frm.setSize(350,400);
-            frm.setLocationRelativeTo(null);
-            frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setSize(350,400);
+        frm.setLocationRelativeTo(null);
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 
-            reservationButton.addActionListener(event -> {
-                System.out.println("객실 현황 / 예약 보기");
-               try {
-                   RserveSys.runReserSys();
-                   frm.setVisible(false);
-               } catch (IOException ex) {
-                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
-               }
-                
-            });
-            menuButton.addActionListener(event -> {
-                 System.out.println("식품 현황 보기");
-               try {
-                   FoodSys.runFoodSystem();
-                   frm.setVisible(false);
-               } catch (IOException ex) {
-                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
-               }
-                 
-            });
+        reservationButton.addActionListener(event -> {
+            System.out.println("객실 현황 / 예약 보기");
+           try {
+               RserveSys.runReserSys();
+               frm.setVisible(false);
+           } catch (IOException ex) {
+               Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+           }
 
-            reportButton.addActionListener(event -> {
-                System.out.println("시스템 정보 및 보고서");
-               try {
-                   ReportSys.runReportSystem();
-                   frm.setVisible(false);
-               } catch (IOException ex) {
-                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
-               }
-            });
+        });
+        menuButton.addActionListener(event -> {
+             System.out.println("식품 현황 보기");
+           try {
+               FoodSys.runFoodSystem();
+               frm.setVisible(false);
+           } catch (IOException ex) {
+               Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+           }
 
-            quitButton.addActionListener(event -> {
-               try {
-                   ReportSys.addReport("login", loginUser.getID()+";logout");
-               } catch (IOException ex) {
-                   Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
-               }
-                System.out.println("시스템을 종료합니다.");
-                frm.dispose();
-                System.exit(0);
-            });
+        });
 
-            frm.setVisible(true);
+        reportButton.addActionListener(event -> {
+            System.out.println("시스템 정보 및 보고서");
+           try {
+               ReportSys.runReportSystem();
+               frm.setVisible(false);
+           } catch (IOException ex) {
+               Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+           }
+        });
+
+        quitButton.addActionListener(event -> {
+           try {
+               ReportSys.addReport("login", loginUser.getID()+";logout");
+           } catch (IOException ex) {
+               Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
+           }
+            System.out.println("시스템을 종료합니다.");
+            frm.dispose();
+            System.exit(0);
+        });
+
+        frm.setVisible(true);
     }
 
     public User getLoginUser() {

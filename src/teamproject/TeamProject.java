@@ -19,7 +19,6 @@ public class TeamProject {
         IntegrateManager IM = new IntegrateManager();
         IM.initIM();
         IM.runIM();
-        
     }
     
 }
