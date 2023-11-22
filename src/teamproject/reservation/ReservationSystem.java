@@ -307,6 +307,7 @@ public class ReservationSystem extends JFrame {
                         String name = (String) reservationTable.getValueAt(selectedRow, 1);
                         String checkInDate = ((String) reservationTable.getValueAt(selectedRow, 3)).split(" ")[0];
                         String isCheckedIn = (String) reservationTable.getValueAt(selectedRow, 4);
+                        String checkOutDate = ((String) reservationTable.getValueAt(selectedRow, 3)).split(" ")[2];
                         
                         if(isCheckedIn.equals("true")){
                             System.out.println("이미 체크인한 손님입니다.");
@@ -315,6 +316,9 @@ public class ReservationSystem extends JFrame {
                             int startYear = Integer.parseInt(checkInDate.split("/")[0]);
                             int startMonth = Integer.parseInt(checkInDate.split("/")[1]);
                             int startDay = Integer.parseInt(checkInDate.split("/")[2]);
+                            String endYear = checkOutDate.split("/")[0];
+                            String endMonth = checkOutDate.split("/")[1];
+                            String endDay = checkOutDate.split("/")[2];
 
                             int startDateI = startYear*10000 + startMonth*100 + startDay; 
                             for(ReservedInfo temp : reserveDB){
@@ -322,7 +326,7 @@ public class ReservationSystem extends JFrame {
                                     reserveDB.remove(temp);
                                     try {
                                         helper.writeDBFile(3, reserveDB);
-                                        ReserveReport.addReport("reserve","delete;"+name + ";"+ room);
+                                        ReserveReport.addReport("reserve","delete;"+name + ";"+ room+ ";"+ Integer.toString( startYear) + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + ";" +endYear  +"/"+endMonth+ "/"+ endDay );
                                     } catch (IOException ex) {
                                         Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
                                     }

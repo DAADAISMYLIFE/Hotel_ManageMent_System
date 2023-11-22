@@ -105,7 +105,6 @@ public class ReportSystem extends JFrame{
     }
     
     public void showReport(int findType){
-         reportTableModel = new DefaultTableModel();             //다른곳에서 model에 colum이랑 Row 추가할 예정
         if(ReportDB.isEmpty()){
                 System.out.println("로그가 아직 없습니다.");
          }
@@ -117,12 +116,14 @@ public class ReportSystem extends JFrame{
             switch (findType) {
                 case 1:
                     findTypeS = "login";    //로그인 관련 기록
+                    reportTableModel = new DefaultTableModel();            
                     reportTableModel.addColumn("사용자");
                     reportTableModel.addColumn("접속 여부"); //로그인/로그아웃
                     reportTableModel.addColumn("접속 시간");
                     break;
                 case 2:
                     findTypeS = "order";  //주문 관련 기록
+                    reportTableModel = new DefaultTableModel();
                     reportTableModel.addColumn("호실");
                     reportTableModel.addColumn("음식 이름");
                     reportTableModel.addColumn("음식 가격");
@@ -130,6 +131,7 @@ public class ReportSystem extends JFrame{
                     break;
                 case 3:
                     findTypeS = "menu"; //메뉴 관련 기록
+                    reportTableModel = new DefaultTableModel();
                     reportTableModel.addColumn("메뉴 이름");
                     reportTableModel.addColumn("가격");
                     reportTableModel.addColumn("타입(?)"); //추가/삭제
@@ -137,11 +139,13 @@ public class ReportSystem extends JFrame{
                     break;
                 case 4:
                     findTypeS = "reserve";  //예약 관련 기록
+                    reportTableModel = new DefaultTableModel();
                     reportTableModel.addColumn("예약자");
                     reportTableModel.addColumn("호실");
                     reportTableModel.addColumn("체크인 날짜");
                     reportTableModel.addColumn("체크아웃 날짜");
                     reportTableModel.addColumn("예약 여부"); //예약 추가/삭제
+                    reportTableModel.addColumn("변경 시간");
                     break;
                 default:
                     findTypeS = "";
@@ -166,7 +170,7 @@ public class ReportSystem extends JFrame{
                         case "reserve":
                             System.out.println(tmp.getReportData());
                             if(!(tmp.getReportData().split(";")[0].equals("checkIn") || tmp.getReportData().split(";")[0].equals("checkOut"))){
-                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0]});
+                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[5]});
                             }
                             break;
                         default:
