@@ -168,6 +168,7 @@ public class FoodSystem extends JFrame {
                              JOptionPane.showMessageDialog(null, "정확한 가격을 입력해주세요.");
                         }
                         else{
+                            foodCount++;
                             Food temp = new Food(Integer.parseInt(menuID),menuName,Integer.parseInt(menuPrice));
                             foodDB.add(temp);
                             try {
