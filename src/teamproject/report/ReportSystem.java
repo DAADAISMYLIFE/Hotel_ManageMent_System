@@ -77,6 +77,7 @@ public class ReportSystem extends JFrame{
         //setLocationRelativeTo(null);
         //크기랑 보이기 설정
         setSize(1000,400);
+        setLocationRelativeTo(null);
         setVisible(true);
         //버튼별 이벤트
         loginButton.addActionListener(event -> {
@@ -107,11 +108,9 @@ public class ReportSystem extends JFrame{
     public void showReport(int findType){
          reportTableModel = new DefaultTableModel();             //다른곳에서 model에 colum이랑 Row 추가할 예정
         if(ReportDB.isEmpty()){
-                System.out.println("로그가 아직 없습니다.");
+                 JOptionPane.showMessageDialog(null, "로그가 아직 없습니다.");
          }
          else{
-            System.out.println("\n==============================================================================================");
-            //로그 출력
             String findTypeS;
             //보고서 양식(model) 설정
             switch (findType) {
@@ -154,7 +153,6 @@ public class ReportSystem extends JFrame{
                     //table과 연동하여 보여주기
                     switch (findTypeS) {
                         case "login":
-                            System.out.println(tmp.getReportData().split(";")[0]+tmp.getReportData().split(";")[1]+tmp.getReportData().split(";")[2]);
                             reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]});
                             break;
                         case "order":
@@ -164,7 +162,6 @@ public class ReportSystem extends JFrame{
                             reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[3]});
                             break;
                         case "reserve":
-                            System.out.println(tmp.getReportData());
                             if(!(tmp.getReportData().split(";")[0].equals("checkIn") || tmp.getReportData().split(";")[0].equals("checkOut"))){
                                 reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0]});
                             }
@@ -174,8 +171,10 @@ public class ReportSystem extends JFrame{
                     }
                 } 
             }
+            
             reportTable.setModel(reportTableModel); //Table model 바꾸기
         } 
+        
     }
     
     //로그 파일에 적을 내용 추가

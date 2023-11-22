@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import teamproject.food.FoodSystem;
 import teamproject.login.LoginSystem;
 import teamproject.login.User;
@@ -55,7 +56,6 @@ public class IntegrateManager {
     }
     
     public void showMainMenu() throws IOException{
-        System.out.println("sfdsfsdfdfs");
         frm.setTitle("호텔 관리 통합 시스템");
         frm.getContentPane().setLayout(null);
         JButton reservationButton = new JButton("객실 및 예약 정보");
@@ -82,7 +82,7 @@ public class IntegrateManager {
 
 
         reservationButton.addActionListener(event -> {
-            System.out.println("객실 현황 / 예약 보기");
+             JOptionPane.showMessageDialog(null, "객실 및 예약 정보");
            try {
                RserveSys.runReserSys();
                frm.setVisible(false);
@@ -92,7 +92,7 @@ public class IntegrateManager {
 
         });
         menuButton.addActionListener(event -> {
-             System.out.println("식품 현황 보기");
+             JOptionPane.showMessageDialog(null, "식품 주문 및 정보");
            try {
                FoodSys.runFoodSystem();
                frm.setVisible(false);
@@ -103,7 +103,7 @@ public class IntegrateManager {
         });
 
         reportButton.addActionListener(event -> {
-            System.out.println("시스템 정보 및 보고서");
+            JOptionPane.showMessageDialog(null, "시스템 정보 및 보고서");
            try {
                ReportSys.runReportSystem();
                frm.setVisible(false);
@@ -118,7 +118,7 @@ public class IntegrateManager {
            } catch (IOException ex) {
                Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
            }
-            System.out.println("시스템을 종료합니다.");
+            JOptionPane.showMessageDialog(null, "시스템을 종료합니다.");
             frm.dispose();
             System.exit(0);
         });

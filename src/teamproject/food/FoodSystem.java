@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -144,6 +145,7 @@ public class FoodSystem extends JFrame {
             inputFrame.add(priceLabel);
             inputFrame.add(priceField);
             inputFrame.add(submitButton);
+            inputFrame.setLocationRelativeTo(null);
             inputFrame.setVisible(true);
             
             submitButton.addActionListener(new ActionListener() {
@@ -153,11 +155,11 @@ public class FoodSystem extends JFrame {
                     String menuPrice = priceField.getText();
                     
                     if(menuName.isBlank() || menuPrice.isBlank()){
-                        System.out.println("모든 항목을 작성해주세요");
+                         JOptionPane.showMessageDialog(null, "모든 항목을 작성해주세요.");
                     }
                     else{
                         if(!menuPrice.matches("[0-9]+")){
-                            System.out.println("가격을 제대로 입력해 주세요");
+                             JOptionPane.showMessageDialog(null, "정확한 가격을 입력해주세요.");
                         }
                         else{
                             Food temp = new Food(Integer.parseInt(menuID),menuName,Integer.parseInt(menuPrice));
@@ -199,6 +201,7 @@ public class FoodSystem extends JFrame {
                 questionFrame.add(questionLabel);
                 questionFrame.add(yesButton);
                 questionFrame.add(noButton);
+               questionFrame.setLocationRelativeTo(null);
                 questionFrame.setVisible(true);
                 
                 yesButton.addActionListener(new ActionListener() {
@@ -253,7 +256,7 @@ public class FoodSystem extends JFrame {
                 yesButton.setLocation(50,100);
                 yesButton.setSize(80,50);
                 selectReserverFrame.add(yesButton);
-                
+                selectReserverFrame.setLocationRelativeTo(null);
                 selectReserverFrame.setVisible(true);
                 yesButton.addActionListener(e->{
                     String  selectedRoomID  = roomList.getSelectedValue();
@@ -261,7 +264,7 @@ public class FoodSystem extends JFrame {
                         if(temp.getRoomID().equals(selectedRoomID) && temp.getCheck()){
                             temp.addExtraFee(menuPrice);
                             try {
-                                System.out.println("주문 완료");
+                                 JOptionPane.showMessageDialog(null, "주문 완료.");
                                 helper.writeDBFile(3,reserveSys.getReserveDB());
                                 foodReport.addReport("order", menuName+";"+temp.getRoomID()+";"+Integer.toString(menuPrice));
                             } catch (IOException ex) {
@@ -278,101 +281,9 @@ public class FoodSystem extends JFrame {
             this.dispose();
             IntegrateManager.frm.setVisible(true);
         });
+        setLocationRelativeTo(null);
     }
     
-    public void addFood() throws IOException{
-        System.out.print("메뉴 : ");
-        String name;
-        name =  helper.getUserInput();
-        System.out.print("가격 : ");
-        int price =Integer.parseInt(helper.getUserInput());
-        
-        Food newFood = new Food(foodCount,name,price);
-        foodCount++;
-        
-        foodDB.add(newFood);
-        foodReport.addReport("menu","add;"+(newFood.getName()+";"+newFood.getPrice()));
-        helper.writeDBFile(2, foodDB);
-        
-    }
-    public void deleteFood() throws IOException{
-        if(foodDB.isEmpty()){
-            System.out.println("메뉴가 존재하지 않습니다.");
-            return;
-        }
-        showFood();
-        System.out.print("삭제할 메뉴 ID : ");
-        int id = Integer.parseInt(helper.getUserInput());
-        Food newFood = new Food(id);
-        foodReport.addReport("menu","delete;"+newFood.getName()+";"+newFood.getPrice());
-        foodDB.remove(newFood);
-        helper.writeDBFile(2, foodDB);
-    }
-      
-    public void showFood(){       
-        
-        if(foodDB.isEmpty()){
-            System.out.println("메뉴가 아직 없습니다. 메뉴를 추가해 주세요");
-        }
-        else{
-            System.out.println("\n==============================================================================================");
-            //음식 목록
-            for(int i = 0;i < foodDB.size(); i++){
-                System.out.printf("메뉴 ID : %02d   이름 : %-30s가격  :  %8d원\n", foodDB.get(i).getMenuID(), foodDB.get(i).getName(), foodDB.get(i).getPrice());
-            }
-             System.out.println("==============================================================================================");
-        }
-    }
-    
-    public void orderFood() throws IOException{
-        int canFind = 0;
-        if(foodDB.isEmpty()){
-             System.out.println("메뉴가 없습니다.");
-             return;
-         }
-         if(reserveSys.showAllReservation(1).isEmpty()){
-            return;
-        }
-         
-        System.out.print("주문 호실 : ");
-       
-        String OrderRoomID = helper.getUserInput();
-        
-         //비교를 위한 객체 생성
-         ReservedInfo roomID = new ReservedInfo(OrderRoomID);
-         for(ReservedInfo temp : reserveSys.getReserveDB()){
-              if(roomID.equals(temp) && temp.getCheck()){
-                        roomID = temp;
-                        System.out.println(roomID.getRoomID()+ "번 방의 " + roomID.getReserverName()+"님께 주문합니다.");
-                        canFind=2;
-              }
-              else if(roomID.equals(temp) && !temp.getCheck())   
-                   canFind=1;              
-         }
-        switch (canFind) {
-            case 0:
-                System.out.println("주문자를 찾을 수 없습니다!");
-                break;
-            case 1:
-                System.out.println("체크인 하지 않은 고객입니다.");
-                System.out.print(roomID.getCheck());
-                break;
-            default:
-                showFood();
-                System.out.print("메뉴 ID를 입력해 주세요 : ");
-                int OrderMenuID = Integer.parseInt(helper.getUserInput("[0-9]+"));
-                Food orderMenu = findMenu(OrderMenuID);
-                if(orderMenu == null){
-                    System.out.println("메뉴를 찾을 수 없습니다.");
-                }
-                else{
-                    System.out.println(orderMenu.getName() + " 주문 완료!");
-                    roomID.addExtraFee(orderMenu.getPrice());
-                    helper.writeDBFile(3,reserveSys.getReserveDB());
-                    foodReport.addReport("order", orderMenu.getName()+";"+OrderRoomID+";"+Integer.toString(orderMenu.getPrice()));
-                }   break;
-        }
-    }
     
     public Food findMenu(int OrderMenuID){
             Food OrderMenu = new Food(OrderMenuID);

@@ -66,10 +66,9 @@ public class LoginSystem extends JFrame {
             User loginTryingUser;
 
             //아이디 입력
-            System.out.print("ID : ");
+          
             String ID = txtID.getText();
             //비밀번호 입력admin
-            System.out.print("PASS : ");
             String password = txtPass.getText();
 
             //비교를 위한 객체 생성
@@ -79,7 +78,6 @@ public class LoginSystem extends JFrame {
                 if(loginTryingUser.equals(temp)){
                     loginUser = temp;
                     dispose();
-                    System.out.println("안녕하세요 " + loginUser.getName() + "님");
                     JOptionPane.showMessageDialog(null, "안녕하세요 " + loginUser.getName() + "님");
                     try {
                         loginReport.addReport("login", ID+ ";login");
