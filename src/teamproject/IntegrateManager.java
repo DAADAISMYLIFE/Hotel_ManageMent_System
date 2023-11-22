@@ -28,7 +28,7 @@ public class IntegrateManager {
     ReportSystem ReportSys;
     boolean isQuit;
     User loginUser;
-    public static JFrame frm = new JFrame();
+    public static JFrame frm;
     
     
     public void initIM() throws IOException{
@@ -42,6 +42,7 @@ public class IntegrateManager {
         LogSys.init();
         RserveSys.ReserveSysInit();
         FoodSys = new FoodSystem(RserveSys,ReportSys);
+        frm = new JFrame();
     }
             
     public void runIM() throws IOException{
@@ -52,16 +53,17 @@ public class IntegrateManager {
     }
     
     public void showMainMenu() throws IOException{
-           frm.getContentPane().setLayout(null);
+            frm.setTitle("호텔 관리 통합 시스템");
+            frm.getContentPane().setLayout(null);
             JButton reservationButton = new JButton("객실 및 예약 정보");
             JButton menuButton = new JButton("식품 주문 및 정보");
-            JButton reportButton = new JButton("시스템 정보 수정 및 보고서 작성");
+            JButton reportButton = new JButton("로그 정보");
             JButton quitButton = new JButton("종료");
 
-            reservationButton.setBounds(182, 120, 172, 30);
-            menuButton.setBounds(182, 170, 172, 30);
-            reportButton.setBounds(182, 220, 172, 30);
-            quitButton.setBounds(182, 270, 172, 30);
+            reservationButton.setBounds(70, 30, 210, 50);
+            menuButton.setBounds(70, 110, 210, 50);
+            reportButton.setBounds(70, 190, 210, 50);
+            quitButton.setBounds(70, 270, 210, 50);
 
             frm.getContentPane().add(reservationButton);
             frm.getContentPane().add(menuButton);
@@ -70,7 +72,7 @@ public class IntegrateManager {
              }
             frm.getContentPane().add(quitButton);
 
-            frm.setSize(500,500);
+            frm.setSize(350,400);
             frm.setLocationRelativeTo(null);
             frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
