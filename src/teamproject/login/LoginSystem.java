@@ -4,6 +4,7 @@
  */
 package teamproject.login;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -33,11 +34,6 @@ public class LoginSystem extends JFrame {
         userDB = new ArrayList<>();
         helper = new SystemHelper();    
         helper.createDBFile(0, "login");
-       //관리자 추가
-       //User temp = new User("admin","Admin","관리자",true);
-       //userDB.add(temp);
-       //일반 직원 추가
-       //temp = new User("alba","Alba","직원");
         ArrayList<String> readContext = helper.readDBFile(0);
         for(String temp : readContext){
             User tempUser = new User (temp.split(";")[0],temp.split(";")[1],temp.split(";")[2],Boolean.parseBoolean(temp.split(";")[3]));
@@ -47,18 +43,37 @@ public class LoginSystem extends JFrame {
     
     
     public void login(){
-        JPanel panel = new JPanel();
-        JLabel label =new JLabel("ID : ");
-        JLabel pswrd =new JLabel("Password : ");
-        JTextField txtID = new JTextField(10);
-        JPasswordField txtPass = new JPasswordField(10);
+        setTitle("로그인");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container swingContext = getContentPane();
+        swingContext.setLayout(null);
+        
+        JLabel idLabel =new JLabel("ID : ");
+        JLabel pswdLabel =new JLabel("Password : ");
+        JTextField txtID = new JTextField();
+        JPasswordField txtPass = new JPasswordField();
         JButton logBtn =new JButton("로그인");
         
-        panel.add(label);
-        panel.add(txtID);
-        panel.add(pswrd);
-        panel.add(txtPass);
-        panel.add(logBtn);
+        idLabel.setLocation(30, 30);
+        txtID.setLocation(120, 30);
+        
+        pswdLabel.setLocation(30, 60);
+        txtPass.setLocation(120, 60);
+        
+        logBtn.setLocation(90, 100);
+        
+        idLabel.setSize(100,30);
+        pswdLabel.setSize(100,30);
+        txtID.setSize(100,30);
+        txtPass.setSize(100,30);
+        logBtn.setSize(100,30);
+        
+        swingContext.add(idLabel);
+        swingContext.add(pswdLabel);
+        swingContext.add(txtID);
+        swingContext.add(txtPass);
+        swingContext.add(logBtn);
+
         
         logBtn.addActionListener(new ActionListener(){
         public void actionPerformed(ActionEvent e){
@@ -66,19 +81,17 @@ public class LoginSystem extends JFrame {
             User loginTryingUser;
 
             //아이디 입력
-          
             String ID = txtID.getText();
-            //비밀번호 입력admin
+            //비밀번호 입력
             String password = txtPass.getText();
-
             //비교를 위한 객체 생성
            loginTryingUser = new User(ID,password); 
             //비교
             for(User temp : userDB){
                 if(loginTryingUser.equals(temp)){
                     loginUser = temp;
-                    dispose();
                     JOptionPane.showMessageDialog(null, "안녕하세요 " + loginUser.getName() + "님");
+                    dispose(); 
                     try {
                         loginReport.addReport("login", ID+ ";login");
                     } catch (IOException ex) {
@@ -91,9 +104,8 @@ public class LoginSystem extends JFrame {
                 JOptionPane.showMessageDialog(null, "로그인 실패");
         }
     }); 
-        add(panel);
         setVisible(true);
-        setSize(600,400);
+        setSize(280,180);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

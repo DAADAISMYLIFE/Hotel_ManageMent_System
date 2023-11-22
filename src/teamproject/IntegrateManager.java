@@ -82,7 +82,6 @@ public class IntegrateManager {
 
 
         reservationButton.addActionListener(event -> {
-             JOptionPane.showMessageDialog(null, "객실 및 예약 정보");
            try {
                RserveSys.runReserSys();
                frm.setVisible(false);
@@ -92,7 +91,6 @@ public class IntegrateManager {
 
         });
         menuButton.addActionListener(event -> {
-             JOptionPane.showMessageDialog(null, "식품 주문 및 정보");
            try {
                FoodSys.runFoodSystem();
                frm.setVisible(false);
@@ -103,7 +101,6 @@ public class IntegrateManager {
         });
 
         reportButton.addActionListener(event -> {
-            JOptionPane.showMessageDialog(null, "시스템 정보 및 보고서");
            try {
                ReportSys.runReportSystem();
                frm.setVisible(false);
