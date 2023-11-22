@@ -127,27 +127,34 @@ public class FoodSystem extends JFrame {
             JLabel priceLabel = new JLabel("메뉴 가격:");
             JTextField priceField = new JTextField();
             JButton submitButton = new JButton("확인");
+            JButton Button = new JButton("취소");
             
             menuLabel.setLocation(20,20);
             menuField.setLocation(100,20);
             priceLabel.setLocation(20,70);
             priceField.setLocation(100,70);
-            submitButton.setLocation(70,120);
-            
+            submitButton.setLocation(50,120);
+            Button.setLocation(120,120);
             menuLabel.setSize(100,30);
             menuField.setSize(100,30);
             priceLabel.setSize(100,30);
             priceField.setSize(100,30);
-            submitButton.setSize(100,30);
-
+            submitButton.setSize(70,30);
+            Button.setSize(70,30);
             inputFrame.add(menuLabel);
             inputFrame.add(menuField);
             inputFrame.add(priceLabel);
             inputFrame.add(priceField);
             inputFrame.add(submitButton);
+             inputFrame.add(Button);
             inputFrame.setLocationRelativeTo(null);
             inputFrame.setVisible(true);
             
+            Button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    inputFrame.dispose();
+                }
+                });
             submitButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     String menuID = String.valueOf(foodCount);
@@ -178,6 +185,7 @@ public class FoodSystem extends JFrame {
                     } 
                 }
                 });
+            
         });
         deleteFood.addActionListener(event->{
             int selectedRow = menuTable.getSelectedRow();
@@ -201,7 +209,7 @@ public class FoodSystem extends JFrame {
                 questionFrame.add(questionLabel);
                 questionFrame.add(yesButton);
                 questionFrame.add(noButton);
-               questionFrame.setLocationRelativeTo(null);
+                questionFrame.setLocationRelativeTo(null);
                 questionFrame.setVisible(true);
                 
                 yesButton.addActionListener(new ActionListener() {
