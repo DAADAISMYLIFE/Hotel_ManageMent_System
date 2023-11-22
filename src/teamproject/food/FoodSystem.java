@@ -79,8 +79,8 @@ public class FoodSystem extends JFrame {
         menuTable = new JTable(model);
         scrollPane = new JScrollPane(menuTable);
         TableColumnModel columnModel = menuTable.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(15);  // 메뉴 ID
-        columnModel.getColumn(1).setPreferredWidth(250); // 메뉴 이름
+        columnModel.getColumn(0).setPreferredWidth(30);  // 메뉴 ID
+        columnModel.getColumn(1).setPreferredWidth(225); // 메뉴 이름
         columnModel.getColumn(2).setPreferredWidth(80);  // 가격
         
         for (int i = 0; i < columnModel.getColumnCount(); i++) {

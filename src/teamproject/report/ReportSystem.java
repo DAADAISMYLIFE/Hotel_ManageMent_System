@@ -10,6 +10,7 @@ import teamproject.SystemHelper;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import teamproject.IntegrateManager;
 /**
  * @author 박상현
  */
@@ -46,23 +47,29 @@ public class ReportSystem extends JFrame{
         JButton orderButton = new JButton("주문 보고서");
         JButton menuButton = new JButton("메뉴 보고서");
         JButton reservationButton = new JButton("예약 보고서");
+        JButton quitReport = new JButton("나가기");
         //위치 설정
         loginButton.setLocation(50,50);
         orderButton.setLocation(50,100);
         menuButton.setLocation(50,150);
         reservationButton.setLocation(50,200);
+        quitReport.setLocation(50,250);
+
+        
         //크기 설정
         loginButton.setSize(200,30);
         orderButton.setSize(200,30);
         menuButton.setSize(200,30);
         reservationButton.setSize(200,30);
+        quitReport.setSize(200,30);
         //버튼을 스윙에 추가
         swing_Context.add(loginButton);
         swing_Context.add(orderButton);
         swing_Context.add(menuButton);
         swing_Context.add(reservationButton);
+        swing_Context.add(quitReport);
         //크기랑 보이기 설정
-        setSize(300,300);
+        setSize(300,400);
         setVisible(true);
         //버튼별 이벤트
         loginButton.addActionListener(event -> {
@@ -88,6 +95,10 @@ public class ReportSystem extends JFrame{
          //기존에 있는 함수
         /*System.out.println("1: 로그인 보고서 2: 주문 보고서 3: 메뉴 보고서 4: 예약 보고서");
          findType = Integer.parseInt(helper.getUserInput("[1-4]"));*/
+        quitReport.addActionListener(event->{
+            this.dispose();
+            IntegrateManager.frm.setVisible(true);
+        });
     }
     
     public void showReport(int findType){
