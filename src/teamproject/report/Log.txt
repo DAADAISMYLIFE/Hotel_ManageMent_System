@@ -8,3 +8,12 @@ login;admin;login;2023/11/22/15:44
 login;admin;login;2023/11/22/15:44
 login;admin;login;2023/11/22/15:47
 login;admin;logout;2023/11/22/15:48
+login;admin;login;2023/11/22/15:50
+login;admin;logout;2023/11/22/15:50
+login;admin;login;2023/11/22/15:54
+reserve;add;강순우;707;2023/11/30;2023/12/31;2023/11/22/15:54
+reserve;checkIn;707;2023/11/22/15:54
+login;admin;login;2023/11/22/15:55
+reserve;checkOut;707;2023/11/22/15:55
+reserve;add;강순우;203;2023/11/30;2023/12/31;2023/11/22/15:55
+login;admin;logout;2023/11/22/15:55

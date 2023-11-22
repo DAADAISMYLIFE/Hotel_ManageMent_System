@@ -350,16 +350,18 @@ public class ReservationSystem extends JFrame {
                 String room = (String) reservationTable.getValueAt(selectedRow, 0);
                 for(ReservedInfo temp : reserveDB){
                     if(temp.getRoomID().equals(room) && temp.getCheck() == false){
-                        temp.setCheck(true);
-                        System.out.print("체크인 완료");
-                        model.setValueAt("true", selectedRow, 4);
-                        try {
-                            helper.writeDBFile(3, reserveDB);
-                            ReserveReport.addReport("reserve","checkIn;"+ room);
-                        } catch (IOException ex) {
-                            Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+                        if(temp.getStartDateI()<=helper.getTodayDateI()){
+                            temp.setCheck(true);
+                            System.out.print("체크인 완료");
+                            model.setValueAt("true", selectedRow, 4);
+                            try {
+                                helper.writeDBFile(3, reserveDB);
+                                ReserveReport.addReport("reserve","checkIn;"+ room);
+                            } catch (IOException ex) {
+                                Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
