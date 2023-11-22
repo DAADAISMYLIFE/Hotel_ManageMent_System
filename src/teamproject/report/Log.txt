@@ -1,13 +1,4 @@
-login;admin;2023/11/22/14:49
-login;admin;2023/11/22/14:51
-login;admin;2023/11/22/14:53
-login;admin;2023/11/22/14:57
-login;admin;logout;2023/11/22/14:57
-login;admin;2023/11/22/14:58
-login;admin;2023/11/22/14:59
-login;admin;logout;2023/11/22/14:59
-login;alba;2023/11/22/14:59
-login;alba;logout;2023/11/22/14:59
-login;admin;2023/11/22/14:59
-login;admin;logout;2023/11/22/14:59
-login;admin;2023/11/22/15:09
+
+login;admin;login;2023/11/22/14:26
+login;admin;logout;2023/11/22/14:26
+login;admin;login;2023/11/22/14:26
