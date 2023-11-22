@@ -1,0 +1,16 @@
+login;admin;login;2023/11/23/00:45
+login;admin;logout;2023/11/23/00:46
+login;admin;login;2023/11/23/00:46
+login;admin;logout;2023/11/23/00:46
+login;admin;login;2023/11/23/00:47
+login;admin;logout;2023/11/23/00:48
+login;alba;login;2023/11/23/00:48
+login;alba;logout;2023/11/23/00:48
+login;admin;login;2023/11/23/00:49
+reserve;add;a;101;2023/11/23;2023/11/25;2023/11/23/00:50
+login;admin;logout;2023/11/23/00:50
+login;admin;login;2023/11/23/00:50
+login;admin;login;2023/11/23/00:51
+login;admin;logout;2023/11/23/00:51
+login;admin;login;2023/11/23/00:51
+login;admin;logout;2023/11/23/00:51

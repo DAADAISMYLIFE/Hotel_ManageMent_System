@@ -141,6 +141,7 @@ public class ReportSystem extends JFrame{
                     reportTableModel.addColumn("체크인 날짜");
                     reportTableModel.addColumn("체크아웃 날짜");
                     reportTableModel.addColumn("예약 여부"); //예약 추가/삭제
+                    reportTableModel.addColumn("예약 추가 시간");
                     break;
                 default:
                     findTypeS = "";
@@ -163,7 +164,7 @@ public class ReportSystem extends JFrame{
                             break;
                         case "reserve":
                             if(!(tmp.getReportData().split(";")[0].equals("checkIn") || tmp.getReportData().split(";")[0].equals("checkOut"))){
-                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0]});
+                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[5]});
                             }
                             break;
                         default:

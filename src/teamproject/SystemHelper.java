@@ -116,9 +116,6 @@ public class SystemHelper {
             case 0:
                 File_Name = "User.txt";
                 break;
-            case 1:
-                File_Name = "Room.txt";
-                break;
             case 2:
                 File_Name = "Food.txt";
                 break;
@@ -149,9 +146,6 @@ public class SystemHelper {
         switch (typeOfDB) {
             case 0:
                 File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\login\\User.txt";
-                break;
-            case 1:
-                File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\room\\Room.txt";
                 break;
             case 2:
                 File_Path = System.getProperty("user.dir") +  "\\src\\teamproject\\food\\Food.txt";
