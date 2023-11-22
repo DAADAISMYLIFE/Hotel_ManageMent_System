@@ -116,32 +116,32 @@ public class ReportSystem extends JFrame{
             //보고서 양식(model) 설정
             switch (findType) {
                 case 1:
-                    findTypeS = "login";
+                    findTypeS = "login";    //로그인 관련 기록
                     reportTableModel.addColumn("사용자");
-                    reportTableModel.addColumn("접속 여부");
+                    reportTableModel.addColumn("접속 여부"); //로그인/로그아웃
                     reportTableModel.addColumn("접속 시간");
                     break;
                 case 2:
-                    findTypeS = "order";  
-                     reportTableModel.addColumn("");
+                    findTypeS = "order";  //주문 관련 기록
                     reportTableModel.addColumn("호실");
-                    reportTableModel.addColumn("");
-                    break;
-                case 3:
-                    findTypeS = "menu";
-                    reportTableModel.addColumn("사용자");
-                    reportTableModel.addColumn("호실");
-                    reportTableModel.addColumn("메뉴 이름");
+                    reportTableModel.addColumn("음식 이름");
+                    reportTableModel.addColumn("음식 가격");
                     reportTableModel.addColumn("주문 시간");
                     break;
+                case 3:
+                    findTypeS = "menu"; //메뉴 관련 기록
+                    reportTableModel.addColumn("메뉴 이름");
+                    reportTableModel.addColumn("가격");
+                    reportTableModel.addColumn("타입(?)"); //추가/삭제
+                    reportTableModel.addColumn("변경 시간");
+                    break;
                 case 4:
-                    findTypeS = "reserve";
+                    findTypeS = "reserve";  //예약 관련 기록
                     reportTableModel.addColumn("예약자");
                     reportTableModel.addColumn("호실");
-                    reportTableModel.addColumn("인원");
-                    reportTableModel.addColumn("숙박 일 수");
                     reportTableModel.addColumn("체크인 날짜");
                     reportTableModel.addColumn("체크아웃 날짜");
+                    reportTableModel.addColumn("예약 여부"); //예약 추가/삭제
                     break;
                 default:
                     findTypeS = "";
@@ -152,11 +152,21 @@ public class ReportSystem extends JFrame{
                 //형식에 맞는 로그 출력
                 if(tmp.getReportType().equals(findTypeS)){
                     //table과 연동하여 보여주기
-                    reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]});
-                  } 
+                    if(findTypeS == "login"){
+                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]});
+                    }
+                    else if(findTypeS == "order"){
+                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3]});
+                    }
+                    else if(findTypeS == "menu"){
+                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[3]});
+                    }
+                    else if(findTypeS == "reserve"){
+                        reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],tmp.getReportData().split(";")[3],tmp.getReportData().split(";")[4],tmp.getReportData().split(";")[0]});
+                    }
+                } 
             }
             reportTable.setModel(reportTableModel); //Table model 바꾸기
-            System.out.println("\n==============================================================================================");
         } 
     }
     
