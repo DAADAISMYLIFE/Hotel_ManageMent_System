@@ -51,10 +51,12 @@ public class ReservationSystem extends JFrame {
     }
     
     public void runReserSys() throws IOException{
-        setTitle("예약 시스템");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container swingContext = getContentPane();
-        swingContext.setLayout(null);
+        JFrame frmR =new JFrame();
+         frmR.invalidate();
+         frmR.setTitle("예약 시스템");
+         frmR.setDefaultCloseOperation(frmR.EXIT_ON_CLOSE);
+         frmR.getContentPane();
+         frmR.setLayout(null);
         JButton addReservation = new JButton("예약 추가");
         JButton deleteReservation = new JButton("예약 삭제");
         JButton checkInReservation = new JButton("체크인");
@@ -63,11 +65,11 @@ public class ReservationSystem extends JFrame {
         JTable reservationTable;
         JScrollPane scrollPane;
         
-        
         String[][] tableData = new String[][] {};
         
         String[] columnNames = {"호실","예약자","인원","예약기간","체크인 여부", "숙박 비용", "추가 금액"};
         DefaultTableModel model = new DefaultTableModel(tableData, columnNames){
+            
             public boolean isCellEditable(int rowIndex, int mColIndex){
                 return false;
             }
@@ -87,7 +89,7 @@ public class ReservationSystem extends JFrame {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setResizable(false);
         }
-        reservationTable.getTableHeader().setReorderingAllowed(false);
+        reservationTable.getTableHeader().setReorderingAllowed(true);
         DefaultTableModel modelTemp = (DefaultTableModel) reservationTable.getModel();
         for (ReservedInfo reservation : reserveDB) {
             String room = reservation.getRoomID();
@@ -103,8 +105,8 @@ public class ReservationSystem extends JFrame {
         }
         
         scrollPane.setBounds(200, 50, 700, 300);
-        swingContext.add(scrollPane);
-        
+        frmR.add(scrollPane);
+       
         addReservation.setLocation(10,100);
         deleteReservation.setLocation(10,150);
         checkInReservation.setLocation(10,200);
@@ -117,14 +119,13 @@ public class ReservationSystem extends JFrame {
         checkOutReservation.setSize(180,30);
         quitReservation.setSize(180,30);
         
-        swingContext.add(addReservation);
-        swingContext.add(deleteReservation);
-        swingContext.add(checkInReservation);
-        swingContext.add(checkOutReservation);
-        swingContext.add(quitReservation);
-        
-        setSize(1000,500);
-        setVisible(true);
+        frmR.add(addReservation);
+        frmR.add(deleteReservation);
+        frmR.add(checkInReservation);
+        frmR.add(checkOutReservation);
+        frmR.add(quitReservation);
+        frmR.setSize(1000,500);
+        frmR.setVisible(true);
         
         addReservation.addActionListener(event->{
             JFrame inputFrame = new JFrame("예약 추가");
@@ -314,20 +315,20 @@ public class ReservationSystem extends JFrame {
             int selectedRow = reservationTable.getSelectedRow();
             if (selectedRow != -1) {
                 JFrame questionFrame = new JFrame("예약 삭제");
-                questionFrame.setSize(350, 300);
+                questionFrame.setSize(250, 150);
                 questionFrame.setLayout(null);
-
+                questionFrame.setLocationRelativeTo(null);
                 JLabel questionLabel = new JLabel("정말로 예약을 삭제합니까?");
                 JButton yesButton = new JButton("확인");
                 JButton noButton = new JButton("취소");
                 
-                questionLabel.setLocation(100,50);
-                yesButton.setLocation(50,150);
-                noButton.setLocation(200,150);
+                questionLabel.setLocation(40,10);
+                yesButton.setLocation(40,60);
+                noButton.setLocation(120,60);
                 
                 questionLabel.setSize(200,50);
-                yesButton.setSize(80,50);
-                noButton.setSize(80,50);
+                yesButton.setSize(80,30);
+                noButton.setSize(80,30);
                 
                 questionFrame.add(questionLabel);
                 questionFrame.add(yesButton);
@@ -440,10 +441,10 @@ public class ReservationSystem extends JFrame {
         });
         
         quitReservation.addActionListener(event->{
-            this.dispose();
+            frmR.dispose();
             IntegrateManager.frm.setVisible(true);
         });
-        setLocationRelativeTo(null);
+        frmR.setLocationRelativeTo(null);
     }
 
     public ArrayList<ReservedInfo> showAllReservation(int onlyCheckIn) throws IOException{

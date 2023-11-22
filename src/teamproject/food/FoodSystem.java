@@ -183,20 +183,20 @@ public class FoodSystem extends JFrame {
             int selectedRow = menuTable.getSelectedRow();
             if (selectedRow != -1) {
                 JFrame questionFrame = new JFrame("메뉴 삭제");
-                questionFrame.setSize(350, 300);
+                questionFrame.setSize(250, 150);
                 questionFrame.setLayout(null);
 
                 JLabel questionLabel = new JLabel("정말로 메뉴를 삭제합니까?");
                 JButton yesButton = new JButton("확인");
                 JButton noButton = new JButton("취소");
                 
-                questionLabel.setLocation(100,50);
-                yesButton.setLocation(50,150);
-                noButton.setLocation(200,150);
+                questionLabel.setLocation(40,10);
+                yesButton.setLocation(40,60);
+                noButton.setLocation(120,60);
                 
                 questionLabel.setSize(200,50);
-                yesButton.setSize(80,50);
-                noButton.setSize(80,50);
+                yesButton.setSize(80,30);
+                noButton.setSize(80,30);
                 
                 questionFrame.add(questionLabel);
                 questionFrame.add(yesButton);
@@ -222,6 +222,11 @@ public class FoodSystem extends JFrame {
                             }
                         
                             model.removeRow(selectedRow);
+                            questionFrame.dispose();
+                        }
+                });
+                noButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
                             questionFrame.dispose();
                         }
                 });
@@ -270,6 +275,7 @@ public class FoodSystem extends JFrame {
                             } catch (IOException ex) {
                                 Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                            model.fireTableDataChanged();
                             selectReserverFrame.dispose();
                             break;
                         }    
