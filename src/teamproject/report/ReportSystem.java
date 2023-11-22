@@ -40,7 +40,6 @@ public class ReportSystem extends JFrame{
     public void runReportSystem() throws IOException{
         //처음 보고서 테이블 양식
         defaultReportTableModel = new DefaultTableModel();  //아무것도 없는 model
-        reportTableModel = new DefaultTableModel();             //다른곳에서 model에 colum이랑 Row 추가할 예정
         reportTable = new JTable(defaultReportTableModel);
         //프레임 코드
          setTitle("보고서");
@@ -106,6 +105,7 @@ public class ReportSystem extends JFrame{
     }
     
     public void showReport(int findType){
+         reportTableModel = new DefaultTableModel();             //다른곳에서 model에 colum이랑 Row 추가할 예정
         if(ReportDB.isEmpty()){
                 System.out.println("로그가 아직 없습니다.");
          }
@@ -136,7 +136,7 @@ public class ReportSystem extends JFrame{
                     break;
                 case 4:
                     findTypeS = "reserve";
-                     reportTableModel.addColumn("예약자");
+                    reportTableModel.addColumn("예약자");
                     reportTableModel.addColumn("호실");
                     reportTableModel.addColumn("인원");
                     reportTableModel.addColumn("숙박 일 수");
@@ -151,11 +151,10 @@ public class ReportSystem extends JFrame{
             for(Report tmp  : ReportDB){
                 //형식에 맞는 로그 출력
                 if(tmp.getReportType().equals(findTypeS)){
-                    //System.out.printf("%s;%s\n",tmp.getReportType(),tmp.getReportData());
                     //table과 연동하여 보여주기
-                    reportTableModel.addRow(new String[]{tmp.getReportData(),tmp.getReportType(),tmp.getReportData()});
+                    reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportType(),tmp.getReportData().split(";")[1]});
                   } 
-            } 
+            }
             reportTable.setModel(reportTableModel); //Table model 바꾸기
             System.out.println("\n==============================================================================================");
         } 
