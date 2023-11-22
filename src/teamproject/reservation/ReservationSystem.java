@@ -257,7 +257,7 @@ public class ReservationSystem extends JFrame {
                                         reserveDB.add(temp);
                                         try {
                                             helper.writeDBFile(3, reserveDB);
-                                            ReserveReport.addReport("reserve","add;"+name + ";"+ room +";"+  Integer.toString( startYear) + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + "~" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
+                                            ReserveReport.addReport("reserve","add;"+name + ";"+ room +";"+  Integer.toString( startYear) + "/"  + Integer.toString( startMonth) + "/" + Integer.toString( startDay) + ";" +Integer.toString( endYear)  +"/"+Integer.toString( endMonth)+ "/"+ Integer.toString( endDay) );
                                         } catch (IOException ex) {
                                             Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
                                         }
