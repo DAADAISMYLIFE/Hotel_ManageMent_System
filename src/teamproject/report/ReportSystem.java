@@ -123,15 +123,25 @@ public class ReportSystem extends JFrame{
                     break;
                 case 2:
                     findTypeS = "order";  
-                    reportTableModel.addColumn(NORMAL);
+                     reportTableModel.addColumn("");
+                    reportTableModel.addColumn("호실");
+                    reportTableModel.addColumn("");
                     break;
                 case 3:
                     findTypeS = "menu";
-                    reportTableModel.addColumn(NORMAL);
+                    reportTableModel.addColumn("사용자");
+                    reportTableModel.addColumn("호실");
+                    reportTableModel.addColumn("메뉴 이름");
+                    reportTableModel.addColumn("주문 시간");
                     break;
                 case 4:
                     findTypeS = "reserve";
-                    reportTableModel.addColumn(NORMAL);
+                     reportTableModel.addColumn("예약자");
+                    reportTableModel.addColumn("호실");
+                    reportTableModel.addColumn("인원");
+                    reportTableModel.addColumn("숙박 일 수");
+                    reportTableModel.addColumn("체크인 날짜");
+                    reportTableModel.addColumn("체크아웃 날짜");
                     break;
                 default:
                     findTypeS = "";
