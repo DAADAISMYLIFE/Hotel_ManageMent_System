@@ -152,7 +152,7 @@ public class ReportSystem extends JFrame{
                 //형식에 맞는 로그 출력
                 if(tmp.getReportType().equals(findTypeS)){
                     //table과 연동하여 보여주기
-                    reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportType(),tmp.getReportData().split(";")[1]});
+                    reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0],tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]});
                   } 
             }
             reportTable.setModel(reportTableModel); //Table model 바꾸기
