@@ -270,6 +270,7 @@ public class FoodSystem extends JFrame {
                             } catch (IOException ex) {
                                 Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                            model.fireTableDataChanged();
                             selectReserverFrame.dispose();
                             break;
                         }    
