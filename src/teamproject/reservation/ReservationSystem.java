@@ -51,82 +51,124 @@ public class ReservationSystem extends JFrame {
     }
 
     public void runReserSys() throws IOException {
-        JFrame frmR = new JFrame();
-        frmR.invalidate();
-        frmR.setTitle("예약 시스템");
-        frmR.setDefaultCloseOperation(frmR.EXIT_ON_CLOSE);
-        frmR.getContentPane();
-        frmR.setLayout(null);
-        JButton addReservation = new JButton("예약 추가");
-        JButton deleteReservation = new JButton("예약 삭제");
-        JButton checkInReservation = new JButton("체크인");
-        JButton checkOutReservation = new JButton("체크아웃");
-        JButton quitReservation = new JButton("나가기");
-        JTable reservationTable;
-        JScrollPane scrollPane;
+        loginForm lf = new loginForm();
+        lf.makeReservationForm();
+    }
 
-        String[][] tableData = new String[][]{};
+    public void showAvaliableRooms(ArrayList<Room> canReserveRoom, int startDateI, int endDateI, int reserveGuests) throws IOException {
+        for (int i = 0; i < 100; i++) {
 
-        String[] columnNames = {"호실", "예약자", "인원", "예약기간", "체크인 여부", "숙박 비용", "추가 금액"};
-        DefaultTableModel model = new DefaultTableModel(tableData, columnNames) {
+            boolean canShow = true;
 
-            public boolean isCellEditable(int rowIndex, int mColIndex) {
-                return false;
+            if (reserveGuests > RS.roomDB.get(i).getNumberOfGuests()) {
+                canShow = false;
             }
-        };
-        reservationTable = new JTable(model);
-        scrollPane = new JScrollPane(reservationTable);
 
-        TableColumnModel columnModel = reservationTable.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(50);  // 호실
-        columnModel.getColumn(1).setPreferredWidth(100); // 예약자
-        columnModel.getColumn(2).setPreferredWidth(50);  // 인원
-        columnModel.getColumn(3).setPreferredWidth(200); // 예약기간
-        columnModel.getColumn(4).setPreferredWidth(100); // 체크인 여부
-        columnModel.getColumn(5).setPreferredWidth(100); // 숙박 비용
-        columnModel.getColumn(6).setPreferredWidth(100); // 추가 금액
+            for (ReservedInfo temp : reserveDB) {
+                if (temp.getRoomID().equals(RS.roomDB.get(i).getRoomNumber())) {
+                    int startDateT = temp.getStartYear() * 10000 + temp.getStartMonth() * 100 + temp.getStartDay();
+                    int endDateT = temp.getEndYear() * 10000 + temp.getEndMonth() * 100 + temp.getEndDay();
 
-        for (int i = 0; i < columnModel.getColumnCount(); i++) {
-            columnModel.getColumn(i).setResizable(false);
+                    if ((startDateI >= startDateT && startDateI < endDateT) || (endDateI > startDateT && endDateI <= endDateT) || (startDateI <= startDateT && endDateI >= endDateT)) {
+                        canShow = false;
+                    }
+                }
+            }
+            if (canShow) {
+                //예약 가능한 방 리스트
+                canReserveRoom.add(RS.roomDB.get(i));
+            }
         }
-        reservationTable.getTableHeader().setReorderingAllowed(true);
-        for (ReservedInfo reservation : reserveDB) {
-            String room = reservation.getRoomID();
-            String name = reservation.getReserverName();
-            String numPeople = String.valueOf(reservation.getNumOfGuests());
-            String checkIn = String.format("%04d/%02d/%02d", reservation.getStartYear(), reservation.getStartMonth(), reservation.getStartDay());
-            String checkOut = String.format("%04d/%02d/%02d", reservation.getEndYear(), reservation.getEndMonth(), reservation.getEndDay());
-            String time = checkIn + " ~ " + checkOut;
-            String isCheck = reservation.getCheck() ? "true" : "false";
-            String cost = String.valueOf(reservation.getTotalRoomFee());
-            String extraCost = String.valueOf(reservation.getExtraFee());
-            model.addRow(new String[]{room, name, numPeople, time, isCheck, cost, extraCost});
+    }
+
+    private class loginForm {
+
+        private void makeReservationForm() {
+            JFrame frmR = new JFrame();
+            frmR.invalidate();
+            frmR.setTitle("예약 시스템");
+            frmR.setDefaultCloseOperation(frmR.EXIT_ON_CLOSE);
+            frmR.getContentPane();
+            frmR.setLayout(null);
+            JButton addReservation = new JButton("예약 추가");
+            JButton deleteReservation = new JButton("예약 삭제");
+            JButton checkInReservation = new JButton("체크인");
+            JButton checkOutReservation = new JButton("체크아웃");
+            JButton quitReservation = new JButton("나가기");
+            JTable reservationTable;
+            JScrollPane scrollPane;
+
+            String[][] tableData = new String[][]{};
+
+            String[] columnNames = {"호실", "예약자", "인원", "예약기간", "체크인 여부", "숙박 비용", "추가 금액"};
+            DefaultTableModel model = new DefaultTableModel(tableData, columnNames) {
+
+                public boolean isCellEditable(int rowIndex, int mColIndex) {
+                    return false;
+                }
+            };
+            reservationTable = new JTable(model);
+            scrollPane = new JScrollPane(reservationTable);
+
+            TableColumnModel columnModel = reservationTable.getColumnModel();
+            columnModel.getColumn(0).setPreferredWidth(50);  // 호실
+            columnModel.getColumn(1).setPreferredWidth(100); // 예약자
+            columnModel.getColumn(2).setPreferredWidth(50);  // 인원
+            columnModel.getColumn(3).setPreferredWidth(200); // 예약기간
+            columnModel.getColumn(4).setPreferredWidth(100); // 체크인 여부
+            columnModel.getColumn(5).setPreferredWidth(100); // 숙박 비용
+            columnModel.getColumn(6).setPreferredWidth(100); // 추가 금액
+
+            for (int i = 0; i < columnModel.getColumnCount(); i++) {
+                columnModel.getColumn(i).setResizable(false);
+            }
+            reservationTable.getTableHeader().setReorderingAllowed(true);
+            for (ReservedInfo reservation : reserveDB) {
+                String room = reservation.getRoomID();
+                String name = reservation.getReserverName();
+                String numPeople = String.valueOf(reservation.getNumOfGuests());
+                String checkIn = String.format("%04d/%02d/%02d", reservation.getStartYear(), reservation.getStartMonth(), reservation.getStartDay());
+                String checkOut = String.format("%04d/%02d/%02d", reservation.getEndYear(), reservation.getEndMonth(), reservation.getEndDay());
+                String time = checkIn + " ~ " + checkOut;
+                String isCheck = reservation.getCheck() ? "true" : "false";
+                String cost = String.valueOf(reservation.getTotalRoomFee());
+                String extraCost = String.valueOf(reservation.getExtraFee());
+                model.addRow(new String[]{room, name, numPeople, time, isCheck, cost, extraCost});
+            }
+
+            scrollPane.setBounds(200, 50, 700, 300);
+            frmR.add(scrollPane);
+
+            addReservation.setLocation(10, 100);
+            deleteReservation.setLocation(10, 150);
+            checkInReservation.setLocation(10, 200);
+            checkOutReservation.setLocation(10, 250);
+            quitReservation.setLocation(10, 300);
+
+            addReservation.setSize(180, 30);
+            deleteReservation.setSize(180, 30);
+            checkInReservation.setSize(180, 30);
+            checkOutReservation.setSize(180, 30);
+            quitReservation.setSize(180, 30);
+
+            frmR.add(addReservation);
+            frmR.add(deleteReservation);
+            frmR.add(checkInReservation);
+            frmR.add(checkOutReservation);
+            frmR.add(quitReservation);
+            frmR.setSize(1000, 500);
+            frmR.setVisible(true);
+
+            addReservation.addActionListener(event -> addReservationAction(reservationTable));
+            deleteReservation.addActionListener(event -> deleteReservationAction(reservationTable));
+            checkInReservation.addActionListener(event -> checkInReservationAction(reservationTable));
+            checkOutReservation.addActionListener(event -> checkOutReservationAction(reservationTable));
+            quitReservation.addActionListener(event -> quitReservationAction(frmR));
+            frmR.setLocationRelativeTo(null);
         }
 
-        scrollPane.setBounds(200, 50, 700, 300);
-        frmR.add(scrollPane);
-
-        addReservation.setLocation(10, 100);
-        deleteReservation.setLocation(10, 150);
-        checkInReservation.setLocation(10, 200);
-        checkOutReservation.setLocation(10, 250);
-        quitReservation.setLocation(10, 300);
-
-        addReservation.setSize(180, 30);
-        deleteReservation.setSize(180, 30);
-        checkInReservation.setSize(180, 30);
-        checkOutReservation.setSize(180, 30);
-        quitReservation.setSize(180, 30);
-
-        frmR.add(addReservation);
-        frmR.add(deleteReservation);
-        frmR.add(checkInReservation);
-        frmR.add(checkOutReservation);
-        frmR.add(quitReservation);
-        frmR.setSize(1000, 500);
-        frmR.setVisible(true);
-
-        addReservation.addActionListener(event -> {
+        private void addReservationAction(JTable reservationTable) {
+            // "예약 추가" 버튼을 눌렀을 때 실행되는 코드...
             JFrame inputFrame = new JFrame("예약 추가");
             inputFrame.setSize(800, 500);
             inputFrame.setLayout(null);
@@ -296,9 +338,10 @@ public class ReservationSystem extends JFrame {
                     }
                 }
             });
-        });
+        }
 
-        deleteReservation.addActionListener(event -> {
+        private void deleteReservationAction(JTable reservationTable) {
+            // "예약 삭제" 버튼을 눌렀을 때 실행되는 코드...
             int selectedRow = reservationTable.getSelectedRow();
             if (selectedRow != -1) {
                 JFrame questionFrame = new JFrame("예약 삭제");
@@ -355,7 +398,7 @@ public class ReservationSystem extends JFrame {
                                     break;
                                 }
                             }
-
+                            DefaultTableModel model = (DefaultTableModel) reservationTable.getModel();
                             model.removeRow(selectedRow);
                             questionFrame.dispose();
                         }
@@ -370,9 +413,11 @@ public class ReservationSystem extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "명령을 수행할 예약을 클릭해 주세요.");
             }
-        });
 
-        checkInReservation.addActionListener(event -> {
+        }
+
+        private void checkInReservationAction(JTable reservationTable) {
+            // "체크인" 버튼을 눌렀을 때 실행되는 코드...
             int selectedRow = reservationTable.getSelectedRow();
             if (selectedRow != -1) {
                 String room = (String) reservationTable.getValueAt(selectedRow, 0);
@@ -382,6 +427,7 @@ public class ReservationSystem extends JFrame {
                             if (temp.getStartDateI() <= helper.getTodayDateI()) {
                                 temp.setCheck(true);
                                 JOptionPane.showMessageDialog(null, "체크인을 완료했습니다.");
+                                DefaultTableModel model = (DefaultTableModel) reservationTable.getModel();
                                 model.setValueAt("true", selectedRow, 4);
                                 try {
                                     helper.writeDBFile(3, reserveDB);
@@ -399,9 +445,10 @@ public class ReservationSystem extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "명령을 수행할 예약을 클릭해 주세요.");
             }
-        });
+        }
 
-        checkOutReservation.addActionListener(event -> {
+        private void checkOutReservationAction(JTable reservationTable) {
+            // "체크아웃" 버튼을 눌렀을 때 실행되는 코드...
             int selectedRow = reservationTable.getSelectedRow();
             if (selectedRow != -1) {
                 for (ReservedInfo temp : reserveDB) {
@@ -416,6 +463,7 @@ public class ReservationSystem extends JFrame {
                                 Logger.getLogger(ReservationSystem.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             JOptionPane.showMessageDialog(null, "체크아웃을 완료했습니다.");
+                            DefaultTableModel model = (DefaultTableModel) reservationTable.getModel();
                             model.removeRow(selectedRow);
                             break;
                         } else {
@@ -426,38 +474,13 @@ public class ReservationSystem extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "명령을 수행할 예약을 클릭해 주세요.");
             }
-        });
 
-        quitReservation.addActionListener(event -> {
+        }
+
+        private void quitReservationAction(JFrame frmR) {
+            // "나가기" 버튼을 눌렀을 때 실행되는 코드...
             frmR.dispose();
             IntegrateManager.frm.setVisible(true);
-        });
-        frmR.setLocationRelativeTo(null);
-    }
-
-    public void showAvaliableRooms(ArrayList<Room> canReserveRoom, int startDateI, int endDateI, int reserveGuests) throws IOException {
-        for (int i = 0; i < 100; i++) {
-
-            boolean canShow = true;
-
-            if (reserveGuests > RS.roomDB.get(i).getNumberOfGuests()) {
-                canShow = false;
-            }
-
-            for (ReservedInfo temp : reserveDB) {
-                if (temp.getRoomID().equals(RS.roomDB.get(i).getRoomNumber())) {
-                    int startDateT = temp.getStartYear() * 10000 + temp.getStartMonth() * 100 + temp.getStartDay();
-                    int endDateT = temp.getEndYear() * 10000 + temp.getEndMonth() * 100 + temp.getEndDay();
-
-                    if ((startDateI >= startDateT && startDateI < endDateT) || (endDateI > startDateT && endDateI <= endDateT) || (startDateI <= startDateT && endDateI >= endDateT)) {
-                        canShow = false;
-                    }
-                }
-            }
-            if (canShow) {
-                //예약 가능한 방 리스트
-                canReserveRoom.add(RS.roomDB.get(i));
-            }
         }
     }
 }
