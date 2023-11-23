@@ -54,19 +54,11 @@ public class LoginSystem extends JFrame {
         JPasswordField txtPass = new JPasswordField();
         JButton logBtn =new JButton("로그인");
         
-        idLabel.setLocation(30, 30);
-        txtID.setLocation(120, 30);
-        
-        pswdLabel.setLocation(30, 60);
-        txtPass.setLocation(120, 60);
-        
-        logBtn.setLocation(90, 100);
-        
-        idLabel.setSize(100,30);
-        pswdLabel.setSize(100,30);
-        txtID.setSize(100,30);
-        txtPass.setSize(100,30);
-        logBtn.setSize(100,30);
+        idLabel.setBounds(30, 30,100,30);
+        txtID.setBounds(120, 30,100,30);
+        pswdLabel.setBounds(30, 60,100,30);
+        txtPass.setBounds(120, 60,100,30);
+        logBtn.setBounds(90, 100,100,30);
         
         swingContext.add(idLabel);
         swingContext.add(pswdLabel);

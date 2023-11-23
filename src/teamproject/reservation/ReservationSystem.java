@@ -139,17 +139,11 @@ public class ReservationSystem extends JFrame {
             scrollPane.setBounds(200, 50, 700, 300);
             frmR.add(scrollPane);
 
-            addReservation.setLocation(10, 100);
-            deleteReservation.setLocation(10, 150);
-            checkInReservation.setLocation(10, 200);
-            checkOutReservation.setLocation(10, 250);
-            quitReservation.setLocation(10, 300);
-
-            addReservation.setSize(180, 30);
-            deleteReservation.setSize(180, 30);
-            checkInReservation.setSize(180, 30);
-            checkOutReservation.setSize(180, 30);
-            quitReservation.setSize(180, 30);
+            addReservation.setBounds(10, 100,180, 30);
+            deleteReservation.setBounds(10, 150,180, 30);
+            checkInReservation.setBounds(10, 200,180, 30);
+            checkOutReservation.setBounds(10, 250,180, 30);
+            quitReservation.setBounds(10, 300,180, 30);
 
             frmR.add(addReservation);
             frmR.add(deleteReservation);
@@ -214,27 +208,16 @@ public class ReservationSystem extends JFrame {
             JButton checkButton = new JButton("가능한 방 보기");
             JButton makeReserveButton = new JButton("예약 하기");
 
-            nameLabel.setLocation(10, 70);
-            nameField.setLocation(150, 70);
-            numPeopleLabel.setLocation(10, 120);
-            numPeopleField.setLocation(150, 120);
-            checkInLabel.setLocation(10, 170);
-            checkInField.setLocation(150, 170);
-            checkOutLabel.setLocation(10, 220);
-            checkOutField.setLocation(150, 220);
-            checkButton.setLocation(10, 300);
-            makeReserveButton.setLocation(150, 300);
-
-            nameLabel.setSize(100, 30);
-            nameField.setSize(100, 30);
-            numPeopleLabel.setSize(100, 30);
-            numPeopleField.setSize(100, 30);
-            checkInLabel.setSize(200, 30);
-            checkInField.setSize(100, 30);
-            checkOutLabel.setSize(200, 30);
-            checkOutField.setSize(100, 30);
-            checkButton.setSize(120, 30);
-            makeReserveButton.setSize(120, 30);
+            nameLabel.setBounds(10, 70,100, 30);
+            nameField.setBounds(150, 70,100, 30);
+            numPeopleLabel.setBounds(10, 120,100, 30);
+            numPeopleField.setBounds(150, 120,100, 30);
+            checkInLabel.setBounds(10, 170,200,30);
+            checkInField.setBounds(150, 170,100, 30);
+            checkOutLabel.setBounds(10, 220,200,30);
+            checkOutField.setBounds(150, 220,100, 30);
+            checkButton.setBounds(10, 300,120,30);
+            makeReserveButton.setBounds(150, 300,120,30);
 
             makeReserveButton.setEnabled(false);
             inputFrame.add(nameLabel);
