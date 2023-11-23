@@ -147,8 +147,8 @@ public class ReservationSystem extends JFrame {
 
             TableColumnModel columnModelRoom = canReserveRoomTable.getColumnModel();
             columnModelRoom.getColumn(0).setPreferredWidth(10);  // 호실
-            columnModelRoom.getColumn(1).setPreferredWidth(50); // 타입
-            columnModelRoom.getColumn(2).setPreferredWidth(50);  // 인원
+            columnModelRoom.getColumn(1).setPreferredWidth(100); // 타입
+            columnModelRoom.getColumn(2).setPreferredWidth(20);  // 인원
             columnModelRoom.getColumn(3).setPreferredWidth(50); // 숙박비
 
 
@@ -194,6 +194,8 @@ public class ReservationSystem extends JFrame {
             checkButton.setSize(120,30);
             makeReserveButton.setSize(120,30);
 
+             makeReserveButton.setEnabled(false);
+            
             inputFrame.add(nameLabel);
             inputFrame.add(nameField);
             inputFrame.add(numPeopleLabel);
@@ -251,6 +253,9 @@ public class ReservationSystem extends JFrame {
                                 numPeopleField.setEnabled(false);
                                 checkInField.setEnabled(false);
                                 checkOutField.setEnabled(false);
+                                checkButton.setEnabled(false);
+                                makeReserveButton.setEnabled(true);
+                                
                                 
                             }
                             //////////////////////////
