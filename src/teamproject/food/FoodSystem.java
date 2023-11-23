@@ -172,7 +172,7 @@ public class FoodSystem extends JFrame {
                             Food temp = new Food(Integer.parseInt(menuID),menuName,Integer.parseInt(menuPrice));
                             foodDB.add(temp);
                             try {
-                                foodReport.addReport("menu","add;"+(temp.getName()+";"+temp.getPrice()));
+                                foodReport.addReport("menu","메뉴 추가;"+(temp.getName()+";"+temp.getPrice()));
                                 helper.writeDBFile(2, foodDB);
                             } catch (IOException ex) {
                                 Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
@@ -218,7 +218,7 @@ public class FoodSystem extends JFrame {
                             for(Food temp : foodDB){
                                 if(temp.getMenuID()==menuID){
                                     try {
-                                        foodReport.addReport("menu","delete;"+temp.getName()+";"+temp.getPrice());
+                                        foodReport.addReport("menu","메뉴 삭제;"+temp.getName()+";"+temp.getPrice());
                                         foodDB.remove(temp);
                                         helper.writeDBFile(2, foodDB);
                                     } catch (IOException ex) {

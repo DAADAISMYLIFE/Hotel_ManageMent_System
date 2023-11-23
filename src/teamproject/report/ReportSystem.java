@@ -104,6 +104,7 @@ public class ReportSystem extends JFrame {
         /*System.out.println("1: 로그인 보고서 2: 주문 보고서 3: 메뉴 보고서 4: 예약 보고서");
          findType = Integer.parseInt(helper.getUserInput("[1-4]"));*/
         quitReport.addActionListener(event -> {
+            swing_Context.remove(reportTable);
             this.dispose();
             IntegrateManager.frm.setVisible(true);
         });
@@ -166,7 +167,7 @@ public class ReportSystem extends JFrame {
                             reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[2]+"원", tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[3]});
                             break;
                         case "reserve":
-                            if (!(tmp.getReportData().split(";")[0].equals("checkIn") || tmp.getReportData().split(";")[0].equals("checkOut"))) {
+                            if (!(tmp.getReportData().split(";")[0].equals("체크인") || tmp.getReportData().split(";")[0].equals("체크아웃"))) {
                                 reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[2]+"호", tmp.getReportData().split(";")[3], tmp.getReportData().split(";")[4], tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[5]});
                             } else {
                                 reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]+"호","","",tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[3]});

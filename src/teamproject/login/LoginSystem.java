@@ -93,7 +93,7 @@ public class LoginSystem extends JFrame {
                     JOptionPane.showMessageDialog(null, "안녕하세요 " + loginUser.getName() + "님");
                     dispose(); 
                     try {
-                        loginReport.addReport("login", ID+ ";login");
+                        loginReport.addReport("login", ID+ ";LOGIN");
                     } catch (IOException ex) {
                         Logger.getLogger(LoginSystem.class.getName()).log(Level.SEVERE, null, ex);
                     }

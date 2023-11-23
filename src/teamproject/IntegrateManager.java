@@ -109,7 +109,7 @@ public class IntegrateManager {
 
         quitButton.addActionListener(event -> {
            try {
-               ReportSys.addReport("login", loginUser.getID()+";logout");
+               ReportSys.addReport("login", loginUser.getID()+";LOGOUT");
            } catch (IOException ex) {
                Logger.getLogger(IntegrateManager.class.getName()).log(Level.SEVERE, null, ex);
            }
