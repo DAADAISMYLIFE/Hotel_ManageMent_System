@@ -44,6 +44,7 @@ public class ReportSystem extends JFrame {
     public void runReportSystem() throws IOException {
         //처음 보고서 테이블 양식
         defaultReportTableModel = new DefaultTableModel();  //아무것도 없는 model
+       
         reportTable = new JTable(defaultReportTableModel);
         //프레임 코드
         setTitle("보고서");
@@ -111,7 +112,10 @@ public class ReportSystem extends JFrame {
     }
 
     public void showReport(int findType) {
-        reportTableModel = new DefaultTableModel();             //다른곳에서 model에 colum이랑 Row 추가할 예정
+        reportTableModel = new DefaultTableModel(){
+        public boolean isCellEditable(int rowIndex, int mColIndex) {
+                    return false;
+        }};             //다른곳에서 model에 colum이랑 Row 추가할 예정
         if (ReportDB.isEmpty()) {
             JOptionPane.showMessageDialog(null, "로그가 아직 없습니다.");
         } else {
@@ -180,6 +184,7 @@ public class ReportSystem extends JFrame {
             }
 
             reportTable.setModel(reportTableModel); //Table model 바꾸기
+            
         }
 
     }
