@@ -79,7 +79,7 @@ public class FoodSystem extends JFrame {
         menuTable = new JTable(model);
         scrollPane = new JScrollPane(menuTable);
         TableColumnModel columnModel = menuTable.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(30);  // 메뉴 ID
+        columnModel.getColumn(0).setPreferredWidth(50);  // 메뉴 ID
         columnModel.getColumn(1).setPreferredWidth(225); // 메뉴 이름
         columnModel.getColumn(2).setPreferredWidth(80);  // 가격
         
@@ -87,7 +87,7 @@ public class FoodSystem extends JFrame {
             columnModel.getColumn(i).setResizable(false);
         }
         for (Food food : foodDB) {
-            String menuID = String.valueOf(food.getMenuID());
+            String menuID = String.format("%03d",food.getMenuID());//String.valueOf(food.getMenuID());
             String menuName = food.getName();
             String price = String.valueOf(food.getPrice());
             model.addRow(new String[] {menuID, menuName, price});
@@ -156,7 +156,7 @@ public class FoodSystem extends JFrame {
                 });
             submitButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    String menuID = String.valueOf(foodCount);
+                    String menuID = String.format("%03d",foodCount);//String.valueOf(food.getMenuID());foodCount);
                     String menuName = menuField.getText();
                     String menuPrice = priceField.getText();
                     
@@ -177,7 +177,6 @@ public class FoodSystem extends JFrame {
                             } catch (IOException ex) {
                                 Logger.getLogger(FoodSystem.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            
                             DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
                             model.addRow(new String[] {menuID, menuName, menuPrice}); 
                             inputFrame.dispose();
