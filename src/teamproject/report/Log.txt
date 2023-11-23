@@ -11,3 +11,9 @@ reserve;add;박상현;105;2023/11/23;2023/11/26;2023/11/23/11:44
 reserve;checkIn;박상현;105;2023/11/23/11:44
 order;민트 초코 파인애플 피자;105;57900;2023/11/23/11:45
 login;admin;logout;2023/11/23/11:45
+login;admin;login;2023/11/23/11:46
+login;admin;logout;2023/11/23/11:48
+login;admin;login;2023/11/23/11:48
+reserve;checkOut;박상현;105;2023/11/23/11:49
+reserve;delete;강순우;1010;2023/12/25;2024/01/01;2023/11/23/11:50
+login;admin;logout;2023/11/23/11:50

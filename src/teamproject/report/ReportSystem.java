@@ -160,16 +160,16 @@ public class ReportSystem extends JFrame {
                             reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[2]});
                             break;
                         case "order":
-                            reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[2], tmp.getReportData().split(";")[3]});
+                            reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1]+"호", tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[2]+"원", tmp.getReportData().split(";")[3]});
                             break;
                         case "menu":
-                            reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[2], tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[3]});
+                            reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[2]+"원", tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[3]});
                             break;
                         case "reserve":
                             if (!(tmp.getReportData().split(";")[0].equals("checkIn") || tmp.getReportData().split(";")[0].equals("checkOut"))) {
-                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[2], tmp.getReportData().split(";")[3], tmp.getReportData().split(";")[4], tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[5]});
+                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1], tmp.getReportData().split(";")[2]+"호", tmp.getReportData().split(";")[3], tmp.getReportData().split(";")[4], tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[5]});
                             } else {
-                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2],"","",tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[3]});
+                                reportTableModel.addRow(new String[]{tmp.getReportData().split(";")[1],tmp.getReportData().split(";")[2]+"호","","",tmp.getReportData().split(";")[0], tmp.getReportData().split(";")[3]});
                             }
                             break;
                         default:
