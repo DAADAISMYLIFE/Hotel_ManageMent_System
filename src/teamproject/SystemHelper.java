@@ -128,7 +128,7 @@ public class SystemHelper {
 
         Read_File = new File(File_Path);
         BufferedReader Buf_reader = new BufferedReader(new FileReader(Read_File));
-        String File_Contents = null;
+        String File_Contents;
         while ((File_Contents = Buf_reader.readLine()) != null) {
             readContext.add(File_Contents);
         }
