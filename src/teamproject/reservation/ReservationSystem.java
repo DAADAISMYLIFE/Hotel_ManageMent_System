@@ -51,8 +51,8 @@ public class ReservationSystem extends JFrame {
     }
 
     public void runReserSys() throws IOException {
-        loginForm lf = new loginForm();
-        lf.makeReservationForm();
+        reservationForm rf = new reservationForm();
+        rf.makeReservationForm();
     }
 
     public void showAvaliableRooms(ArrayList<Room> canReserveRoom, int startDateI, int endDateI, int reserveGuests) throws IOException {
@@ -81,7 +81,7 @@ public class ReservationSystem extends JFrame {
         }
     }
 
-    private class loginForm {
+    private class reservationForm {
 
         private void makeReservationForm() {
             JFrame frmR = new JFrame();
