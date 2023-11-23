@@ -16,7 +16,7 @@ public class RoomSystem {
         public ArrayList<Room> roomDB;
         private SystemHelper helper;
         
-        public void roomInit() throws IOException{
+        public void roomInit() throws IOException {
             roomDB = new ArrayList<>();
             helper = new SystemHelper();
             for (int i = 0; i < 100; i++) {

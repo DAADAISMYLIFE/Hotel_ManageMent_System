@@ -49,10 +49,8 @@ public class IntegrateManager {
     public void runIM() throws IOException{
         initIM();
         loginUser = LogSys.runLoginSystem();
-        if(loginUser!=null){
-            FoodSys.FoodSystemInit(loginUser.getManager());
-            showMainMenu();
-        }
+        FoodSys.FoodSystemInit(loginUser.getManager());
+        showMainMenu();
     }
     
     public void showMainMenu() throws IOException{
